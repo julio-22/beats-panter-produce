@@ -23,11 +23,13 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
         
         body { 
+            /* RUTA CORREGIDA PARA GITHUB: Asegúrate de que el archivo se llame fondo.jpg */
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('https://scontent-hou1-1.xx.fbcdn.net/v/t39.30808-6/644464048_901798509319549_3782014735631756036_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=2a1932&_nc_ohc=_XK9ASMOsgEQ7kNvwEQtroN&_nc_oc=AdmJNMOqSCzBm9habGjDsZf8XS-pfSzkrJwZmrZYwTJj9ohhzlMDndAUG1v9Gae29UU&_nc_zt=23&_nc_ht=scontent-hou1-1.xx&_nc_gid=iQ5RtG_e1DB_r-6ZgXSuTQ&_nc_ss=8&oh=00_AfwAE2vLR3rWk7wB0CjmK3ha_b5M7uhW4v2H__B5u3Xy0g&oe=69B15BFE');
+                        url('fondo.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
+            background-repeat: no-repeat;
             color: var(--text-main); 
             line-height: 1.6; 
             overflow-x: hidden; 
@@ -220,7 +222,6 @@
             letter-spacing: 2px;
         }
 
-        /* REPRODUCTOR CORREGIDO A BLANCO Y RECORTE DE BOTÓN DRIVE */
         .master-player { 
             position: fixed; 
             bottom: 0; 
@@ -250,7 +251,7 @@
             position: absolute; 
             top: -12px; 
             left: 0; 
-            width: 110%; /* Empuja el icono de redirección fuera del área visible */
+            width: 110%; 
             height: 80px; 
             border: none; 
         }
@@ -706,7 +707,6 @@
             document.querySelectorAll('.vinyl-wrapper').forEach(v => v.classList.remove('playing'));
             el.classList.add('playing');
             document.getElementById('p-title').innerText = title;
-            // El iframe ahora apunta a un contenedor con recorte CSS
             document.getElementById('player-frame-container').innerHTML = `<iframe src="https://drive.google.com/file/d/${driveId}/preview"></iframe>`;
             document.getElementById('m-player').style.display = 'grid';
         }
