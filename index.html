@@ -3,126 +3,800 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panter Produce - Beats de Freestyle & Rap</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    
-    <!-- Favicon (Icono de la pestaña del navegador) -->
-    <link rel="icon" href="Gemini_Generated_Image_i6m2f8i6m2f8i6m2.png" type="image/png">
-
+    <title>BASE 0 Studio | Beatmaking, Mix & Mastering</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-        /* Definición de fuentes personalizadas */
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #0a0a0a; /* Un negro ligeramente más suave */
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+        :root {
+            --bg-black: #000000;
+            --bg-dark: #0a0a0a;
+            --grey-light: #f4f4f4;
+            --grey-mid: #444444;
+            --grey-dark: #1a1a1a;
+            --text-main: #ffffff;
+            --text-grey: #888888;
+            --bg-glass: rgba(0, 0, 0, 0.9);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --wa-green: #25D366;
         }
-        .font-oswald {
-            font-family: 'Oswald', sans-serif;
-        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
         
-        /* Animación de entrada */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-
-        /* Estilo para los botones de enlaces principales */
-        .link-button {
-            border: 2px solid #4b5563; /* gray-600 */
-            transition: all 0.3s ease;
-        }
-        .link-button:hover {
-            background-color: #FFBF00; /* Un color ámbar/oro */
-            border-color: #FFBF00;
-            color: #000000;
-        }
-        .link-button:hover svg {
-            stroke: #000000;
-            fill: #000000;
+        body { 
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://scontent-hou1-1.xx.fbcdn.net/v/t39.30808-6/644464048_901798509319549_3782014735631756036_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=2a1932&_nc_ohc=_XK9ASMOsgEQ7kNvwEQtroN&_nc_oc=AdmJNMOqSCzBm9habGjDsZf8XS-pfSzkrJwZmrZYwTJj9ohhzlMDndAUG1v9Gae29UU&_nc_zt=23&_nc_ht=scontent-hou1-1.xx&_nc_gid=iQ5RtG_e1DB_r-6ZgXSuTQ&_nc_ss=8&oh=00_AfwAE2vLR3rWk7wB0CjmK3ha_b5M7uhW4v2H__B5u3Xy0g&oe=69B15BFE');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-main); 
+            line-height: 1.6; 
+            overflow-x: hidden; 
+            padding-bottom: 50px; 
         }
 
-        /* Estilo para los iconos de redes sociales */
-        .social-icon:hover {
-            transform: scale(1.1);
-            color: #FFBF00; /* Color ámbar/oro al pasar el mouse */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 5%; background: var(--bg-glass); backdrop-filter: blur(25px);
+            position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--grey-dark);
+        }
+        .logo { height: 70px; } 
+
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-links a { color: var(--text-grey); text-decoration: none; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; transition: 0.3s; }
+        .nav-links a:hover { color: #fff; }
+
+        .cart-trigger {
+            background: #fff; color: #000; padding: 10px 20px; border-radius: 2px;
+            cursor: pointer; font-weight: 900; display: flex; align-items: center; gap: 10px;
+            transition: var(--transition); font-size: 11px; text-transform: uppercase;
+        }
+
+        .promo-banner-link { text-decoration: none; width: 100%; display: block; }
+        .promo-banner {
+            background: #fff;
+            color: #000;
+            text-align: center;
+            padding: 15px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            animation: pulseBanner 2s infinite;
+            border-bottom: 2px solid #000;
+        }
+        @keyframes pulseBanner {
+            0% { background-color: #fff; }
+            50% { background-color: #f0f0f0; transform: scale(1.01); }
+            100% { background-color: #fff; }
+        }
+
+        .hero {
+            height: 85vh; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0 5%;
+            text-align: center;
+        }
+        .hero h1 { font-size: 6rem; font-weight: 900; letter-spacing: -5px; line-height: 0.8; text-transform: uppercase; margin-bottom: 0; }
+        
+        .studio-hand {
+            font-family: 'Mrs Saint Delafield', cursive;
+            font-size: 5rem;
+            color: #fff;
+            margin-top: -30px;
+            text-transform: none;
+            font-weight: 400;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+
+        .btn-explore {
+            padding: 15px 40px;
+            background: #fff;
+            color: #000;
+            text-decoration: none;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            border-radius: 50px;
+            transition: var(--transition);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+            border: 2px solid transparent;
+        }
+
+        .btn-explore:hover {
+            background: #000;
+            color: #fff;
+            border-color: #fff;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+            transform: scale(1.05);
+        }
+
+        .hero p { letter-spacing: 5px; font-weight: 300; margin-bottom: 15px; color: #fff; opacity: 0.7; margin-top: 20px; }
+
+        section { padding: 100px 5%; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .section-header { margin-bottom: 60px; text-align: center; }
+        .section-header h2 { font-size: 2.8rem; font-weight: 900; text-transform: uppercase; letter-spacing: -1px; padding-left: 0; display: inline-block; }
+
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .service-card { 
+            background: rgba(10, 10, 10, 0.8); padding: 50px; border: 1px solid var(--grey-dark); 
+            text-align: center; transition: var(--transition); backdrop-filter: blur(5px);
+        }
+        .service-card:hover { border-color: #fff; transform: translateY(-10px); }
+        .service-card i { font-size: 3.5rem; margin-bottom: 25px; color: #fff; }
+        .service-card h3 { margin-bottom: 15px; font-weight: 800; font-size: 1rem; }
+        .service-card p { color: var(--text-grey); font-size: 0.95rem; margin-bottom: 25px; }
+
+        .folder-main { margin-bottom: 15px; border: 1px solid #fff; background: rgba(10, 10, 10, 0.9); border-radius: 4px; overflow: hidden; }
+        .folder-header { 
+            padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+            font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #fff;
+        }
+        .sub-folder { margin: 10px 20px 10px 50px; border: 1px solid var(--grey-mid); background: rgba(0,0,0,0.5); border-radius: 2px; overflow: hidden; }
+        .sub-header { 
+            padding: 15px 20px; display: flex; align-items: center; cursor: pointer;
+            font-weight: 700; color: var(--grey-mid); text-transform: uppercase; font-size: 0.8rem;
+        }
+        .sub-header i { margin-right: 10px; }
+        .folder-content, .sub-content { display: none; padding: 15px; }
+        .active > .folder-content, .active > .sub-content { display: block; }
+
+        .beat-card {
+            display: grid; grid-template-columns: 80px 1fr 350px; gap: 20px;
+            padding: 20px; background: rgba(0,0,0,0.8); border: 1px solid #111; align-items: center; margin-bottom: 10px;
+        }
+        .vinyl-wrapper { width: 80px; height: 80px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .vinyl-emoji { font-size: 45px; opacity: 0.4; transition: 0.3s; }
+        .vinyl-wrapper.playing .vinyl-emoji { animation: rotate 3s linear infinite; opacity: 1; filter: drop-shadow(0 0 10px #fff); }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .lic-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
+        .lic-opt { background: #000; padding: 10px 5px; border: 1px solid #222; text-align: center; cursor: pointer; transition: 0.2s; }
+        .lic-opt:hover { border-color: #fff; background: #0a0a0a; }
+        .lic-opt b { display: block; font-size: 0.70rem; }
+        .lic-opt span { display: block; font-size: 0.55rem; color: var(--text-grey); margin-top: 3px; line-height: 1.2; }
+
+        .licensing-table { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 40px; }
+        .lic-card { 
+            background: rgba(8,8,8,0.9); border: 1px solid #1a1a1a; padding: 40px 30px; 
+            text-align: center; transition: var(--transition); position: relative; backdrop-filter: blur(10px);
+        }
+        .lic-card:hover { border-color: #fff; transform: translateY(-5px); }
+        .lic-card h3 { font-size: 1.5rem; font-weight: 900; margin-bottom: 10px; color: #fff; }
+        .lic-card .emoji { font-size: 3rem; display: block; margin-bottom: 15px; }
+        .lic-card .price-tag-usd { font-size: 2.2rem; font-weight: 900; margin-bottom: 2px; color: #fff; }
+        .lic-card .price-mxn-small { font-size: 1rem; color: var(--text-grey); margin-bottom: 25px; font-weight: 700; }
+        .lic-card ul { text-align: left; list-style: none; margin-bottom: 30px; }
+        .lic-card ul li { font-size: 0.85rem; color: #ccc; margin-bottom: 12px; display: flex; align-items: center; }
+        .lic-card ul li i { font-size: 18px; margin-right: 10px; color: #fff; }
+        .lic-card .btn-lic { width: 100%; padding: 15px; background: #fff; color: #000; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; }
+
+        .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .test-card { background: rgba(10, 10, 10, 0.8); padding: 30px; border: 1px solid #1a1a1a; border-radius: 4px; display: flex; flex-direction: column; align-items: center; }
+        .test-card p { font-style: italic; color: #ccc; font-size: 0.9rem; margin-top: 15px; text-align: center; }
+        .test-card b { display: block; margin-top: 15px; font-size: 0.8rem; color: #fff; letter-spacing: 1px; }
+        .test-img { width: 100%; height: auto; border: 1px solid #333; border-radius: 4px; filter: grayscale(100%); transition: 0.3s; }
+        .test-card:hover .test-img { filter: grayscale(0%); border-color: #fff; }
+
+        .contact-section { text-align: center; padding: 100px 5%; background: rgba(0,0,0,0.9); }
+        .social-links { display: flex; justify-content: center; gap: 30px; margin-top: 40px; flex-wrap: wrap; }
+        .social-btn { 
+            text-decoration: none; color: #fff; display: flex; align-items: center; gap: 10px; 
+            background: #111; padding: 15px 25px; border: 1px solid #333; transition: 0.3s; font-weight: 700;
+        }
+        .social-btn:hover { border-color: #fff; background: #222; }
+
+        .social-btn.wa-btn {
+            background: var(--wa-green);
+            color: #fff;
+            border: none;
+            padding: 15px 35px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            position: relative;
+            overflow: hidden;
+            min-width: 200px;
+            justify-content: center;
+        }
+        .social-btn.wa-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5);
+            background: #20ba5a;
+        }
+        .social-btn.wa-btn img {
+            height: 30px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        footer {
+            background: var(--bg-black);
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 1px solid var(--grey-dark);
+            color: var(--text-grey);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* REPRODUCTOR CORREGIDO A BLANCO Y RECORTE DE BOTÓN DRIVE */
+        .master-player { 
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 90px; 
+            background: #ffffff; 
+            border-top: 1px solid #ddd; 
+            display: none; 
+            grid-template-columns: 1fr 2fr 1fr; 
+            align-items: center; 
+            padding: 0 5%; 
+            z-index: 2000; 
+            color: #000; 
+        }
+        .master-player b, .master-player small { color: #000; }
+        .master-player .material-icons { color: #000 !important; }
+        
+        .iframe-container { 
+            width: 100%; 
+            height: 48px; 
+            border: none; 
+            overflow: hidden; 
+            position: relative; 
+        }
+        .iframe-container iframe { 
+            position: absolute; 
+            top: -12px; 
+            left: 0; 
+            width: 110%; /* Empuja el icono de redirección fuera del área visible */
+            height: 80px; 
+            border: none; 
+        }
+
+        .cart-side { position: fixed; top: 0; right: -450px; width: 450px; height: 100%; background: #050505; z-index: 3000; transition: 0.5s ease; padding: 40px; border-left: 1px solid #1a1a1a; }
+        .cart-side.open { right: 0; }
+        .checkout-wa { width: 100%; padding: 18px; background: #fff; color: #000; border: none; font-weight: 900; cursor: pointer; margin-top: 20px; text-transform: uppercase; }
+
+        @media (max-width: 992px) {
+            .beat-card { grid-template-columns: 1fr; text-align: center; }
+            .lic-grid { grid-template-columns: 1fr; }
+            .cart-side { width: 100%; }
+            .master-player { grid-template-columns: 1fr 1fr; }
+            .hero h1 { font-size: 4rem; }
+            .hero .studio-hand { font-size: 3.5rem; margin-top: -20px; }
         }
     </style>
 </head>
-<body class="text-gray-200 flex items-center justify-center min-h-screen p-4">
+<body>
 
-    <!-- Contenedor Principal -->
-    <main class="w-full max-w-sm mx-auto flex flex-col items-center text-center p-6 bg-gray-900/50 rounded-2xl shadow-2xl shadow-black/50 border border-gray-800 fade-in">
-
-        <!-- Logo -->
-        <div class="mb-5">
-            <!-- Nombre de imagen actualizado -->
-            <img src="Gemini_Generated_Image_i6m2f8i6m2f8i6m2.png" 
-                 alt="Logo de Panter Produce con estilo gótico metálico mexicano" 
-                 class="w-32 h-32 rounded-full object-cover border-4 border-gray-700 shadow-lg"
-                 onerror="this.onerror=null;this.src='https://placehold.co/128x128/111827/FFBF00?text=PANTER';">
-        </div>
-
-        <!-- Nombre del Productor -->
-        <h1 class="font-oswald text-4xl font-bold tracking-wider uppercase text-white">
-            PANTER PRODUCE
-        </h1>
-
-        <!-- Subtítulo / Especialidad -->
-        <p class="text-gray-400 mt-1 mb-8 text-md">
-            Beats de Freestyle & Rap
-        </p>
-
-        <!-- Enlaces Principales -->
-        <nav class="w-full flex flex-col gap-4 mb-8">
-            <!-- ENLACES Y TEXTOS ACTUALIZADOS -->
-            <a href="https://drive.google.com/drive/folders/1V_uPc5rejzBIdrPU7lVgt6DhGfrL47CO?usp=sharing" target="_blank" class="link-button w-full flex items-center justify-center gap-3 py-3 px-4 rounded-lg font-semibold text-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-                Beats al 3x1
-            </a>
-            <a href="https://youtube.com/@panter-produce?si=so-SJK5bmRNP_mPz" target="_blank" class="link-button w-full flex items-center justify-center gap-3 py-3 px-4 rounded-lg font-semibold text-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2A29 29 0 0 0 23 11.75a29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
-                CANAL DE YOUTUBE
-            </a>
-            <a href="https://wa.me/524775874578" target="_blank" class="link-button w-full flex items-center justify-center gap-3 py-3 px-4 rounded-lg font-semibold text-lg">
-                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                CONTACTO PARA BUSSINES
-            </a>
-            <a href="https://www.tiktok.com/@mano_pesada?_t=ZS-8xgRSiKMR0C&_r=1" target="_blank" class="link-button w-full flex items-center justify-center gap-3 py-3 px-4 rounded-lg font-semibold text-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                   <path d="M21 7.917v4.034a9.948 9.948 0 0 1 -5 -1.951v4.5a6.5 6.5 0 1 1 -8 -6.326v4.326a2.5 2.5 0 1 0 4 2v-11.5h4.083a6.005 6.005 0 0 0 4.917 4.917z"></path>
-                </svg>
-                TIKTOK
-            </a>
+    <header>
+        <div class="logo"></div>
+        <nav class="nav-links">
+            <a href="#catalog">Catálogo</a>
+            <a href="#services">Servicios</a>
+            <a href="#testimonials">Testimonios</a>
+            <a href="#contact">Contacto</a>
+            <div class="cart-trigger" onclick="toggleCart()">
+                <span class="material-icons">shopping_bag</span>
+                <span id="cart-count">0 ITEMS</span>
+            </div>
         </nav>
+    </header>
 
-        <!-- Footer con Redes Sociales (Opcional) -->
-        <footer class="border-t border-gray-800 pt-6 w-full">
-            <p class="text-xs text-gray-500">
-                &copy; <span id="year"></span> Panter Produce. Todos los derechos reservados.
-            </p>
-        </footer>
+    <a href="#licensing" class="promo-banner-link">
+        <div class="promo-banner">
+            🔥 APROVECHA: 3X1 EN TODO EL CATÁLOGO (BRONCE Y PLATA) 🔥
+        </div>
+    </a>
 
-    </main>
+    <section class="hero">
+        <div class="hero-content">
+            <p>90s Underground Style</p>
+            <h1>BASE 0</h1>
+            <div class="studio-hand">Studio</div>
+            <a href="#services" class="btn-explore">Explorar Servicios</a>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="section-header"><h2>ORIGEN</h2></div>
+        <p style="font-size: 1.4rem; color: var(--text-grey); max-width: 850px; font-weight: 300; margin: 0 auto; text-align: center;">
+            <b>BASE 0</b> es el cimiento rítmico del hip-hop underground. Sonido con textura, grasa y autoridad. Vandalizamos el silencio con producciones de nivel industria inspiradas en los 90s.
+        </p>
+    </section>
+
+    <section id="services">
+        <div class="section-header"><h2>SERVICIOS PRO</h2></div>
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="material-icons">palette</i>
+                <h3>DISEÑO DE PORTADAS Y LOGOTIPOS</h3>
+                <p>MXN $665 / USD $35</p>
+                <p style="font-size: 0.75rem;">Diseño profesional personalizado para tu marca artística.</p>
+                <button class="checkout-wa" style="padding:10px; font-size:12px;" onclick="addService('DISEÑO PORTADA/LOGO', 665, 35)">AÑADIR AL PEDIDO</button>
+            </div>
+            <div class="service-card" style="background:#fff; color:#000;">
+                <i class="material-icons" style="color:#000;">settings_input_component</i>
+                <h3>MIX / MASTERING</h3>
+                <p>MXN $1,000 / USD $53</p>
+                <p style="font-size: 0.75rem;">Claridad, pegada y volumen competitivo para tus temas.</p>
+                <button class="checkout-wa" style="padding:10px; font-size:12px; background:#000; color:#fff;" onclick="addService('MIX / MASTERING', 1000, 53)">AÑADIR AL PEDIDO</button>
+            </div>
+            <div class="service-card">
+                <i class="material-icons">brush</i>
+                <h3>BEATS A MEDIDA</h3>
+                <p>MXN $1,000 / USD $53</p>
+                <p style="font-size: 0.75rem;">Producciones exclusivas diseñadas desde cero para ti.<br><b>Stems (Opcional): +$18.50 USD / $350 MXN</b></p>
+                <button class="checkout-wa" style="padding:10px; font-size:12px;" onclick="addCustomBeat()">AGREGAR PEDIDO</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="catalog">
+        <div class="section-header"><h2>BEATS DE CATÁLOGO</h2></div>
+        <div id="catalog-root"></div>
+    </section>
+
+    <section id="testimonials">
+        <div class="section-header"><h2>TESTIMONIOS</h2></div>
+        <div class="testimonial-grid">
+            <div class="test-card">
+                <img src="https://lh3.googleusercontent.com/d/13IeZ4IDS52JxAy_UL8IXSRWvOs9LKqI7" class="test-img" alt="Kartel De Las Calles Evidence">
+                <p>"Un honor formar parte de este gran proyecto con los grandes."</p>
+                <b>- KARTEL DE LAS CALLES (Tijuana, MX)</b>
+            </div>
+            <div class="test-card">
+                <img src="https://lh3.googleusercontent.com/d/1ikXZlai5DwtZj0EMXzke8np3hxvycik5" class="test-img" alt="Pinche Brujo Evidence">
+                <p>"🔥 Brutal el trabajo en los ritmos. Sonido puro de Guanatos."</p>
+                <b>- PINCHE BRUJO (Guadalajara, MX)</b>
+            </div>
+            <div class="test-card">
+                <img src="https://lh3.googleusercontent.com/u/0/d/1AYFhrW8KmmgaXDub95n8jUTXptwLWdXB=w800-h800-iv1" class="test-img" alt="Mc Luka Evidence">
+                <p>"Trabajando con los códigos de la vieja escuela. Calidad pura."</p>
+                <b>- MC LUKA (CDMX, MX)</b>
+            </div>
+            <div class="test-card">
+                <img src="https://lh3.googleusercontent.com/d/14IXaxNGNdhKoeeF1B9vwpeQBAcZeOu5S" class="test-img" alt="Lil Wacho Evidence">
+                <p>"Calidad que se siente en cada barra. Representando el sureste con Base 0."</p>
+                <b>- LIL WACHO (Mérida, YUC)</b>
+            </div>
+        </div>
+    </section>
+
+    <section id="licensing">
+        <div class="section-header"><h2>LICENCIAS DE USO</h2></div>
+        <div class="licensing-table">
+            <div class="lic-card">
+                <span class="emoji">🥉</span>
+                <h3>USO BÁSICA (BRONCE)</h3>
+                <div class="price-tag-usd">$18.50 USD</div>
+                <div class="price-mxn-small">$350 MXN</div>
+                <ul>
+                    <li><i class="material-icons">check_circle</i> Archivo MP3 Alta Calidad</li>
+                    <li><i class="material-icons">check_circle</i> Redes Sociales y YouTube</li>
+                    <li><i class="material-icons">history</i> Validez por 6 meses</li>
+                    <li><i class="material-icons">cancel</i> Sin derechos ni monetización</li>
+                    <li><i class="material-icons">star</i> <b>APLICA PROMO 3X1</b></li>
+                </ul>
+                <button class="btn-lic" onclick="document.getElementById('catalog').scrollIntoView()">Elegir Beats</button>
+            </div>
+            <div class="lic-card" style="border-color: #444;">
+                <span class="emoji">🥈</span>
+                <h3>PROFESIONAL (PLATA)</h3>
+                <div class="price-tag-usd">$26.50 USD</div>
+                <div class="price-mxn-small">$500 MXN</div>
+                <ul>
+                    <li><i class="material-icons">check_circle</i> Entrega Archivo WAV</li>
+                    <li><i class="material-icons">check_circle</i> Distribución en Plataformas</li>
+                    <li><i class="material-icons">history</i> Permiso por 6 meses</li>
+                    <li><i class="material-icons">star</i> <b>APLICA PROMO 3X1</b></li>
+                </ul>
+                <button class="btn-lic" onclick="document.getElementById('catalog').scrollIntoView()">Elegir Beats</button>
+            </div>
+            <div class="lic-card" style="background: #111; border-color: #fff;">
+                <span class="emoji">🥇</span>
+                <h3>ILIMITADO (ORO)</h3>
+                <div class="price-tag-usd">$53.00 USD</div>
+                <div class="price-mxn-small">$1000 MXN</div>
+                <ul>
+                    <li><i class="material-icons">check_circle</i> Derechos de Autor</li>
+                    <li><i class="material-icons">check_circle</i> Distribución Ilimitada</li>
+                    <li><i class="material-icons">check_circle</i> Entrega Archivo WAV</li>
+                    <li><i class="material-icons">add_circle</i> <b>Stems (Opcional): +$18.50 USD / $350 MXN</b></li>
+                </ul>
+                <button class="btn-lic" style="background: #fff; color: #000;" onclick="document.getElementById('catalog').scrollIntoView()">Elegir Beats</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="section-header"><h2>CONTÁCTANOS</h2></div>
+        <p style="color:var(--text-grey); margin-bottom: 20px;">¿Tienes dudas o buscas un proyecto a medida? Hablemos.</p>
+        <div class="social-links">
+            <a href="https://www.facebook.com/share/15Y91C5Rsh/?mibextid=wwXIfr" target="_blank" class="social-btn">
+                <i class="material-icons">facebook</i> FACEBOOK
+            </a>
+            <a href="https://www.tiktok.com/@basecero_?_r=1&_t=ZS-94TafinDZLB" target="_blank" class="social-btn">
+                <i class="material-icons">music_note</i> TIKTOK
+            </a>
+            <a href="https://wa.me/524775874578" target="_blank" class="social-btn wa-btn">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        BASE 0 STUDIO - TODOS LOS DERECHOS RESERVADOS © 2026
+    </footer>
+
+    <div class="master-player" id="m-player">
+        <div style="display:flex; align-items:center; gap:15px;">
+            <span>💽</span>
+            <div><b id="p-title" style="font-size:0.7rem; text-transform:uppercase;">Preview</b><br><small style="color:#444">BASE 0 Studio</small></div>
+        </div>
+        <div id="player-frame-container" class="iframe-container"></div>
+        <div style="text-align:right">
+            <i class="material-icons" style="cursor:pointer;" onclick="document.getElementById('m-player').style.display='none'">close</i>
+        </div>
+    </div>
+
+    <div class="cart-side" id="cart-side">
+        <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom:40px;">
+            <h2 style="font-weight: 900;">TU PEDIDO</h2>
+            <i class="material-icons" onclick="toggleCart()" style="cursor:pointer">close</i>
+        </div>
+        <div id="cart-items-list"></div>
+        <div style="border-top: 1px solid #111; padding-top:20px; margin-top:20px;">
+            <div style="display:flex; justify-content:space-between; font-weight:900; font-size:1.2rem">
+                <span>TOTAL:</span>
+                <span id="cart-total">$0</span>
+            </div>
+            <p id="promo-msg" style="color: #fff; font-weight: 800; font-size: 0.7rem; margin-top: 10px; background:#222; text-align:center; display:none;">¡OFERTA 3X1 ACTIVADA!</p>
+            <button class="checkout-wa" onclick="checkoutWA()">Enviar cotización a WhatsApp</button>
+        </div>
+    </div>
 
     <script>
-        // Actualiza el año del copyright automáticamente
-        document.getElementById('year').textContent = new Date().getFullYear();
-    </script>
+        const database = [
+            {
+                name: "trap",
+                subs: [
+                    { name: "trap hard", beats: [
+                        { id: 100, title: "CALLEJÓN 140", drive: "1lVcE4vc8dwNAZ24elDU4UkhdPDj9PJPP" },
+                        { id: 101, title: "CERO RESPETO", drive: "1gvu-UhbkcCF34EpARA6IyG8Cmp5db-k8" },
+                        { id: 102, title: "DOSIS DE ASFALTO", drive: "1R7VlDQ74wktkXEqn_OOSmviXfteliMZf" },
+                        { id: 103, title: "EFECTO NARCÓTICO", drive: "1YLjmQnWSFPq1V4TDXKR6nMubr-822i9h" },
+                        { id: 104, title: "FRENESÍ 808", drive: "1ymCZYZo7pywYnphQxFhPAOmiQ4IfgCnC" },
+                        { id: 105, title: "INSTINTO DE CAZA", drive: "1mPOKhP1pUnb7h6lSkLWBldByi-rqC4nJ" },
+                        { id: 106, title: "MANDÍBULA DE HIERRO", drive: "1lJ0U8URua0u_sVTjyx2JpNdat7sOcemL" },
+                        { id: 107, title: "PÁNICO EN EL BLOQUE", drive: "14NT8R1mlHZUU3SiHTLw8Xd73KVniQQKr" },
+                        { id: 108, title: "SIN PIEDAD", drive: "1M3kP172qbkLy942tw0zvcaZFa56qLUbN" },
+                        { id: 109, title: "VOLTAJE NEGRO", drive: "1SrqFW2k-N6zscC8LgBZCxlJqjGx_TKVg" }
+                    ] },
+                    { name: "trap fresh", beats: [
+                        { id: 200, title: "ACOUSTIC BEAT", drive: "1qtQKuZJ65MTY0ArEBuBs4xB2gwhBQSA9" },
+                        { id: 201, title: "CELL NIGHT", drive: "1YiF3FAWV_-MBL514mQxMSRPShkmn_Yie" },
+                        { id: 202, title: "GRIN WITH SHIT", drive: "1LrQGvq5jDbKswfscm9hOyFfibJqFGdye" },
+                        { id: 203, title: "GRIN WITH THE FAM", drive: "18BlqzI-Pf8LB_38bovwntFSFIia0YecR" },
+                        { id: 204, title: "GRIN WITH THE FANGS", drive: "1GB0PCOSja6iZUWwj1FXWohq8QsOjINeq" },
+                        { id: 205, title: "GUITAR FRESH", drive: "1a9ZAr2boRNs-hlaLjCl189RJkuEphrdn" },
+                        { id: 206, title: "MOONLIT BOUNCE", drive: "1ewQ-VIuP6qFXT19ITKD6v7oc767belXM" },
+                        { id: 207, title: "MOONLIT MOON", drive: "1QJFzs3cyVGsAgckem6uY82iGmY9eSp59" },
+                        { id: 208, title: "SHADOW BLACK", drive: "1Xlo0iKEMP604h-z9bNfGxB_Mo9JtHCnE" },
+                        { id: 209, title: "SHADOW BOUNCE", drive: "175ovzle5w_AJprZkkhyXOqfILAN6XAn9" }
+                    ] }
+                ]
+            },
+            {
+                name: "rap / boombap / hardcore",
+                subs: [
+                    { name: "hardcore", beats: [
+                        { id: 300, title: "BLOOD ON THE BACKROOM FLOOR", drive: "1sSZfd_kIggK2zOTJcwbZvaZvb8Srg7-k" },
+                        { id: 301, title: "BACK ALLEY RIOT LOOPS", drive: "1RbsNMcKc87RlBCMZBQbSSYIk2yFCD0_D" },
+                        { id: 302, title: "BACK ALLEY UPRISING", drive: "1qpMaOpbpFjZ1wfyR_ewfLyLG4ILc8-_s" },
+                        { id: 303, title: "BACK OUT", drive: "1JMuSvyzhJrCJ4B82Sqw93-1TkyBFyK9z" },
+                        { id: 304, title: "BLACK SHADOW", drive: "1kTFG88IHx8Lu8ouF0qxjeUNfQnEZ9c9y" },
+                        { id: 305, title: "CALLE PRENDIDA", drive: "1dcDiHqZVeA6B1H1eL94Ct0Jem75m7bJd" },
+                        { id: 306, title: "GRAVEYARD CIPHER", drive: "1ydoo46WOfCT0V3a0d4r30g7duHgR-vUv" },
+                        { id: 307, title: "GRIME UNDER THE OVERPASS", drive: "1F8Mbh-jMdRNZXvkhnrArSVIwGmbrB7oG" },
+                        { id: 308, title: "RITMO BAJO", drive: "1HG-MJokBVLsm5w213L7xXGJZdc1ILDMv" },
+                        { id: 309, title: "TRANSE HARD", drive: "1JzCaKGsrK99BzbPoHhhAOyDlB2kfk93V" },
+                        { id: 310, title: "UNDER LOOK", drive: "1k9yRXRbv41KxCcPpEeFwJJ8_4BxPHwkL" }
+                    ] },
+                    { name: "West Coast", beats: [
+                        { id: 1400, title: "BAJO DE NEÓN", drive: "1Sh-M72pRa-cB5vzsKasOy_yAJjdjf_dH" },
+                        { id: 1401, title: "BAJO LA LLUVIA DEL BARRIO", drive: "1-AW66Nyyuplv1DnOD2D67hR46iC-_-Bi" },
+                        { id: 1402, title: "BARRIO NOCTURNO", drive: "1YoBzOaTCQbAO6vGjOzMsarE08PKWXut9" },
+                        { id: 1403, title: "BOULEVARD HALO", drive: "1rwOjoWfFP2RSnUMRH_NwPQpId-ODu7lD" },
+                        { id: 1404, title: "COLD HOOD STARE", drive: "1xRW6396k3_0QT42ye81v6XF19JMXCjom" },
+                        { id: 1405, title: "COLD", drive: "1wjLt_XstQQMTNv580qedia8IQaRAAEZe" },
+                        { id: 1406, title: "CONCRETE JUNGLE FUNERAL MARCH", drive: "1nVYeM9Wjt07cYNWcMxiC9Qje9lpdu8Wk" },
+                        { id: 1407, title: "CONCRETE", drive: "16uO5WYBfveD0zEHV5ARC6rUFEYCQq9WW" },
+                        { id: 1408, title: "JUNGLE", drive: "1VM_CDdBkiZNiosISwKegoTwjjBSCfKYR" },
+                        { id: 1409, title: "MARCH", drive: "1TdXDFh-N-eRJHM3OHa-1IlYSEcyzJAZb" },
+                        { id: 1410, title: "MARZO", drive: "1luuymNKg3w6J9jPIprefq0LzsaC5P8iW" },
+                        { id: 1411, title: "MI BARRIO BRILLA", drive: "1FMFbzlqp5Koq_tHGLsHQrvz0rMw7TlC1" },
+                        { id: 1412, title: "SOMBRAS DE ASFALTO", drive: "1KfjLlndP80w_pPqSFC4h1QbFQy4mhoNI" },
+                        { id: 1413, title: "SOMBRAS", drive: "1jbqnRige4LPZ1jrUp7RVwGfO1PhttlkG" }
+                    ] },
+                    { name: "jazz / boom-bap", beats: [
+                        { id: 400, title: "BACK", drive: "1U99C7IGlL1u8yPpHHV6LExgo0sWPKpFs" },
+                        { id: 401, title: "CRATES OF TOMORROW", drive: "1HUbOHkOExBlQ60QFgKiMCL-_CXz9fq8T" },
+                        { id: 402, title: "DREAMS", drive: "14l62pmqbJKmn5fwBYFjr-J_-nXPMYY1b" },
+                        { id: 403, title: "ELEGANCIA", drive: "1cypLxsR91zw6I2UyfbykHPdxPe2sXUwn" },
+                        { id: 404, title: "GOLDEN HOURS, CONCRETE DREAMS", drive: "1OJjvl0SLpJIa5Fjm9dmh3dbh14XvZD5N" },
+                        { id: 405, title: "GOLDEN STEPS", drive: "1Ly8VYEOR5VzY5R1O1NFNS-kiBqoFSosg" },
+                        { id: 406, title: "HOOD", drive: "18CbKT61GdCbME3MuyU_VADSYWefQimHJ" },
+                        { id: 407, title: "SOUL STEPS AT 92", drive: "14eUxXB7JzuDkg7JI7zixAs7ePA_FRdPW" },
+                        { id: 408, title: "STREET", drive: "10s7DNqHS7Q4mjtKnRBMUw9pF8XMbTTMp" },
+                        { id: 409, title: "TOMORROW", drive: "1y5qviTxLg-AV9q-MUuKnZIEzI0GkZCE_" },
+                        { id: 410, title: "ASFALTO", drive: "1g70pSwfpBrhdbrJSUHDsMH_xgBiqLDr4" },
+                        { id: 411, title: "CICATRICES DEL ASFALTO", drive: "1IhIRIL0X4tmGctpGXjfANVBuJI1KeSou" },
+                        { id: 412, title: "MIDNIGHT STATION DUST", drive: "1w3uivN3gBlyb0nrc7q-21ZgDl8hPhzE2" },
+                        { id: 413, title: "MIDNIGHT", drive: "1KjJZBCrSNdER509QvZfFdnGiy5vAHt-X" }
+                    ] },
+                    { name: "rap mexa", beats: [
+                        { id: 500, title: "BAJO MUNDO RARO", drive: "1TZpCxUT-WZhIYVXcHRvTbJPTRR9koIk0" },
+                        { id: 501, title: "BAJO MUNDO SERMÓN", drive: "1V5c1LKBygXcADtx_hfl1iya9w8SodI_d" },
+                        { id: 502, title: "BARRIO CORONADO", drive: "1icGoJSzf4g5A8mOl14_MXMIcX_vu_FS2" },
+                        { id: 503, title: "BARRIO DISFRAZADO", drive: "1hKTYwZLgv6jKf7v0eqp2-f95zJBkPXKR" },
+                        { id: 504, title: "CICATRICES EN EL ALMA", drive: "1YrSIi_Uq6Yd1Nvr81P57mKKaGh9at8bo" },
+                        { id: 505, title: "CICATRICES EN LA TARIMA", drive: "125UcU3eD-P2FDbmEu-OFzuVsIgt844E2" },
+                        { id: 506, title: "REY DE MI ZONA", drive: "1sWUUIccOArO5HE4CWVTAd-wdaIhrGXoV" },
+                        { id: 507, title: "REY DEL ASFALTO", drive: "1CJLHsL85UYzHbqJOMvPtShYNjtIhnq3p" },
+                        { id: 508, title: "REY DEL BARRIO", drive: "1WkoYHFAd1v__3F-uDMlGHcAiBduBCM8U" },
+                        { id: 509, title: "REY DEL PAVIMENTO", drive: "1AY5cflalXQvDxFkFXMvCZJtpVaf-XCNM" }
+                    ] },
+                    { name: "rap urbano", beats: [
+                        { id: 1200, title: "BARRIO EN EL OLVIDO", drive: "1Aafa17XRDvnVbUTkryemuBvULGIf8xFl" },
+                        { id: 1201, title: "BARRIO EN LA MEMORIA", drive: "1affa850ZC2Ptt0dSJ7M9-6fF4siM5vii" },
+                        { id: 1202, title: "BARRIO EN LLAMAS", drive: "1KT9lenpU93X16lvcl_EThUd3fH1eNLs6" },
+                        { id: 1203, title: "BARRIO EN SINFONÍA", drive: "1Q06IhkPv7Vcwuh3RTOrOc3l_Gze8hyUf" },
+                        { id: 1204, title: "BARRIO LUMINOSO", drive: "1qqdzA3320qRi9XvTWwrG2E4dUibD8HOE" },
+                        { id: 1205, title: "BARRIO SYMPHONY", drive: "1iT9m62C0qvhUBp9cA0dCF5qBSMHm3Ua2" },
+                        { id: 1206, title: "CARTA QUE NUNCA ENVIÉ", drive: "18G-GLCizgQ_-1HiU0YjfamGIs5pKTnHG" },
+                        { id: 1207, title: "GLASS CORRIDOR REVERIE", drive: "1wD6tFJcaw5Zsl-tmqPCl7gxotX58Dp_v" },
+                        { id: 1208, title: "SOMBRAS DEL ASFALTO", drive: "18ggTOdLU9FVxl5_iraAwZZbl1eGtCVLM" },
+                        { id: 1209, title: "SOMBRAS DEL AYER", drive: "1QPZeVWEjDLJXVNji4nRWFKZLx2Ng9N70" },
+                        { id: 1210, title: "SOMBRAS EN LA BANQUETA", drive: "1x-cwtbgufQ9xImUE09pO2HrlyKDREZWp" },
+                        { id: 1211, title: "SOMBRAS EN LA MENTE", drive: "1pWlDsRNXC92Slmjhnk2LYpM3hAcU9CDZ" },
+                        { id: 1212, title: "SOMBRAS EN LA PISTA", drive: "179ishObha9P9ytUq_f-D8OkwZbX6bA8L" }
+                    ] },
+                    { name: "type beat - Wu-Tang-Clan", beats: [
+                        { id: 1300, title: "BASEMENT CIPHER", drive: "178KB3dgteqmVoq-w6BBq6lQ1M82Offte" },
+                        { id: 1301, title: "CIPHER", drive: "1v20iT7Hm0KLeADcw6DcxhW8qr6vSvkDe" },
+                        { id: 1302, title: "DARK STAIRWELL CIPHER", drive: "1_bLhy4oTXgY1WVqqjuF_TZK1ufJ6Ic0r" },
+                        { id: 1303, title: "DARK", drive: "1rRR-ICpFdZg-yEigjZEUFSbmrvvRwOtq" },
+                        { id: 1304, title: "FREIGHT", drive: "1Zu8DIautRlmx-0zj1yHUz4gMazIGYrJ-" },
+                        { id: 1305, title: "GRAVEYARD CIPHER", drive: "1K5jk791znc7_2T662U_eLObBrlPxoHvy" },
+                        { id: 1306, title: "GRAVEYARD", drive: "1ACctw8pO2m3iFXP-BiJaqoXM6GQn9sQN" },
+                        { id: 1307, title: "SUBWAY CIPHER", drive: "1dg7Tamx99Wl7LOFkVimnzKd9VmJmyI4N" },
+                        { id: 1308, title: "SUBWAY", drive: "_wzxYHRVDqn5bxh14bLaFCcO0CHq2_LQ" }
+                    ] }
+                ]
+            },
+            { name: "corridos tumbados", subs: [{ name: "tumbados pro", beats: [
+                { id: 600, title: "AUSENCIA", drive: "1Mk-pvQfR5mfagPZLONGLGTK9HI5kRQa6" },
+                { id: 601, title: "BAJO LAS ESTRELLAS", drive: "1C5Dxc15qD51UmavV5S3IhWr_nYF0ckT_" },
+                { id: 602, title: "CALLE Y NOSTALGIA", drive: "1-lMerGNnqy2ZQQbQsexWLmMABwMPtQgf" },
+                { id: 603, title: "CARRETERA DE RECUERDOS", drive: "17nmSQmmxh4ONuBnCrn9tlrvNeS57tDnd" },
+                { id: 604, title: "CARRETERA (ALT)", drive: "1dTroqrXLy8gzH672c297dozbreAWxVkL" },
+                { id: 605, title: "CIMA DEL RECUERDO", drive: "18W_OiLW_AqiP9gnIF9ofQ2Dc5UTcd9Vn" },
+                { id: 606, title: "CIMA (ALT)", drive: "1mepSbfUBn-smJLT-VLPisvMbCGut7fL7" },
+                { id: 607, title: "CORRIDO DE LUJO", drive: "1f9QZ1F8lXBl408WO2e6ciRf_qiJ2yk_N" },
+                { id: 608, title: "LÁGRIMAS EN LA 12 CUERDAS", drive: "1oUfDr-NxPE-lZ-7aXKDZmzhIms3V7bVU" },
+                { id: 609, title: "LÁGRIMAS (ALT)", drive: "1qe9QHV2pSUDhOQGuJx-jKkWi1Pzbukph" },
+                { id: 610, title: "ROSA", drive: "1faYx874pzmNwEql9bstmOVPxmMv40lEg" },
+                { id: 611, title: "UNDER THE DUSTY SKY", drive: "1jKtV-uT0EFdClN-14ohJd2agFr4Qqqjs" },
+                { id: 612, title: "UNDER (ALT)", drive: "17wBS_feuXYYErrCuWeL5C0_hLBgBszvM" },
+                { id: 613, title: "VELOCIDAD EN EL PECHO", drive: "1xEu_wQUnCFXJ9gUs8hptAjT6rNW_SLQ6" }
+            ] }] },
+            { name: "denbow", subs: [
+                { name: "fresh", beats: [
+                    { id: 700, title: "CARIBBEAN HEATWAVE", drive: "1jYNkQX0PMqo2aaFvR7sxIhPHF5qf6HsO" },
+                    { id: 701, title: "MIDNIGHT ON THE MALECÓN", drive: "1AGyWiLueMqNyY6LscaJf7BkJNhzBB7AC" },
+                    { id: 702, title: "MIDNIGHT (ALT)", drive: "1caKY6dnGjiFR8BOcXNaNZ7ZbvOJC4bsb" },
+                    { id: 703, title: "SOL DE MAÑANA", drive: "1UtIM7El9QsStJnD0EfoQL3KBzrV_1ZAs" },
+                    { id: 704, title: "SOL (ALT)", drive: "1i4mHVLkBbAxMALncfAqG31karYvGYN2Z" },
+                    { id: 705, title: "SUN ON YOUR HIPS", drive: "1XCu99liEk3KwbwcYHqx7_D-2Z-BO6aLq" }
+                ] }, 
+                { name: "hard", beats: [
+                    { id: 800, title: "CALLE", drive: "1nZkBAjCBcsnKAwuCNk54Y6DttNZV84qJ" },
+                    { id: 801, title: "MIDNIGHT (HARD)", drive: "112BY7qbBx856UmynzxM-SToia_p6wb1w" },
+                    { id: 802, title: "NOCHE EN LA PISTA 2025", drive: "1rpivwd2rW7X00aAXy_exqqKhqlae1K1V" },
+                    { id: 803, title: "NOCHE (ALT)", drive: "182uIK-KOSRMswwJEj5H_gyJV4BZANCmH" },
+                    { id: 804, title: "SIN SOMBRA", drive: "1mVRoxpdQd0N6xkX5Co6fEFiRk3bK8RXu" },
+                    { id: 805, title: "SOMBRAS EN LA DISCO", drive: "1aLyGNey2PJVCHnK0iCRR-tDMdS5pnCQh" },
+                    { id: 806, title: "SOMBRAS FRÍAS", drive: "17BeBEHK5hPRCcj6KSa-orz-zFgTpLtg5" }
+                ] }
+            ] },
+            { name: "detroid", subs: [{ name: "Detroit Style", beats: [
+                { id: 900, title: "CHAMPAGNE", drive: "1Fqj8gdUdnp9rwgee_EHcNVG5cbDnbyoQ" },
+                { id: 901, title: "COLD STEEL CIRCLES", drive: "1tlaqgI6-CSuqknUv9lS8gS9mFJZDyZB9" },
+                { id: 902, title: "COLD STEEL (ALT)", drive: "10Z9-5upFuwaHgfP3muSUjGpS_z1uXWOl" },
+                { id: 903, title: "MIDNIGHT SCRAP YARD", drive: "185QEGKS71OnEVu5ZQtvf7ygI5PPhrg63" },
+                { id: 904, title: "MIDNIGHT SCRAP (ALT)", drive: "1vw4K7yOcSPcin9RgdTYFtdRqoNCeLCFU" },
+                { id: 905, title: "MIDNIGHT (DET)", drive: "1U0iMGY4FQsV0pcEnVgTP8mcupRFzhMUw" },
+                { id: 906, title: "PENTHOUSE IN MY CUP", drive: "1Fu76vh3xEMARCqxhG5TqZGwym9Y8onN6" },
+                { id: 907, title: "PENTHOUSE (ALT)", drive: "1s6xye8ULKqoqU8F4qxISjeVbrOrtZoIq" },
+                { id: 908, title: "SCRAP", drive: "1k-ZpiNVDSyn5JndF_evwHFS71iq9zD-V" },
+                { id: 909, title: "SKYLINE CHAMPAGNE", drive: "1BchiBBa5K_dmkAkWUN1HY7GEJA5s26wb" },
+                { id: 910, title: "VISIÓN", drive: "1FhbejrrdOYn8W-IStDqv2hp0c7EhriF7" }
+            ] }] },
+            { name: "drill-UK", subs: [{ name: "UK Drill Style", beats: [
+                { id: 1000, title: "AIR IN MY FAM", drive: "1jA1vNSKOtDPQyW0sxgkqBeQAtOpTQ1oN" },
+                { id: 1001, title: "AIR IN MY LUNGS", drive: "14flfvTs-giWq-0z9XOSNQ8DTQdq0XkPJ" },
+                { id: 1002, title: "COLD BRAIN", drive: "17BQu5v3NmQh3Sd4MjuC7AyITz_QyavOH" },
+                { id: 1003, title: "COLD IN THE ENDS", drive: "1btpsQ6CSZoLuJ6wKZe9OreNzX4McyLtJ" },
+                { id: 1004, title: "COLD IN THE MIND", drive: "10hai37SuS16SgjUZ1vVTqSqf1fMIE61L" },
+                { id: 1005, title: "COLD STEPS", drive: "1INgUHXwPT_oTE7-Gw9D6SuhjRj4vCujU" },
+                { id: 1006, title: "NIGHT DREAMS", drive: "1aOITe4apDCS5wsC8KbBXvVlKoWOm6F0V" },
+                { id: 1007, title: "NIGHT SHIFT ON MY BLOCK", drive: "1P47sJRLCrdJzrnRGmMmmc6h1KFyYNeTm" },
+                { id: 1008, title: "SHADOW IN MY HOOD", drive: "1LNocOYLC-AChzFxVa3TQZ9DZA7gRrCtT" },
+                { id: 1009, title: "SHADOW IN MY MAIN", drive: "10ZN2QRZylFGn3uqAkTFOpgDEL2-FQPbJ" }
+            ] }] },
+            { name: "rnb", subs: [{ name: "R&B Vibe", beats: [
+                { id: 1100, title: "CHECKOUT", drive: "1t5E2EAXbQt0jTrcKk8B0Wze5KlMJfS7t" },
+                { id: 1101, title: "LATE CHECKOUT", drive: "1CLwvSEGeMRhTYorIaMdVNPgjwv-vfMXK" },
+                { id: 1102, title: "LATE NIGHT GLOW", drive: "1tkXyjpPJyShVeu63AzgmDNQtqjjXKx6D" },
+                { id: 1103, title: "LATE NIGHT SAD", drive: "16HcTFIpswxK2i0y3oxm2b7JPMJ2okc68" },
+                { id: 1104, title: "LATE", drive: "1LBKaztRcZJnMS4srgcLAFUCcLQAkBCet" },
+                { id: 1105, title: "SLOW MOTION AUGUST", drive: "1Qb0af9QGhhh2L0sCcIgr7o6Qscx21jOw" },
+                { id: 1106, title: "SLOW MOTION", drive: "1loR1iadr5B61FXvOuHuM8K1TTE6DdtLv" },
+                { id: 1107, title: "VELVET FLAWLESS", drive: "1m1mA-XShfmMUvUitUvu8Qm3VXB1EP7JX" },
+                { id: 1108, title: "VELVET MOONLIGHT", drive: "1PEg-s6bkxjTdKZhrL2_blCg2-BMHGAv7" }
+            ] }] }
+        ];
 
+        const licDetails = {
+            bronce: { n: 'BRONCE', m: 350, u: 18.50, p: true },
+            plata: { n: 'PLATA', m: 500, u: 26.50, p: true },
+            oro: { n: 'ORO', m: 1000, u: 53.00, p: false }
+        };
+
+        let cart = [];
+
+        function render() {
+            const root = document.getElementById('catalog-root');
+            root.innerHTML = '';
+            database.forEach((folder, i) => {
+                let html = `
+                <div class="folder-main" id="f-${i}">
+                    <div class="folder-header" onclick="this.parentElement.classList.toggle('active')">
+                        <span><i class="material-icons" style="vertical-align:middle">folder</i> ${folder.name}</span>
+                        <i class="material-icons">add</i>
+                    </div>
+                    <div class="folder-content">`;
+                
+                if(folder.subs && folder.subs.length > 0) {
+                    folder.subs.forEach((sub, si) => {
+                        html += `
+                        <div class="sub-folder" id="s-${i}-${si}">
+                            <div class="sub-header" onclick="this.parentElement.classList.toggle('active')">
+                                <i class="material-icons">folder_open</i> ${sub.name}
+                            </div>
+                            <div class="sub-content">${renderBeats(sub.beats)}</div>
+                        </div>`;
+                    });
+                } else {
+                    html += renderBeats(folder.beats || []);
+                }
+                html += `</div></div>`;
+                root.innerHTML += html;
+            });
+        }
+
+        function renderBeats(beats) {
+            if(!beats || beats.length === 0) return '<p style="padding:10px; font-size:10px; color:#333; text-align:center;">PRÓXIMAMENTE...</p>';
+            return beats.map(b => `
+                <div class="beat-card">
+                    <div class="vinyl-wrapper" onclick="play('${b.title}', '${b.drive}', this)"><span class="vinyl-emoji">💽</span></div>
+                    <div><b style="font-size:0.8rem">${b.title}</b><br><small style="color:#444">BASE 0 Studio</small></div>
+                    <div class="lic-grid">
+                        <div class="lic-opt" onclick="add('${b.title}', 'bronce')"><b>$18.50 USD</b><span>$350 MXN<br>Bronce</span></div>
+                        <div class="lic-opt" onclick="add('${b.title}', 'plata')"><b>$26.50 USD</b><span>$500 MXN<br>Plata</span></div>
+                        <div class="lic-opt" onclick="add('${b.title}', 'oro')"><b>$53.00 USD</b><span>$1000 MXN<br>Oro</span></div>
+                    </div>
+                </div>`).join('');
+        }
+
+        function play(title, driveId, el) {
+            document.querySelectorAll('.vinyl-wrapper').forEach(v => v.classList.remove('playing'));
+            el.classList.add('playing');
+            document.getElementById('p-title').innerText = title;
+            // El iframe ahora apunta a un contenedor con recorte CSS
+            document.getElementById('player-frame-container').innerHTML = `<iframe src="https://drive.google.com/file/d/${driveId}/preview"></iframe>`;
+            document.getElementById('m-player').style.display = 'grid';
+        }
+
+        function add(title, key) {
+            if(key === 'oro') {
+                handleOroBuy(title);
+            } else {
+                const l = licDetails[key];
+                cart.push({ title, lic: l.n, price: l.m, usd: l.u, promo: l.p });
+                updateCart();
+                toggleCart(true);
+            }
+        }
+
+        function addService(name, mxn, usd) {
+            cart.push({ title: name, lic: "SERVICIO", price: mxn, usd: usd, promo: false });
+            updateCart();
+            toggleCart(true);
+        }
+
+        function addCustomBeat() {
+            const stems = confirm("¿Deseas añadir los STEMS (pistas separadas) por $18.50 USD adicionales ($350 MXN)?");
+            const price = stems ? 1350 : 1000;
+            const usd = stems ? 71.50 : 53.00;
+            const label = stems ? "A MEDIDA + STEMS" : "A MEDIDA";
+            cart.push({ title: "BEAT A MEDIDA", lic: label, price: price, usd: usd, promo: false });
+            updateCart();
+            toggleCart(true);
+        }
+
+        function handleOroBuy(title) {
+            const stems = confirm("¿Deseas añadir los STEMS (pistas separadas) por $18.50 USD adicionales ($350 MXN)?");
+            const price = stems ? 1350 : 1000;
+            const usd = stems ? 71.50 : 53.00;
+            const label = stems ? "ORO + STEMS" : "ORO";
+            cart.push({ title, lic: label, price: price, usd: usd, promo: false });
+            updateCart();
+            toggleCart(true);
+        }
+
+        function updateCart() {
+            const list = document.getElementById('cart-items-list');
+            const notice = document.getElementById('promo-msg');
+            list.innerHTML = '';
+            let totalMXN = 0;
+            let totalUSD = 0;
+            let promoEligible = cart.filter(i => i.promo).sort((a,b) => a.price - b.price);
+
+            cart.forEach((item, idx) => {
+                totalMXN += item.price;
+                totalUSD += item.usd;
+                list.innerHTML += `
+                    <div class="cart-item">
+                        <div><b>${item.title}</b><br><small>${item.lic}</small></div>
+                        <div style="text-align:right">
+                            <b>$${item.usd.toFixed(2)} USD</b><br>
+                            <small style="color:#666">$${item.price} MXN</small><br>
+                            <span class="material-icons" onclick="remove(${idx})" style="cursor:pointer; color:#333; font-size:1rem;">delete</span>
+                        </div>
+                    </div>`;
+            });
+
+            let discountMXN = 0;
+            let discountUSD = 0;
+            const freeCount = Math.floor(promoEligible.length / 3);
+            for(let i=0; i<freeCount; i++) {
+                discountMXN += promoEligible[i].price;
+                discountUSD += promoEligible[i].usd;
+            }
+
+            const finalMXN = totalMXN - discountMXN;
+            const finalUSD = totalUSD - discountUSD;
+            document.getElementById('cart-total').innerText = `$${finalUSD.toFixed(2)} USD / $${finalMXN} MXN`;
+            document.getElementById('cart-count').innerText = `${cart.length} ITEMS`;
+            notice.style.display = freeCount > 0 ? "block" : "none";
+        }
+
+        function remove(idx) { cart.splice(idx,1); updateCart(); }
+        function toggleCart(force) { document.getElementById('cart-side').classList.toggle('open', force); }
+
+        function checkoutWA() {
+            if(cart.length === 0) return;
+            let items = cart.map(i => `• ${i.title} (${i.lic})`).join('%0A');
+            let total = document.getElementById('cart-total').innerText;
+            const msg = `Hola *BASE 0 Studio*, quiero realizar el pedido detallado abajo:%0A%0A${items}%0A%0A--------------------------%0A*TOTAL: ${total}*%0A%0A*¿A dónde te hago el depósito o transferencia?*`;
+            window.open(`https://wa.me/524775874578?text=${msg}`);
+        }
+
+        render();
+    </script>
 </body>
 </html>
-
-
-
