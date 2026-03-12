@@ -246,6 +246,7 @@
             border: none; 
             overflow: hidden; 
             position: relative; 
+            pointer-events: auto; /* Requerimiento: Permitir eventos */
         }
         .iframe-container iframe { 
             position: absolute; 
@@ -254,6 +255,20 @@
             width: 110%; 
             height: 80px; 
             border: none; 
+            transform: scale(1.05); /* Requerimiento: Escalado para ocultar UI de Drive */
+            transform-origin: top left;
+        }
+        
+        /* Capa de Intercepción para blindar el reproductor */
+        .iframe-guard {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none; /* Deja pasar el click al botón Play central */
+            background: transparent;
         }
 
         .cart-side { position: fixed; top: 0; right: -450px; width: 450px; height: 100%; background: #050505; z-index: 3000; transition: 0.5s ease; padding: 40px; border-left: 1px solid #1a1a1a; }
@@ -437,7 +452,9 @@
             <span>💽</span>
             <div><b id="p-title" style="font-size:0.7rem; text-transform:uppercase;">Preview</b><br><small style="color:#444">BASE 0 Studio</small></div>
         </div>
-        <div id="player-frame-container" class="iframe-container"></div>
+        <div id="player-frame-container" class="iframe-container">
+            <div class="iframe-guard"></div>
+        </div>
         <div style="text-align:right">
             <i class="material-icons" style="cursor:pointer;" onclick="document.getElementById('m-player').style.display='none'">close</i>
         </div>
@@ -703,11 +720,21 @@
                 </div>`).join('');
         }
 
+        /* FUNCIÓN ACTUALIZADA: play() con ajuste de Sandboxing */
         function play(title, driveId, el) {
             document.querySelectorAll('.vinyl-wrapper').forEach(v => v.classList.remove('playing'));
             el.classList.add('playing');
             document.getElementById('p-title').innerText = title;
-            document.getElementById('player-frame-container').innerHTML = `<iframe src="https://drive.google.com/file/d/${driveId}/preview"></iframe>`;
+            
+            // Inyectamos el iframe con sandbox para blindar la navegación en móvil
+            document.getElementById('player-frame-container').innerHTML = `
+                <div class="iframe-guard"></div>
+                <iframe 
+                    src="https://drive.google.com/file/d/${driveId}/preview" 
+                    sandbox="allow-scripts allow-same-origin"
+                    allow="autoplay">
+                </iframe>`;
+                
             document.getElementById('m-player').style.display = 'grid';
         }
 
