@@ -23,12 +23,11 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
         
         body { 
-            /* RUTA ACTUALIZADA CON PROXY PARA GITHUB Y DRIVE */
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
                         url('https://lh3.googleusercontent.com/d/1KmOCQYHylJbFtdAhWT0AZuEOFN5f1W-9');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
+            background-attachment: scroll; /* Cambiado a scroll para mejor rendimiento móvil */
             background-repeat: no-repeat;
             color: var(--text-main); 
             line-height: 1.6; 
@@ -51,10 +50,9 @@
             background: #fff; color: #000; padding: 10px 20px; border-radius: 2px;
             cursor: pointer; font-weight: 900; display: flex; align-items: center; gap: 10px;
             transition: var(--transition); font-size: 11px; text-transform: uppercase;
-            position: relative; /* NEW: Necessary for badge positioning */
+            position: relative;
         }
 
-        /* NEW: Live Badge Counter */
         .cart-badge-new {
             position: absolute;
             top: -8px;
@@ -70,6 +68,16 @@
             font-size: 10px;
             border: 2px solid #000;
             font-weight: 900;
+        }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 5px;
         }
 
         .promo-banner-link { text-decoration: none; width: 100%; display: block; }
@@ -163,7 +171,6 @@
         .folder-content, .sub-content { display: none; padding: 15px; }
         .active > .folder-content, .active > .sub-content { display: block; }
 
-        /* NEW: Redesigned Card Layout CSS */
         .beats-catalog-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -267,7 +274,6 @@
             font-weight: 400;
         }
 
-        /* NEW: Toast Notifications */
         .toast-container-new {
             position: fixed;
             top: 20px;
@@ -296,7 +302,6 @@
             to { transform: translateX(0) scale(1); opacity: 1; }
         }
 
-        /* NEW: Social Proof */
         .social-proof-new {
             position: fixed;
             bottom: 110px;
@@ -366,7 +371,6 @@
         .checkout-wa { width: 100%; padding: 18px; background: #fff; color: #000; border: none; font-weight: 900; cursor: pointer; margin-top: 20px; text-transform: uppercase; transition: 0.3s; }
         .checkout-wa:hover { background: var(--wa-green); color: #fff; }
 
-        /* NEW: Cart Item Styling */
         .cart-item-new {
             display: flex;
             justify-content: space-between;
@@ -376,11 +380,74 @@
             border-bottom: 1px solid #111;
         }
 
+        /* ==================== NUEVO: MENÚ MÓVIL ==================== */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background: var(--bg-glass);
+            backdrop-filter: blur(25px);
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 5%;
+            gap: 25px;
+            z-index: 999;
+            border-top: 1px solid var(--grey-dark);
+        }
+        .mobile-nav a {
+            color: var(--text-grey);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .mobile-nav a:hover { color: #fff; }
+
+        /* ==================== MEDIA QUERIES (PC + MÓVIL) ==================== */
         @media (max-width: 992px) {
-            .cart-side { width: 100%; }
-            .master-player { grid-template-columns: 1fr 1fr; }
+            .cart-side { width: 100%; right: -100%; }
+            .master-player { grid-template-columns: 1fr 1fr; height: 80px; }
             .hero h1 { font-size: 4rem; }
             .hero .studio-hand { font-size: 3.5rem; margin-top: -20px; }
+            .nav-links { display: none; }
+            .hamburger { display: block; }
+            .promo-banner { font-size: 1rem; padding: 12px; letter-spacing: 1px; }
+            section { padding: 80px 5%; }
+        }
+
+        @media (max-width: 768px) {
+            .hero { height: 75vh; }
+            .hero h1 { font-size: 3.2rem; letter-spacing: -2px; }
+            .hero .studio-hand { font-size: 2.8rem; margin-top: -15px; }
+            .btn-explore { padding: 12px 30px; font-size: 0.85rem; }
+            .section-header h2 { font-size: 2.2rem; }
+            .services-grid { grid-template-columns: 1fr; gap: 20px; }
+            .beats-catalog-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+            .beat-card-new { padding: 30px 20px; }
+            .vinyl-hero-new { width: 100px; height: 100px; }
+            .vinyl-hero-new span { font-size: 4rem; }
+            .beat-title-new { font-size: 1rem; }
+            .lic-btn-new { padding: 10px; font-size: 0.7rem; }
+            .service-card { padding: 35px 20px; }
+            .testimonial-grid { grid-template-columns: 1fr; }
+            .social-links { gap: 15px; }
+            .social-btn { padding: 12px 20px; font-size: 0.9rem; }
+        }
+
+        @media (max-width: 480px) {
+            header { padding: 10px 3%; }
+            .logo { height: 50px; }
+            .hero h1 { font-size: 2.8rem; }
+            .hero .studio-hand { font-size: 2.4rem; }
+            .promo-banner { font-size: 0.85rem; padding: 10px; }
+            .beat-card-new { padding: 25px 15px; }
+            .vinyl-hero-new { width: 90px; height: 90px; }
+            .vinyl-hero-new span { font-size: 3.5rem; }
+            .master-player { height: 70px; font-size: 0.85rem; }
+            .iframe-container iframe { transform: scale(0.95); }
         }
     </style>
 </head>
@@ -391,18 +458,33 @@
 
     <header>
         <div class="logo"></div>
+        
+        <!-- NAV DESKTOP -->
         <nav class="nav-links">
             <a href="#catalog">Catálogo</a>
             <a href="#services">Servicios</a>
             <a href="#testimonials">Testimonios</a>
             <a href="#contact">Contacto</a>
-            <div class="cart-trigger" onclick="toggleCart(true)">
-                <span class="material-icons">shopping_bag</span>
-                <span id="cart-count">0 ITEMS</span>
-                <div id="cart-badge-new" class="cart-badge-new">0</div>
-            </div>
         </nav>
+
+        <!-- CART SIEMPRE VISIBLE -->
+        <div class="cart-trigger" onclick="toggleCart(true)">
+            <span class="material-icons">shopping_bag</span>
+            <span id="cart-count">0 ITEMS</span>
+            <div id="cart-badge-new" class="cart-badge-new">0</div>
+        </div>
+
+        <!-- HAMBURGER (solo móvil) -->
+        <button class="hamburger" onclick="toggleMobileNav()">☰</button>
     </header>
+
+    <!-- MENÚ MÓVIL -->
+    <nav id="mobile-nav" class="mobile-nav">
+        <a href="#catalog" onclick="toggleMobileNav()">Catálogo</a>
+        <a href="#services" onclick="toggleMobileNav()">Servicios</a>
+        <a href="#testimonials" onclick="toggleMobileNav()">Testimonios</a>
+        <a href="#contact" onclick="toggleMobileNav()">Contacto</a>
+    </nav>
 
     <a href="#licensing" class="promo-banner-link">
         <div class="promo-banner">
@@ -564,7 +646,7 @@
     {
         name: "rap / boombap / hardcore",
         subs: [
-            { name: "hardcore", beats: [ /* sin cambios */ 
+            { name: "hardcore", beats: [
                 { id: 300, title: "BLOOD ON THE BACKROOM FLOOR", drive: "1sSZfd_kIggK2zOTJcwbZvaZvb8Srg7-k" },
                 { id: 301, title: "BACK ALLEY RIOT LOOPS", drive: "1RbsNMcKc87RlBCMZBQbSSYIk2yFCD0_D" },
                 { id: 302, title: "BACK ALLEY UPRISING", drive: "1qpMaOpbpFjZ1wfyR_ewfLyLG4ILc8-_s" },
@@ -657,7 +739,7 @@
         { id: 603, title: "CARRETERA DE RECUERDOS", drive: "1dTroqrXLy8gzH672c297dozbreAWxVkL" },
         { id: 604, title: "CARRETERA (ALT)", drive: "18W_OiLW_AqiP9gnIF9ofQ2Dc5UTcd9Vn" },
         { id: 605, title: "CIMA DEL RECUERDO", drive: "1mepSbfUBn-smJLT-VLPisvMbCGut7fL7" },
-        { id: 606, title: "CIMA (ALT)", drive: "" }, /* no link específico en tu lista */
+        { id: 606, title: "CIMA (ALT)", drive: "" },
         { id: 607, title: "CORRIDO DE LUJO", drive: "1f9QZ1F8lXBl408WO2e6ciRf_qiJ2yk_N" },
         { id: 608, title: "LÁGRIMAS EN LA 12 CUERDAS", drive: "1oUfDr-NxPE-lZ-7aXKDZmzhIms3V7bVU" },
         { id: 609, title: "LÁGRIMAS (ALT)", drive: "1qe9QHV2pSUDhOQGuJx-jKkWi1Pzbukph" },
@@ -743,7 +825,6 @@
 
         let cart = [];
 
-        // NEW: Toast Notification Logic
         function showToastNew(msg) {
             const root = document.getElementById('toast-root-new');
             const toast = document.createElement('div');
@@ -756,7 +837,6 @@
             }, 3000);
         }
 
-        // NEW: Social Proof Cycle
         function triggerSocialProofNew() {
             const names = ["Carlos M.", "Daniela R.", "Gabo_92", "Elena H.", "Julian P.", "Marcos G.", "Stark Beats"];
             const actions = ["Mezcla & Mastering", "Beat Personalizado", "Licencia Oro", "Licencia Bronce", "Diseño de Logo"];
@@ -813,7 +893,6 @@
             });
         }
 
-        // NEW: Redesigned renderBeats to use Grid Cards
         function renderBeats(beats) {
             if(!beats || beats.length === 0) return '<p style="padding:10px; font-size:10px; color:#333; text-align:center;">PRÓXIMAMENTE...</p>';
             return beats.map(b => `
@@ -837,6 +916,7 @@
         }
 
         function play(title, driveId, el) {
+            if (!driveId) return alert("Vista previa no disponible");
             document.querySelectorAll('.vinyl-hero-new').forEach(v => v.classList.remove('playing'));
             el.classList.add('playing');
             document.getElementById('p-title').innerText = title;
@@ -853,14 +933,14 @@
                 const l = licDetails[key];
                 cart.push({ title, lic: l.n, price: l.m, usd: l.u, promo: l.p });
                 updateCart();
-                showToastNew(`✅ ${title} añadido al pedido`); // NEW
+                showToastNew(`✅ ${title} añadido al pedido`);
             }
         }
 
         function addService(name, mxn, usd) {
             cart.push({ title: name, lic: "SERVICIO", price: mxn, usd: usd, promo: false });
             updateCart();
-            showToastNew(`✅ ${name} añadido al pedido`); // NEW
+            showToastNew(`✅ ${name} añadido al pedido`);
         }
 
         function addCustomBeat() {
@@ -870,7 +950,7 @@
             const label = stems ? "A MEDIDA + STEMS" : "A MEDIDA";
             cart.push({ title: "BEAT A MEDIDA", lic: label, price: price, usd: usd, promo: false });
             updateCart();
-            showToastNew(`✅ Beat a Medida añadido`); // NEW
+            showToastNew(`✅ Beat a Medida añadido`);
         }
 
         function handleOroBuy(title) {
@@ -880,13 +960,13 @@
             const label = stems ? "ORO + STEMS" : "ORO";
             cart.push({ title, lic: label, price: price, usd: usd, promo: false });
             updateCart();
-            showToastNew(`✅ ${title} (Oro) añadido`); // NEW
+            showToastNew(`✅ ${title} (Oro) añadido`);
         }
 
         function updateCart() {
             const list = document.getElementById('cart-items-list');
             const notice = document.getElementById('promo-msg');
-            const badge = document.getElementById('cart-badge-new'); // NEW
+            const badge = document.getElementById('cart-badge-new');
             list.innerHTML = '';
             let totalMXN = 0;
             let totalUSD = 0;
@@ -918,7 +998,6 @@
             document.getElementById('cart-total').innerText = `$${finalUSD.toFixed(2)} USD / $${finalMXN} MXN`;
             document.getElementById('cart-count').innerText = `${cart.length} ITEMS`;
             
-            // NEW: Badge Logic
             badge.innerText = cart.length;
             badge.style.display = cart.length > 0 ? 'flex' : 'none';
 
@@ -927,6 +1006,12 @@
 
         function remove(idx) { cart.splice(idx,1); updateCart(); }
         function toggleCart(force) { document.getElementById('cart-side').classList.toggle('open', force); }
+
+        // NUEVA FUNCIÓN PARA MENÚ MÓVIL
+        function toggleMobileNav() {
+            const nav = document.getElementById('mobile-nav');
+            nav.style.display = (nav.style.display === 'flex') ? 'none' : 'flex';
+        }
 
         function checkoutWA() {
             if(cart.length === 0) return;
