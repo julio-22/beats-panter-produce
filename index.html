@@ -532,207 +532,208 @@
 
     <script>
         const database = [
-            {
-                name: "trap",
-                subs: [
-                    { name: "trap hard", beats: [
-                        { id: 100, title: "CALLEJÓN 140", drive: "1lVcE4vc8dwNAZ24elDU4UkhdPDj9PJPP" },
-                        { id: 101, title: "CERO RESPETO", drive: "1gvu-UhbkcCF34EpARA6IyG8Cmp5db-k8" },
-                        { id: 102, title: "DOSIS DE ASFALTO", drive: "1R7VlDQ74wktkXEqn_OOSmviXfteliMZf" },
-                        { id: 103, title: "EFECTO NARCÓTICO", drive: "1YLjmQnWSFPq1V4TDXKR6nMubr-822i9h" },
-                        { id: 104, title: "FRENESÍ 808", drive: "1ymCZYZo7pywYnphQxFhPAOmiQ4IfgCnC" },
-                        { id: 105, title: "INSTINTO DE CAZA", drive: "1mPOKhP1pUnb7h6lSkLWBldByi-rqC4nJ" },
-                        { id: 106, title: "MANDÍBULA DE HIERRO", drive: "1lJ0U8URua0u_sVTjyx2JpNdat7sOcemL" },
-                        { id: 107, title: "PÁNICO EN EL BLOQUE", drive: "14NT8R1mlHZUU3SiHTLw8Xd73KVniQQKr" },
-                        { id: 108, title: "SIN PIEDAD", drive: "1M3kP172qbkLy942tw0zvcaZFa56qLUbN" },
-                        { id: 109, title: "VOLTAJE NEGRO", drive: "1SrqFW2k-N6zscC8LgBZCxlJqjGx_TKVg" }
-                    ] },
-                    { name: "trap fresh", beats: [
-                        { id: 200, title: "ACOUSTIC BEAT", drive: "1qtQKuZJ65MTY0ArEBuBs4xB2gwhBQSA9" },
-                        { id: 201, title: "CELL NIGHT", drive: "1YiF3FAWV_-MBL514mQxMSRPShkmn_Yie" },
-                        { id: 202, title: "GRIN WITH SHIT", drive: "1LrQGvq5jDbKswfscm9hOyFfibJqFGdye" },
-                        { id: 203, title: "GRIN WITH THE FAM", drive: "18BlqzI-Pf8LB_38bovwntFSFIia0YecR" },
-                        { id: 204, title: "GRIN WITH THE FANGS", drive: "1GB0PCOSja6iZUWwj1FXWohq8QsOjINeq" },
-                        { id: 205, title: "GUITAR FRESH", drive: "1a9ZAr2boRNs-hlaLjCl189RJkuEphrdn" },
-                        { id: 206, title: "MOONLIT BOUNCE", drive: "1ewQ-VIuP6qFXT19ITKD6v7oc767belXM" },
-                        { id: 207, title: "MOONLIT MOON", drive: "1QJFzs3cyVGsAgckem6uY82iGmY9eSp59" },
-                        { id: 208, title: "SHADOW BLACK", drive: "1Xlo0iKEMP604h-z9bNfGxB_Mo9JtHCnE" },
-                        { id: 209, title: "SHADOW BOUNCE", drive: "175ovzle5w_AJprZkkhyXOqfILAN6XAn9" }
-                    ] }
-                ]
-            },
-            {
-                name: "rap / boombap / hardcore",
-                subs: [
-                    { name: "hardcore", beats: [
-                        { id: 300, title: "BLOOD ON THE BACKROOM FLOOR", drive: "1sSZfd_kIggK2zOTJcwbZvaZvb8Srg7-k" },
-                        { id: 301, title: "BACK ALLEY RIOT LOOPS", drive: "1RbsNMcKc87RlBCMZBQbSSYIk2yFCD0_D" },
-                        { id: 302, title: "BACK ALLEY UPRISING", drive: "1qpMaOpbpFjZ1wfyR_ewfLyLG4ILc8-_s" },
-                        { id: 303, title: "BACK OUT", drive: "1JMuSvyzhJrCJ4B82Sqw93-1TkyBFyK9z" },
-                        { id: 304, title: "BLACK SHADOW", drive: "1kTFG88IHx8Lu8ouF0qxjeUNfQnEZ9c9y" },
-                        { id: 305, title: "CALLE PRENDIDA", drive: "1dcDiHqZVeA6B1H1eL94Ct0Jem75m7bJd" },
-                        { id: 306, title: "GRAVEYARD CIPHER", drive: "1ydoo46WOfCT0V3a0d4r30g7duHgR-vUv" },
-                        { id: 307, title: "GRIME UNDER THE OVERPASS", drive: "1F8Mbh-jMdRNZXvkhnrArSVIwGmbrB7oG" },
-                        { id: 308, title: "RITMO BAJO", drive: "1HG-MJokBVLsm5w213L7xXGJZdc1ILDMv" },
-                        { id: 309, title: "TRANSE HARD", drive: "1JzCaKGsrK99BzbPoHhhAOyDlB2kfk93V" },
-                        { id: 310, title: "UNDER LOOK", drive: "1k9yRXRbv41KxCcPpEeFwJJ8_4BxPHwkL" }
-                    ] },
-                    { name: "West Coast", beats: [
-                        { id: 1400, title: "BAJO DE NEÓN", drive: "1Sh-M72pRa-cB5vzsKasOy_yAJjdjf_dH" },
-                        { id: 1401, title: "BAJO LA LLUVIA DEL BARRIO", drive: "1-AW66Nyyuplv1DnOD2D67hR46iC-_-Bi" },
-                        { id: 1402, title: "BARRIO NOCTURNO", drive: "1YoBzOaTCQbAO6vGjOzMsarE08PKWXut9" },
-                        { id: 1403, title: "BOULEVARD HALO", drive: "" },
-                        { id: 1404, title: "COLD HOOD STARE", drive: "" },
-                        { id: 1405, title: "COLD", drive: "" },
-                        { id: 1406, title: "CONCRETE JUNGLE FUNERAL MARCH", drive: "" },
-                        { id: 1407, title: "CONCRETE", drive: "" },
-                        { id: 1408, title: "JUNGLE", drive: "" },
-                        { id: 1409, title: "MARCH", drive: "" },
-                        { id: 1410, title: "MARZO", drive: "" },
-                        { id: 1411, title: "MI BARRIO BRILLA", drive: "1FMFbzlqp5Koq_tHGLsHQrvz0rMw7TlC1" },
-                        { id: 1412, title: "SOMBRAS DE ASFALTO", drive: "1KfjLlndP80w_pPqSFC4h1QbFQy4mhoNI" },
-                        { id: 1413, title: "SOMBRAS", drive: "" }
-                    ] },
-                    { name: "jazz / boom-bap", beats: [
-                        { id: 400, title: "BACK", drive: "" },
-                        { id: 401, title: "CRATES OF TOMORROW", drive: "1HUbOHkOExBlQ60QFgKiMCL-_CXz9fq8T" },
-                        { id: 402, title: "DREAMS", drive: "" },
-                        { id: 403, title: "ELEGANCIA", drive: "1cypLxsR91zw6I2UyfbykHPdxPe2sXUwn" },
-                        { id: 404, title: "GOLDEN HOURS CONCRETE DREAMS", drive: "" },
-                        { id: 405, title: "GOLDEN STEPS", drive: "" },
-                        { id: 406, title: "HOOD", drive: "" },
-                        { id: 407, title: "SOUL STEPS AT 92", drive: "14eUxXB7JzuDkg7JI7zixAs7ePA_FRdPW" },
-                        { id: 408, title: "STREET", drive: "" },
-                        { id: 409, title: "TOMORROW", drive: "" },
-                        { id: 410, title: "ASFALTO", drive: "" },
-                        { id: 411, title: "CICATRICES DEL ASFALTO", drive: "" },
-                        { id: 412, title: "MIDNIGHT STATION DUST", drive: "1w3uivN3gBlyb0nrc7q-21ZgDl8hPhzE2" },
-                        { id: 413, title: "MIDNIGHT", drive: "" }
-                    ] },
-                    { name: "rap mexa", beats: [
-                        { id: 500, title: "BAJO MUNDO RARO", drive: "1TZpCxUT-WZhIYVXcHRvTbJPTRR9koIk0" },
-                        { id: 501, title: "BAJO MUNDO SERMÓN", drive: "" },
-                        { id: 502, title: "BARRIO CORONADO", drive: "1icGoJSzf4g5A8mOl14_MXMIcX_vu_FS2" },
-                        { id: 503, title: "BARRIO DISFRAZADO", drive: "" },
-                        { id: 504, title: "CICATRICES EN EL ALMA", drive: "1YrSIi_Uq6Yd1Nvr81P57mKKaGh9at8bo" },
-                        { id: 505, title: "CICATRICES EN LA TARIMA", drive: "" },
-                        { id: 506, title: "REY DE MI ZONA", drive: "" },
-                        { id: 507, title: "REY DEL ASFALTO", drive: "" },
-                        { id: 508, title: "REY DEL BARRIO", drive: "" },
-                        { id: 509, title: "REY DEL PAVIMENTO", drive: "" }
-                    ] },
-                    { name: "rap urbano", beats: [
-                        { id: 1200, title: "BARRIO EN EL OLVIDO", drive: "1Aafa17XRDvnVbUTkryemuBvULGIf8xFl" },
-                        { id: 1201, title: "BARRIO EN LA MEMORIA", drive: "" },
-                        { id: 1202, title: "BARRIO EN LLAMAS", drive: "" },
-                        { id: 1203, title: "BARRIO EN SINFONÍA", drive: "" },
-                        { id: 1204, title: "BARRIO LUMINOSO", drive: "" },
-                        { id: 1205, title: "BARRIO SYMPHONY", drive: "1iT9m62C0qvhUBp9cA0dCF5qBSMHm3Ua2" },
-                        { id: 1206, title: "CARTA QUE NUNCA ENVIÉ", drive: "" },
-                        { id: 1207, title: "GLASS CORRIDOR REVERIE", drive: "" },
-                        { id: 1208, title: "SOMBRAS DEL ASFALTO", drive: "18ggTOdLU9FVxl5_iraAwZZbl1eGtCVLM" },
-                        { id: 1209, title: "SOMBRAS DEL AYER", drive: "" },
-                        { id: 1210, title: "SOMBRAS EN LA BANQUETA", drive: "" },
-                        { id: 1211, title: "SOMBRAS EN LA MENTE", drive: "" },
-                        { id: 1212, title: "SOMBRAS EN LA PISTA", drive: "" }
-                    ] },
-                    { name: "type beat - Wu-Tang-Clan", beats: [
-                        { id: 1300, title: "BASEMENT CIPHER", drive: "178KB3dgteqmVoq-w6BBq6lQ1M82Offte" },
-                        { id: 1301, title: "CIPHER", drive: "" },
-                        { id: 1302, title: "DARK STAIRWELL CIPHER", drive: "" },
-                        { id: 1303, title: "DARK", drive: "" },
-                        { id: 1304, title: "FREIGHT", drive: "" },
-                        { id: 1305, title: "GRAVEYARD CIPHER", drive: "1K5jk791znc7_2T662U_eLObBrlPxoHvy" },
-                        { id: 1306, title: "GRAVEYARD", drive: "" },
-                        { id: 1307, title: "SUBWAY CIPHER", drive: "" },
-                        { id: 1308, title: "SUBWAY", drive: "" }
-                    ] }
-                ]
-            },
-            { name: "corridos tumbados", subs: [{ name: "tumbados pro", beats: [
-                { id: 600, title: "AUSENCIA", drive: "1Mk-pvQfR5mfagPZLONGLGTK9HI5kRQa6" },
-                { id: 601, title: "BAJO LAS ESTRELLAS", drive: "1C5Dxc15qD51UmavV5S3IhWr_nYF0ckT_" },
-                { id: 602, title: "CALLE Y NOSTALGIA", drive: "" },
-                { id: 603, title: "CARRETERA DE RECUERDOS", drive: "" },
-                { id: 604, title: "CARRETERA (ALT)", drive: "" },
-                { id: 605, title: "CIMA DEL RECUERDO", drive: "" },
-                { id: 606, title: "CIMA (ALT)", drive: "" },
-                { id: 607, title: "CORRIDO DE LUJO", drive: "1f9QZ1F8lXBl408WO2e6ciRf_qiJ2yk_N" },
-                { id: 608, title: "LÁGRIMAS EN LA 12 CUERDAS", drive: "" },
-                { id: 609, title: "LÁGRIMAS (ALT)", drive: "" },
-                { id: 610, title: "ROSA", drive: "" },
-                { id: 611, title: "UNDER THE DUSTY SKY", drive: "" },
-                { id: 612, title: "UNDER (ALT)", drive: "" },
-                { id: 613, title: "VELOCIDAD EN EL PECHO", drive: "1xEu_wQUnCFXJ9gUs8hptAjT6rNW_SLQ6" }
-            ] }] },
-            { name: "denbow", subs: [
-                { name: "fresh", beats: [
-                    { id: 700, title: "CARIBBEAN HEATWAVE", drive: "1jYNkQX0PMqo2aaFvR7sxIhPHF5qf6HsO" },
-                    { id: 701, title: "MIDNIGHT ON THE MALECÓN", drive: "" },
-                    { id: 702, title: "MIDNIGHT (ALT)", drive: "" },
-                    { id: 703, title: "SOL DE MAÑANA", drive: "" },
-                    { id: 704, title: "SOL (ALT)", drive: "" },
-                    { id: 705, title: "SUN ON YOUR HIPS", drive: "" }
-                ] },
-                { name: "hard", beats: [
-                    { id: 800, title: "CALLE", drive: "1nZkBAjCBcsnKAwuCNk54Y6DttNZV84qJ" },
-                    { id: 801, title: "MIDNIGHT (HARD)", drive: "" },
-                    { id: 802, title: "NOCHE EN LA PISTA 2025", drive: "" },
-                    { id: 803, title: "NOCHE (ALT)", drive: "" },
-                    { id: 804, title: "SIN SOMBRA", drive: "" },
-                    { id: 805, title: "SOMBRAS EN LA DISCO", drive: "" },
-                    { id: 806, title: "SOMBRAS FRÍAS", drive: "" }
-                ] }
+    {
+        name: "trap",
+        subs: [
+            { name: "trap hard", beats: [
+                { id: 100, title: "CALLEJÓN 140", drive: "1lVcE4vc8dwNAZ24elDU4UkhdPDj9PJPP" },
+                { id: 101, title: "CERO RESPETO", drive: "1gvu-UhbkcCF34EpARA6IyG8Cmp5db-k8" },
+                { id: 102, title: "DOSIS DE ASFALTO", drive: "1R7VlDQ74wktkXEqn_OOSmviXfteliMZf" },
+                { id: 103, title: "EFECTO NARCÓTICO", drive: "1YLjmQnWSFPq1V4TDXKR6nMubr-822i9h" },
+                { id: 104, title: "FRENESÍ 808", drive: "1ymCZYZo7pywYnphQxFhPAOmiQ4IfgCnC" },
+                { id: 105, title: "INSTINTO DE CAZA", drive: "1mPOKhP1pUnb7h6lSkLWBldByi-rqC4nJ" },
+                { id: 106, title: "MANDÍBULA DE HIERRO", drive: "1lJ0U8URua0u_sVTjyx2JpNdat7sOcemL" },
+                { id: 107, title: "PÁNICO EN EL BLOQUE", drive: "14NT8R1mlHZUU3SiHTLw8Xd73KVniQQKr" },
+                { id: 108, title: "SIN PIEDAD", drive: "1M3kP172qbkLy942tw0zvcaZFa56qLUbN" },
+                { id: 109, title: "VOLTAJE NEGRO", drive: "1SrqFW2k-N6zscC8LgBZCxlJqjGx_TKVg" }
             ] },
-            { name: "detroid", subs: [{ name: "Detroit Style", beats: [
-                { id: 900, title: "CHAMPAGNE", drive: "" },
-                { id: 901, title: "COLD STEEL CIRCLES", drive: "1tlaqgI6-CSuqknUv9lS8gS9mFJZDyZB9" },
-                { id: 902, title: "COLD STEEL (ALT)", drive: "" },
-                { id: 903, title: "MIDNIGHT SCRAP YARD", drive: "" },
-                { id: 904, title: "MIDNIGHT SCRAP (ALT)", drive: "" },
-                { id: 905, title: "MIDNIGHT (DET)", drive: "" },
-                { id: 906, title: "PENTHOUSE IN MY CUP", drive: "" },
-                { id: 907, title: "PENTHOUSE (ALT)", drive: "" },
-                { id: 908, title: "SCRAP", drive: "" },
-                { id: 909, title: "SKYLINE CHAMPAGNE", drive: "" },
-                { id: 910, title: "VISIÓN", drive: "" }
-            ] }] },
-            { name: "drill-UK", subs: [{ name: "UK Drill Style", beats: [
-                { id: 1000, title: "AIR IN MY FAM", drive: "1jA1vNSKOtDPQyW0sxgkqBeQAtOpTQ1oN" },
-                { id: 1001, title: "AIR IN MY LUNGS", drive: "" },
-                { id: 1002, title: "COLD BRAIN", drive: "" },
-                { id: 1003, title: "COLD IN THE ENDS", drive: "" },
-                { id: 1004, title: "COLD IN THE MIND", drive: "" },
-                { id: 1005, title: "COLD STEPS", drive: "" },
-                { id: 1006, title: "NIGHT DREAMS", drive: "" },
-                { id: 1007, title: "NIGHT SHIFT ON MY BLOCK", drive: "" },
-                { id: 1008, title: "SHADOW IN MY HOOD", drive: "" },
-                { id: 1009, title: "SHADOW IN MY MAIN", drive: "" }
-            ] }] },
-            { name: "rnb", subs: [{ name: "R&B Vibe", beats: [
-                { id: 1100, title: "CHECKOUT", drive: "" },
-                { id: 1101, title: "LATE CHECKOUT", drive: "" },
-                { id: 1102, title: "LATE NIGHT GLOW", drive: "1tkXyjpPJyShVeu63AzgmDNQtqjjXKx6D" },
-                { id: 1103, title: "LATE NIGHT SAD", drive: "" },
-                { id: 1104, title: "LATE", drive: "" },
-                { id: 1105, title: "SLOW MOTION AUGUST", drive: "" },
-                { id: 1106, title: "SLOW MOTION", drive: "" },
-                { id: 1107, title: "VELVET FLAWLESS", drive: "" },
-                { id: 1108, title: "VELVET MOONLIGHT", drive: "" }
-            ] }] },
-            { name: "bachata", subs: [{ name: "bachata style", beats: [
-                { id: 1500, title: "BAILANDO EN SILENCIO", drive: "142xW9w8Y1IH8SsF8BgZMMLTk_1TcOmPs" },
-                { id: 1501, title: "DAME DESPACIO", drive: "1iQ0SO8-IXb8J0t2ivZqftG3Tk8sJqZN7" },
-                { id: 1502, title: "ENTRE TUS LABIOS", drive: "1wtQYj_4vsXrylhnR-miHuOmuAWRIKL2J" },
-                { id: 1503, title: "ENTRE TUS SOMBRAS", drive: "1gQ5e5trOnidDrENMVP1PtWFdzkw3Qkg-" },
-                { id: 1504, title: "LENTO", drive: "1gblzd_jWiGekykl0fnL43nhaxfbNXDBb" },
-                { id: 1505, title: "RITMO EN TU PIEL", drive: "17e7Z-CUm1OEA2M93hqZ293u8LIU8rw7s" },
-                { id: 1506, title: "RITMO", drive: "1uRnpd1NiHOC3NXM-rQRb3EaBv_VVW31f" },
-                { id: 1507, title: "SILENCIO", drive: "1Hc8cwLYXVQGcGj4c6WBrFQzrjV2N7DTQ" },
-                { id: 1508, title: "TU PIEL", drive: "1cVAs_8bnbNSfCF-c3yVDxZCuGHS7jCyC" },
-                { id: 1509, title: "TU RECUERDO", drive: "1csbAMeCyEELO90_gHJPHkNwWSSPrKN-pHcJR" }
-            ] }] }
-        ];
+            { name: "trap fresh", beats: [
+                { id: 200, title: "ACOUSTIC BEAT", drive: "1qtQKuZJ65MTY0ArEBuBs4xB2gwhBQSA9" },
+                { id: 201, title: "CELL NIGHT", drive: "1YiF3FAWV_-MBL514mQxMSRPShkmn_Yie" },
+                { id: 202, title: "GRIN WITH SHIT", drive: "1LrQGvq5jDbKswfscm9hOyFfibJqFGdye" },
+                { id: 203, title: "GRIN WITH THE FAM", drive: "18BlqzI-Pf8LB_38bovwntFSFIia0YecR" },
+                { id: 204, title: "GRIN WITH THE FANGS", drive: "1GB0PCOSja6iZUWwj1FXWohq8QsOjINeq" },
+                { id: 205, title: "GUITAR FRESH", drive: "1a9ZAr2boRNs-hlaLjCl189RJkuEphrdn" },
+                { id: 206, title: "MOONLIT BOUNCE", drive: "1ewQ-VIuP6qFXT19ITKD6v7oc767belXM" },
+                { id: 207, title: "MOONLIT MOON", drive: "1QJFzs3cyVGsAgckem6uY82iGmY9eSp59" },
+                { id: 208, title: "SHADOW BLACK", drive: "1Xlo0iKEMP604h-z9bNfGxB_Mo9JtHCnE" },
+                { id: 209, title: "SHADOW BOUNCE", drive: "175ovzle5w_AJprZkkhyXOqfILAN6XAn9" }
+            ] }
+        ]
+    },
+    {
+        name: "rap / boombap / hardcore",
+        subs: [
+            { name: "hardcore", beats: [ /* sin cambios */ 
+                { id: 300, title: "BLOOD ON THE BACKROOM FLOOR", drive: "1sSZfd_kIggK2zOTJcwbZvaZvb8Srg7-k" },
+                { id: 301, title: "BACK ALLEY RIOT LOOPS", drive: "1RbsNMcKc87RlBCMZBQbSSYIk2yFCD0_D" },
+                { id: 302, title: "BACK ALLEY UPRISING", drive: "1qpMaOpbpFjZ1wfyR_ewfLyLG4ILc8-_s" },
+                { id: 303, title: "BACK OUT", drive: "1JMuSvyzhJrCJ4B82Sqw93-1TkyBFyK9z" },
+                { id: 304, title: "BLACK SHADOW", drive: "1kTFG88IHx8Lu8ouF0qxjeUNfQnEZ9c9y" },
+                { id: 305, title: "CALLE PRENDIDA", drive: "1dcDiHqZVeA6B1H1eL94Ct0Jem75m7bJd" },
+                { id: 306, title: "GRAVEYARD CIPHER", drive: "1ydoo46WOfCT0V3a0d4r30g7duHgR-vUv" },
+                { id: 307, title: "GRIME UNDER THE OVERPASS", drive: "1F8Mbh-jMdRNZXvkhnrArSVIwGmbrB7oG" },
+                { id: 308, title: "RITMO BAJO", drive: "1HG-MJokBVLsm5w213L7xXGJZdc1ILDMv" },
+                { id: 309, title: "TRANSE HARD", drive: "1JzCaKGsrK99BzbPoHhhAOyDlB2kfk93V" },
+                { id: 310, title: "UNDER LOOK", drive: "1k9yRXRbv41KxCcPpEeFwJJ8_4BxPHwkL" }
+            ] },
+            { name: "West Coast", beats: [
+                { id: 1400, title: "BAJO DE NEÓN", drive: "1Sh-M72pRa-cB5vzsKasOy_yAJjdjf_dH" },
+                { id: 1401, title: "BAJO LA LLUVIA DEL BARRIO", drive: "1-AW66Nyyuplv1DnOD2D67hR46iC-_-Bi" },
+                { id: 1402, title: "BARRIO NOCTURNO", drive: "1YoBzOaTCQbAO6vGjOzMsarE08PKWXut9" },
+                { id: 1403, title: "BOULEVARD HALO", drive: "1rwOjoWfFP2RSnUMRH_NwPQpId-ODu7lD" },
+                { id: 1404, title: "COLD HOOD STARE", drive: "1xRW6396k3_0QT42ye81v6XF19JMXCjom" },
+                { id: 1405, title: "COLD", drive: "1wjLt_XstQQMTNv580qedia8IQaRAAEZe" },
+                { id: 1406, title: "CONCRETE JUNGLE FUNERAL MARCH", drive: "1nVYeM9Wjt07cYNWcMxiC9Qje9lpdu8Wk" },
+                { id: 1407, title: "CONCRETE", drive: "16uO5WYBfveD0zEHV5ARC6rUFEYCQq9WW" },
+                { id: 1408, title: "JUNGLE", drive: "1VM_CDdBkiZNiosISwKegoTwjjBSCfKYR" },
+                { id: 1409, title: "MARCH", drive: "1TdXDFh-N-eRJHM3OHa-1IlYSEcyzJAZb" },
+                { id: 1410, title: "MARZO", drive: "1luuymNKg3w6J9jPIprefq0LzsaC5P8iW" },
+                { id: 1411, title: "MI BARRIO BRILLA", drive: "1FMFbzlqp5Koq_tHGLsHQrvz0rMw7TlC1" },
+                { id: 1412, title: "SOMBRAS DE ASFALTO", drive: "1KfjLlndP80w_pPqSFC4h1QbFQy4mhoNI" },
+                { id: 1413, title: "SOMBRAS", drive: "1jbqnRige4LPZ1jrUp7RVwGfO1PhttlkG" }
+            ] },
+            { name: "jazz / boom-bap", beats: [
+                { id: 400, title: "BACK", drive: "1U99C7IGlL1u8yPpHHV6LExgo0sWPKpFs" },
+                { id: 401, title: "CRATES OF TOMORROW", drive: "1HUbOHkOExBlQ60QFgKiMCL-_CXz9fq8T" },
+                { id: 402, title: "DREAMS", drive: "14l62pmqbJKmn5fwBYFjr-J_-nXPMYY1b" },
+                { id: 403, title: "ELEGANCIA", drive: "1cypLxsR91zw6I2UyfbykHPdxPe2sXUwn" },
+                { id: 404, title: "GOLDEN HOURS CONCRETE DREAMS", drive: "1OJjvl0SLpJIa5Fjm9dmh3dbh14XvZD5N" },
+                { id: 405, title: "GOLDEN STEPS", drive: "1Ly8VYEOR5VzY5R1O1NFNS-kiBqoFSosg" },
+                { id: 406, title: "HOOD", drive: "18CbKT61GdCbME3MuyU_VADSYWefQimHJ" },
+                { id: 407, title: "SOUL STEPS AT 92", drive: "14eUxXB7JzuDkg7JI7zixAs7ePA_FRdPW" },
+                { id: 408, title: "STREET", drive: "10s7DNqHS7Q4mjtKnRBMUw9pF8XMbTTMp" },
+                { id: 409, title: "TOMORROW", drive: "1y5qviTxLg-AV9q-MUuKnZIEzI0GkZCE_" },
+                { id: 410, title: "ASFALTO", drive: "1g70pSwfpBrhdbrJSUHDsMH_xgBiqLDr4" },
+                { id: 411, title: "CICATRICES DEL ASFALTO", drive: "1IhIRIL0X4tmGctpGXjfANVBuJI1KeSou" },
+                { id: 412, title: "MIDNIGHT STATION DUST", drive: "1w3uivN3gBlyb0nrc7q-21ZgDl8hPhzE2" },
+                { id: 413, title: "MIDNIGHT", drive: "1KjJZBCrSNdER509QvZfFdnGiy5vAHt-X" }
+            ] },
+            { name: "rap mexa", beats: [
+                { id: 500, title: "BAJO MUNDO RARO", drive: "1TZpCxUT-WZhIYVXcHRvTbJPTRR9koIk0" },
+                { id: 501, title: "BAJO MUNDO SERMÓN", drive: "1V5c1LKBygXcADtx_hfl1iya9w8SodI_d" },
+                { id: 502, title: "BARRIO CORONADO", drive: "1icGoJSzf4g5A8mOl14_MXMIcX_vu_FS2" },
+                { id: 503, title: "BARRIO DISFRAZADO", drive: "1hKTYwZLgv6jKf7v0eqp2-f95zJBkPXKR" },
+                { id: 504, title: "CICATRICES EN EL ALMA", drive: "1YrSIi_Uq6Yd1Nvr81P57mKKaGh9at8bo" },
+                { id: 505, title: "CICATRICES EN LA TARIMA", drive: "125UcU3eD-P2FDbmEu-OFzuVsIgt844E2" },
+                { id: 506, title: "REY DE MI ZONA", drive: "1sWUUIccOArO5HE4CWVTAd-wdaIhrGXoV" },
+                { id: 507, title: "REY DEL ASFALTO", drive: "1CJLHsL85UYzHbqJOMvPtShYNjtIhnq3p" },
+                { id: 508, title: "REY DEL BARRIO", drive: "1WkoYHFAd1v__3F-uDMlGHcAiBduBCM8U" },
+                { id: 509, title: "REY DEL PAVIMENTO", drive: "1AY5cflalXQvDxFkFXMvCZJtpVaf-XCNM" }
+            ] },
+            { name: "rap urbano", beats: [
+                { id: 1200, title: "BARRIO EN EL OLVIDO", drive: "1Aafa17XRDvnVbUTkryemuBvULGIf8xFl" },
+                { id: 1201, title: "BARRIO EN LA MEMORIA", drive: "1affa850ZC2Ptt0dSJ7M9-6fF4siM5vii" },
+                { id: 1202, title: "BARRIO EN LLAMAS", drive: "1KT9lenpU93X16lvcl_EThUd3fH1eNLs6" },
+                { id: 1203, title: "BARRIO EN SINFONÍA", drive: "1Q06IhkPv7Vcwuh3RTOrOc3l_Gze8hyUf" },
+                { id: 1204, title: "BARRIO LUMINOSO", drive: "1qqdzA3320qRi9XvTWwrG2E4dUibD8HOE" },
+                { id: 1205, title: "BARRIO SYMPHONY", drive: "1iT9m62C0qvhUBp9cA0dCF5qBSMHm3Ua2" },
+                { id: 1206, title: "CARTA QUE NUNCA ENVIÉ", drive: "18G-GLCizgQ_-1HiU0YjfamGIs5pKTnHG" },
+                { id: 1207, title: "GLASS CORRIDOR REVERIE", drive: "1wD6tFJcaw5Zsl-tmqPCl7gxotX58Dp_v" },
+                { id: 1208, title: "SOMBRAS DEL ASFALTO", drive: "18ggTOdLU9FVxl5_iraAwZZbl1eGtCVLM" },
+                { id: 1209, title: "SOMBRAS DEL AYER", drive: "1QPZeVWEjDLJXVNji4nRWFKZLx2Ng9N70" },
+                { id: 1210, title: "SOMBRAS DEL OLVIDO", drive: "1zcP1tCe3rMWWpBFdYSlcsZFM-xJdJ4Rh" },
+                { id: 1211, title: "SOMBRAS EN LA BANQUETA", drive: "1x-cwtbgufQ9xImUE09pO2HrlyKDREZWp" },
+                { id: 1212, title: "SOMBRAS EN LA MENTE", drive: "1pWlDsRNXC92Slmjhnk2LYpM3hAcU9CDZ" },
+                { id: 1213, title: "SOMBRAS EN LA PISTA", drive: "179ishObha9P9ytUq_f-D8OkwZbX6bA8L" }
+            ] },
+            { name: "type beat - Wu-Tang-Clan", beats: [
+                { id: 1300, title: "BASEMENT CIPHER", drive: "178KB3dgteqmVoq-w6BBq6lQ1M82Offte" },
+                { id: 1301, title: "CIPHER", drive: "1v20iT7Hm0KLeADcw6DcxhW8qr6vSvkDe" },
+                { id: 1302, title: "DARK STAIRWELL CIPHER", drive: "1_bLhy4oTXgY1WVqqjuF_TZK1ufJ6Ic0r" },
+                { id: 1303, title: "DARK", drive: "1rRR-ICpFdZg-yEigjZEUFSbmrvvRwOtq" },
+                { id: 1304, title: "FREIGHT", drive: "1Zu8DIautRlmx-0zj1yHUz4gMazIGYrJ-" },
+                { id: 1305, title: "GRAVEYARD CIPHER", drive: "1K5jk791znc7_2T662U_eLObBrlPxoHvy" },
+                { id: 1306, title: "GRAVEYARD", drive: "1ACctw8pO2m3iFXP-BiJaqoXM6GQn9sQN" },
+                { id: 1307, title: "SUBWAY CIPHER", drive: "1dg7Tamx99Wl7LOFkVimnzKd9VmJmyI4N" },
+                { id: 1308, title: "SUBWAY", drive: "1_wzxYHRVDqn5bxh14bLaFCcO0CHq2_LQ" }
+            ] }
+        ]
+    },
+    { name: "corridos tumbados", subs: [{ name: "tumbados pro", beats: [
+        { id: 600, title: "AUSENCIA", drive: "1Mk-pvQfR5mfagPZLONGLGTK9HI5kRQa6" },
+        { id: 601, title: "BAJO LAS ESTRELLAS", drive: "1C5Dxc15qD51UmavV5S3IhWr_nYF0ckT_" },
+        { id: 602, title: "CALLE Y NOSTALGIA", drive: "1-lMerGNnqy2ZQQbQsexWLmMABwMPtQgf" },
+        { id: 603, title: "CARRETERA DE RECUERDOS", drive: "1dTroqrXLy8gzH672c297dozbreAWxVkL" },
+        { id: 604, title: "CARRETERA (ALT)", drive: "18W_OiLW_AqiP9gnIF9ofQ2Dc5UTcd9Vn" },
+        { id: 605, title: "CIMA DEL RECUERDO", drive: "1mepSbfUBn-smJLT-VLPisvMbCGut7fL7" },
+        { id: 606, title: "CIMA (ALT)", drive: "" }, /* no link específico en tu lista */
+        { id: 607, title: "CORRIDO DE LUJO", drive: "1f9QZ1F8lXBl408WO2e6ciRf_qiJ2yk_N" },
+        { id: 608, title: "LÁGRIMAS EN LA 12 CUERDAS", drive: "1oUfDr-NxPE-lZ-7aXKDZmzhIms3V7bVU" },
+        { id: 609, title: "LÁGRIMAS (ALT)", drive: "1qe9QHV2pSUDhOQGuJx-jKkWi1Pzbukph" },
+        { id: 610, title: "ROSA", drive: "1faYx874pzmNwEql9bstmOVPxmMv40lEg" },
+        { id: 611, title: "UNDER THE DUSTY SKY", drive: "1jKtV-uT0EFdClN-14ohJd2agFr4Qqqjs" },
+        { id: 612, title: "UNDER (ALT)", drive: "17wBS_feuXYYErrCuWeL5C0_hLBgBszvM" },
+        { id: 613, title: "VELOCIDAD EN EL PECHO", drive: "1xEu_wQUnCFXJ9gUs8hptAjT6rNW_SLQ6" }
+    ] }] },
+    { name: "denbow", subs: [
+        { name: "fresh", beats: [
+            { id: 700, title: "CARIBBEAN HEATWAVE", drive: "1jYNkQX0PMqo2aaFvR7sxIhPHF5qf6HsO" },
+            { id: 701, title: "MIDNIGHT ON THE MALECÓN", drive: "1AGyWiLueMqNyY6LscaJf7BkJNhzBB7AC" },
+            { id: 702, title: "MIDNIGHT (ALT)", drive: "1caKY6dnGjiFR8BOcXNaNZ7ZbvOJC4bsb" },
+            { id: 703, title: "SOL DE MAÑANA", drive: "1UtIM7El9QsStJnD0EfoQL3KBzrV_1ZAs" },
+            { id: 704, title: "SOL (ALT)", drive: "1i4mHVLkBbAxMALncfAqG31karYvGYN2Z" },
+            { id: 705, title: "SUN ON YOUR HIPS", drive: "1XCu99liEk3KwbwcYHqx7_D-2Z-BO6aLq" }
+        ] },
+        { name: "hard", beats: [
+            { id: 800, title: "CALLE", drive: "1nZkBAjCBcsnKAwuCNk54Y6DttNZV84qJ" },
+            { id: 801, title: "MIDNIGHT (HARD)", drive: "112BY7qbBx856UmynzxM-SToia_p6wb1w" },
+            { id: 802, title: "NOCHE EN LA PISTA 2025", drive: "1rpivwd2rW7X00aAXy_exqqKhqlae1K1V" },
+            { id: 803, title: "NOCHE (ALT)", drive: "182uIK-KOSRMswwJEj5H_gyJV4BZANCmH" },
+            { id: 804, title: "SIN SOMBRA", drive: "1mVRoxpdQd0N6xkX5Co6fEFiRk3bK8RXu" },
+            { id: 805, title: "SOMBRAS EN LA DISCO", drive: "1aLyGNey2PJVCHnK0iCRR-tDMdS5pnCQh" },
+            { id: 806, title: "SOMBRAS FRÍAS", drive: "17BeBEHK5hPRCcj6KSa-orz-zFgTpLtg5" }
+        ] }
+    ] },
+    { name: "detroid", subs: [{ name: "Detroit Style", beats: [
+        { id: 900, title: "CHAMPAGNE", drive: "1Fqj8gdUdnp9rwgee_EHcNVG5cbDnbyoQ" },
+        { id: 901, title: "COLD STEEL CIRCLES", drive: "1tlaqgI6-CSuqknUv9lS8gS9mFJZDyZB9" },
+        { id: 902, title: "COLD STEEL (ALT)", drive: "10Z9-5upFuwaHgfP3muSUjGpS_z1uXWOl" },
+        { id: 903, title: "MIDNIGHT SCRAP YARD", drive: "185QEGKS71OnEVu5ZQtvf7ygI5PPhrg63" },
+        { id: 904, title: "MIDNIGHT SCRAP (ALT)", drive: "1vw4K7yOcSPcin9RgdTYFtdRqoNCeLCFU" },
+        { id: 905, title: "MIDNIGHT (DET)", drive: "1U0iMGY4FQsV0pcEnVgTP8mcupRFzhMUw" },
+        { id: 906, title: "PENTHOUSE IN MY CUP", drive: "1Fu76vh3xEMARCqxhG5TqZGwym9Y8onN6" },
+        { id: 907, title: "PENTHOUSE (ALT)", drive: "1s6xye8ULKqoqU8F4qxISjeVbrOrtZoIq" },
+        { id: 908, title: "SCRAP", drive: "1k-ZpiNVDSyn5JndF_evwHFS71iq9zD-V" },
+        { id: 909, title: "SKYLINE CHAMPAGNE", drive: "1BchiBBa5K_dmkAkWUN1HY7GEJA5s26wb" },
+        { id: 910, title: "VISIÓN", drive: "1FhbejrrdOYn8W-IStDqv2hp0c7EhriF7" }
+    ] }] },
+    { name: "drill-UK", subs: [{ name: "UK Drill Style", beats: [
+        { id: 1000, title: "AIR IN MY FAM", drive: "1jA1vNSKOtDPQyW0sxgkqBeQAtOpTQ1oN" },
+        { id: 1001, title: "AIR IN MY LUNGS", drive: "14flfvTs-giWq-0z9XOSNQ8DTQdq0XkPJ" },
+        { id: 1002, title: "COLD BRAIN", drive: "17BQu5v3NmQh3Sd4MjuC7AyITz_QyavOH" },
+        { id: 1003, title: "COLD IN THE ENDS", drive: "1btpsQ6CSZoLuJ6wKZe9OreNzX4McyLtJ" },
+        { id: 1004, title: "COLD IN THE MIND", drive: "10hai37SuS16SgjUZ1vVTqSqf1fMIE61L" },
+        { id: 1005, title: "COLD STEPS", drive: "1INgUHXwPT_oTE7-Gw9D6SuhjRj4vCujU" },
+        { id: 1006, title: "NIGHT DREAMS", drive: "1aOITe4apDCS5wsC8KbBXvVlKoWOm6F0V" },
+        { id: 1007, title: "NIGHT SHIFT ON MY BLOCK", drive: "1P47sJRLCrdJzrnRGmMmmc6h1KFyYNeTm" },
+        { id: 1008, title: "SHADOW IN MY HOOD", drive: "1LNocOYLC-AChzFxVa3TQZ9DZA7gRrCtT" },
+        { id: 1009, title: "SHADOW IN MY MAIN", drive: "10ZN2QRZylFGn3uqAkTFOpgDEL2-FQPbJ" }
+    ] }] },
+    { name: "rnb", subs: [{ name: "R&B Vibe", beats: [
+        { id: 1100, title: "CHECKOUT", drive: "1t5E2EAXbQt0jTrcKk8B0Wze5KlMJfS7t" },
+        { id: 1101, title: "LATE CHECKOUT", drive: "1CLwvSEGeMRhTYorIaMdVNPgjwv-vfMXK" },
+        { id: 1102, title: "LATE NIGHT GLOW", drive: "1tkXyjpPJyShVeu63AzgmDNQtqjjXKx6D" },
+        { id: 1103, title: "LATE NIGHT SAD", drive: "16HcTFIpswxK2i0y3oxm2b7JPMJ2okc68" },
+        { id: 1104, title: "LATE", drive: "1LBKaztRcZJnMS4srgcLAFUCcLQAkBCet" },
+        { id: 1105, title: "SLOW MOTION AUGUST", drive: "1Qb0af9QGhhh2L0sCcIgr7o6Qscx21jOw" },
+        { id: 1106, title: "SLOW MOTION", drive: "1loR1iadr5B61FXvOuHuM8K1TTE6DdtLv" },
+        { id: 1107, title: "VELVET FLAWLESS", drive: "1m1mA-XShfmMUvUitUvu8Qm3VXB1EP7JX" },
+        { id: 1108, title: "VELVET MOONLIGHT", drive: "1PEg-s6bkxjTdKZhrL2_blCg2-BMHGAv7" }
+    ] }] },
+    { name: "bachata", subs: [{ name: "bachata style", beats: [
+        { id: 1500, title: "BAILANDO EN SILENCIO", drive: "142xW9w8Y1IH8SsF8BgZMMLTk_1TcOmPs" },
+        { id: 1501, title: "DAME DESPACIO", drive: "1iQ0SO8-IXb8J0t2ivZqftG3Tk8sJqZN7" },
+        { id: 1502, title: "ENTRE TUS LABIOS", drive: "1wtQYj_4vsXrylhnR-miHuOmuAWRIKL2J" },
+        { id: 1503, title: "ENTRE TUS SOMBRAS", drive: "1gQ5e5trOnidDrENMVP1PtWFdzkw3Qkg-" },
+        { id: 1504, title: "LENTO", drive: "1gblzd_jWiGekykl0fnL43nhaxfbNXDBb" },
+        { id: 1505, title: "RITMO EN TU PIEL", drive: "17e7Z-CUm1OEA2M93hqZ293u8LIU8rw7s" },
+        { id: 1506, title: "RITMO", drive: "1uRnpd1NiHOC3NXM-rQRb3EaBv_VVW31f" },
+        { id: 1507, title: "SILENCIO", drive: "1Hc8cwLYXVQGcGj4c6WBrFQzrjV2N7DTQ" },
+        { id: 1508, title: "TU PIEL", drive: "1cVAs_8bnbNSfCF-c3yVDxZCuGHS7jCyC" },
+        { id: 1509, title: "TU RECUERDO", drive: "1csbAMeCyEELO90_gHJPHkNwWSSPrKN-pHcJR" }
+    ] }] }
+];
 
         const licDetails = {
             bronce: { n: 'BRONCE', m: 350, u: 18.50, p: true },
