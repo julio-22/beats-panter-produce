@@ -456,27 +456,24 @@
     <div id="toast-root-new" class="toast-container-new"></div>
     <div id="social-proof-root-new"></div>
 
-    <header>
-        <div class="logo"></div>
-        
-        <!-- NAV DESKTOP -->
-        <nav class="nav-links">
-            <a href="#catalog">Catálogo</a>
-            <a href="#services">Servicios</a>
-            <a href="#testimonials">Testimonios</a>
-            <a href="#contact">Contacto</a>
-        </nav>
+   <header>
+    <div class="logo"></div>
+    
+    <nav class="nav-links">
+        <a href="#catalog">Catálogo</a>
+        <a href="#services">Servicios</a>
+        <a href="#testimonials">Testimonios</a>
+        <a href="#contact">Contacto</a>
+    </nav>
 
-        <!-- CART SIEMPRE VISIBLE -->
-        <div class="cart-trigger" onclick="toggleCart(true)">
-            <span class="material-icons">shopping_bag</span>
-            <span id="cart-count">0 ITEMS</span>
-            <div id="cart-badge-new" class="cart-badge-new">0</div>
-        </div>
+    <div class="cart-trigger" onclick="toggleCart(true)" role="button" tabindex="0" aria-label="Abrir carrito">
+        <span class="material-icons">shopping_bag</span>
+        <span id="cart-count">0 ITEMS</span>
+        <div id="cart-badge-new" class="cart-badge-new">0</div>
+    </div>
 
-        <!-- HAMBURGER (solo móvil) -->
-        <button class="hamburger" onclick="toggleMobileNav()">☰</button>
-    </header>
+    <button class="hamburger" onclick="toggleMobileNav()" aria-label="Abrir menú móvil" aria-expanded="false">☰</button>
+</header>
 
     <!-- MENÚ MÓVIL -->
     <nav id="mobile-nav" class="mobile-nav">
@@ -1008,10 +1005,14 @@
         function toggleCart(force) { document.getElementById('cart-side').classList.toggle('open', force); }
 
         // NUEVA FUNCIÓN PARA MENÚ MÓVIL
-        function toggleMobileNav() {
-            const nav = document.getElementById('mobile-nav');
-            nav.style.display = (nav.style.display === 'flex') ? 'none' : 'flex';
-        }
+       function toggleMobileNav() {
+    const nav = document.getElementById('mobile-nav');
+    const btn = document.querySelector('.hamburger');
+    const isOpen = nav.style.display === 'flex';
+    
+    nav.style.display = isOpen ? 'none' : 'flex';
+    btn.setAttribute('aria-expanded', !isOpen);
+}
 
         function checkoutWA() {
             if(cart.length === 0) return;
@@ -1020,7 +1021,6 @@
             const msg = `Hola *BASE 0 Studio*, quiero realizar el pedido detallado abajo:%0A%0A${items}%0A%0A--------------------------%0A*TOTAL: ${total}*%0A%0A*¿A dónde te hago el depósito o transferencia?*`;
             window.open(`https://wa.me/524775874578?text=${msg}`);
         }
-
         render();
     </script>
 </body>
