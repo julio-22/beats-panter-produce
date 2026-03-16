@@ -198,10 +198,6 @@
             margin-bottom: 50px;
         }
 
-        /* ──────────────────────────────────────────────── */
-        /*               MODIFICACIONES AQUÍ                */
-        /* ──────────────────────────────────────────────── */
-
         .beats-catalog-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -261,7 +257,6 @@
             text-align: center;
         }
 
-        /* Mobile – más compacto y sin desbordes */
         @media (max-width: 768px) {
             .beats-catalog-grid {
                 grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -278,10 +273,6 @@
                 font-size: 0.98rem;
             }
         }
-
-        /* ──────────────────────────────────────────────── */
-        /*             FIN DE LAS MODIFICACIONES            */
-        /* ──────────────────────────────────────────────── */
 
         .lic-btn-stack-new {
             display: flex;
@@ -311,7 +302,6 @@
             opacity: 0.8;
         }
 
-        /* --- REDISEÑO DEL REPRODUCTOR (PC Y MÓVIL) --- */
         .master-player {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -398,6 +388,51 @@
             from { transform: translateX(100%) scale(0.8); opacity: 0; }
             to { transform: translateX(0) scale(1); opacity: 1; }
         }
+
+        /* ── Modal de stems solo para ORO ─────────────────────────────────────── */
+        .stems-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.88);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .stems-modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        .stems-modal-content {
+            background: rgba(20,20,20,0.96);
+            border: 1px solid var(--neon-gold);
+            border-radius: 16px;
+            padding: 42px 32px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(255,215,0,0.25),
+                        inset 0 0 40px rgba(255,215,0,0.08);
+            transform: scale(0.82);
+            opacity: 0;
+            transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .stems-modal.show .stems-modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+        @media (max-width: 480px) {
+            .stems-modal-content {
+                padding: 32px 24px;
+            }
+            .stems-modal-content h3 {
+                font-size: 1.28rem;
+            }
+        }
+
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
         .service-card {
             background: rgba(10, 10, 10, 0.8); padding: 50px; border: 1px solid var(--grey-dark);
@@ -767,8 +802,35 @@
         </div>
     </div>
 
+    <!-- Modal de confirmación de stems (solo para ORO) -->
+    <div id="stems-modal" class="stems-modal">
+        <div class="stems-modal-content">
+            <h3 style="color: var(--neon-gold); margin-bottom: 1.2rem; font-size: 1.4rem;">
+                ¿Deseas añadir los stems al pedido?
+            </h3>
+            <p style="color: #ccc; margin-bottom: 1.8rem; line-height: 1.5;">
+                Archivos fuente + stems completos (WAV 24-bit / 48kHz)
+            </p>
+            <div style="font-size: 2.1rem; font-weight: 900; color: var(--gold); margin: 1.5rem 0;">
+                +$350 MXN
+                <small style="font-size: 1rem; opacity: 0.75; display: block; margin-top: 0.4rem;">
+                    ≈ $18.50 USD
+                </small>
+            </div>
+
+            <div style="display: flex; gap: 16px; justify-content: center; margin-top: 2rem;">
+                <button id="stems-no" class="lic-btn-new" style="background: #333; border-color: #555; padding: 14px 38px; font-size: 1.05rem;">
+                    No
+                </button>
+                <button id="stems-yes" class="lic-btn-new" style="background: var(--neon-gold); color: #000; border: none; padding: 14px 38px; font-size: 1.05rem; font-weight: 900;">
+                    Sí (+$350)
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        const database = [
+      const database = [
             {
                 name: "trap",
                 subs: [
@@ -1033,6 +1095,7 @@
             }
         ];
 
+
         const licDetails = {
             bronce: { n: 'BRONCE', m: 350, u: 18.99, p: true },
             plata: { n: 'PLATA', m: 500, u: 26.99, p: true },
@@ -1040,6 +1103,11 @@
         };
 
         let cart = [];
+
+        // ── Variables para el flujo de stems (solo ORO) ────────────────────────────────
+        let pendingGoldBeat = null;
+        const stemsPriceMXN = 350;
+        const stemsPriceUSD = 18.50;
 
         function showToastNew(msg) {
             const root = document.getElementById('toast-root-new');
@@ -1148,11 +1216,60 @@
             document.querySelectorAll('.vinyl-hero-new').forEach(v => v.classList.remove('playing'));
         }
 
-        function addBeat(title, key) {
-            const l = licDetails[key];
-            cart.push({ title, lic: l.n, price: l.m, usd: l.u, promo: l.p });
+        // ── Modal de stems ────────────────────────────────────────────────────────
+        function showStemsModal(beatTitle) {
+            pendingGoldBeat = { title: beatTitle };
+            document.getElementById('stems-modal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideStemsModal() {
+            document.getElementById('stems-modal').classList.remove('show');
+            document.body.style.overflow = '';
+            pendingGoldBeat = null;
+        }
+
+        function confirmStems(wantStems) {
+            if (!pendingGoldBeat) return;
+
+            const { title } = pendingGoldBeat;
+            const l = licDetails.oro;
+
+            // Siempre añadimos la licencia ORO
+            cart.push({
+                title,
+                lic: l.n,
+                price: l.m,
+                usd: l.u,
+                promo: l.p
+            });
+
+            if (wantStems) {
+                cart.push({
+                    title: `${title} – Stems`,
+                    lic: 'STEMS (opcional)',
+                    price: stemsPriceMXN,
+                    usd: stemsPriceUSD,
+                    promo: false
+                });
+                showToastNew(`✅ ${title} (ORO) + Stems añadidos`);
+            } else {
+                showToastNew(`✅ ${title} (ORO) añadido`);
+            }
+
             updateCart();
-            showToastNew(`✅ ${title} (${l.n}) añadido`);
+            hideStemsModal();
+        }
+
+        function addBeat(title, key) {
+            if (key === 'oro') {
+                showStemsModal(title);
+            } else {
+                const l = licDetails[key];
+                cart.push({ title, lic: l.n, price: l.m, usd: l.u, promo: l.p });
+                updateCart();
+                showToastNew(`✅ ${title} (${l.n}) añadido`);
+            }
         }
 
         function addService(name, mxn, usd) {
@@ -1261,7 +1378,14 @@
             resize(); init(); animate();
         }
 
-        window.onload = () => { render(); createParticles(); };
+        window.onload = () => {
+            render();
+            createParticles();
+
+            // Listeners del modal de stems
+            document.getElementById('stems-yes')?.addEventListener('click', () => confirmStems(true));
+            document.getElementById('stems-no')?.addEventListener('click', () => confirmStems(false));
+        };
     </script>
 </body>
 </html>
