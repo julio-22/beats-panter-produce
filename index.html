@@ -197,15 +197,21 @@
             text-align: center;
             margin-bottom: 50px;
         }
+
+        /* ──────────────────────────────────────────────── */
+        /*               MODIFICACIONES AQUÍ                */
+        /* ──────────────────────────────────────────────── */
+
         .beats-catalog-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 38px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
         }
+
         .beat-card-new {
             background: rgba(15,15,15,0.9);
             border: 1px solid rgba(255,215,0,0.2);
-            padding: 38px 26px;
+            padding: 28px 20px;
             border-radius: 18px;
             position: relative;
             overflow: hidden;
@@ -218,9 +224,10 @@
             box-shadow: var(--accent-glow), 0 40px 90px rgba(255,215,0,0.3);
             transform: scale(1.04);
         }
+
         .vinyl-hero-new {
-            width: 130px; height: 130px;
-            margin: 0 auto 24px;
+            width: 110px; height: 110px;
+            margin: 0 auto 20px;
             background: radial-gradient(circle at 35% 30%, #555, #111, #000);
             border-radius: 50%;
             display: flex;
@@ -230,28 +237,52 @@
             cursor: pointer;
             position: relative;
         }
+
         .vinyl-hero-new::after {
             content: 'play_arrow';
             font-family: 'Material Icons';
             color: var(--neon-gold);
-            font-size: 3rem;
+            font-size: 2.8rem;
             text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
         }
         .vinyl-hero-new.playing {
             animation: rotateVinyl 2.4s linear infinite;
         }
         .vinyl-hero-new.playing::after { content: 'pause'; }
-        
+
         @keyframes rotateVinyl { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        
+
         .beat-title-new {
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 1.6px;
-            font-size: 1.2rem;
-            margin: 12px 0;
+            letter-spacing: 1.4px;
+            font-size: 1.05rem;
+            margin: 10px 0;
             text-align: center;
         }
+
+        /* Mobile – más compacto y sin desbordes */
+        @media (max-width: 768px) {
+            .beats-catalog-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 18px;
+            }
+            .beat-card-new {
+                padding: 22px 16px;
+            }
+            .vinyl-hero-new {
+                width: 88px; height: 88px;
+                margin: 0 auto 16px;
+            }
+            .beat-title-new {
+                font-size: 0.98rem;
+            }
+        }
+
+        /* ──────────────────────────────────────────────── */
+        /*             FIN DE LAS MODIFICACIONES            */
+        /* ──────────────────────────────────────────────── */
+
         .lic-btn-stack-new {
             display: flex;
             flex-direction: column;
@@ -319,7 +350,7 @@
         }
         .iframe-container {
             width: 100%;
-            height: 80px; /* Tamaño optimizado */
+            height: 80px;
             border-radius: 8px;
             overflow: hidden;
             background: #000;
@@ -337,7 +368,7 @@
                 height: auto;
             }
             .iframe-container {
-                height: 120px; /* Más espacio en móvil para controles de Drive */
+                height: 120px;
             }
             .player-meta b { font-size: 0.9rem; }
         }
@@ -497,30 +528,32 @@
         .checkout-wa { width: 100%; padding: 18px; background: #fff; color: #000; border: none; font-weight: 900; cursor: pointer; margin-top: 20px; text-transform: uppercase; transition: 0.3s; }
         .checkout-wa:hover { background: var(--wa-green); color: #fff; }
         .hamburger { display: none; background: transparent; border: none; color: #fff; font-size: 2rem; cursor: pointer; }
+        
         .mobile-nav {
             display: none;
             position: fixed;
-            top: 70px;
+            top: 0;
             left: 0;
             width: 100%;
-            background: var(--bg-glass);
-            backdrop-filter: blur(25px);
+            height: 100vh;
+            background: var(--bg-black);
             flex-direction: column;
             align-items: center;
-            padding: 30px 5%;
-            gap: 25px;
-            z-index: 999;
-            border-top: 1px solid var(--grey-dark);
+            justify-content: center;
+            gap: 35px;
+            z-index: 2000;
         }
+        .mobile-nav.open { display: flex; }
         .mobile-nav a {
-            color: var(--text-grey);
+            color: #fff;
             text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
+            font-weight: 900;
+            font-size: 1.8rem;
             text-transform: uppercase;
-            transition: 0.3s;
+            letter-spacing: 3px;
         }
-        .mobile-nav a:hover { color: #fff; }
+        .close-mobile { position: absolute; top: 20px; right: 30px; font-size: 3rem; color: #fff; cursor: pointer; }
+
         @media (max-width: 992px) {
             .nav-links { display: none; }
             .hamburger { display: block; }
@@ -533,9 +566,6 @@
             .hero h1 { font-size: 3.2rem; }
             .studio-hand { font-size: 2.8rem; margin-top: -15px; }
             .btn-explore { padding: 14px 40px; font-size: 0.9rem; }
-            .beats-catalog-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
-            .beat-card-new { padding: 28px 20px; }
-            .vinyl-hero-new { width: 110px; height: 110px; }
             .cart-side { width: 100%; right: -100%; }
         }
     </style>
@@ -557,14 +587,15 @@
             <span id="cart-count">0 ITEMS</span>
             <div id="cart-badge-new" class="cart-badge-new">0</div>
         </div>
-        <button class="hamburger" onclick="toggleMobileNav()">☰</button>
+        <button class="hamburger" onclick="toggleMobileNav(true)">☰</button>
     </header>
 
     <nav id="mobile-nav" class="mobile-nav">
-        <a href="#catalog" onclick="toggleMobileNav()">Catálogo</a>
-        <a href="#services" onclick="toggleMobileNav()">Servicios</a>
-        <a href="#testimonials" onclick="toggleMobileNav()">Testimonios</a>
-        <a href="#contact" onclick="toggleMobileNav()">Contacto</a>
+        <span class="close-mobile" onclick="toggleMobileNav(false)">×</span>
+        <a href="#catalog" onclick="toggleMobileNav(false)">Catálogo</a>
+        <a href="#services" onclick="toggleMobileNav(false)">Servicios</a>
+        <a href="#testimonials" onclick="toggleMobileNav(false)">Testimonios</a>
+        <a href="#contact" onclick="toggleMobileNav(false)">Contacto</a>
     </nav>
 
     <div class="promo-banner" onclick="scrollToSection('licensing')">
@@ -576,9 +607,7 @@
             <p>90s Underground Style</p>
             <h1>BASE 0</h1>
             <div class="studio-hand">Studio</div>
-            <a class="btn-explore" onclick="scrollToSection('catalog')">
-               Explorar Catálogo
-            </a>
+            <a class="btn-explore" onclick="scrollToSection('catalog')">Explorar Catálogo</a>
         </div>
     </section>
 
@@ -667,22 +696,22 @@
         <div class="section-header"><h2>TESTIMONIOS</h2></div>
         <div class="testimonial-grid">
             <div class="test-card">
-                <img src="https://lh3.googleusercontent.com/d/13IeZ4IDS52JxAy_UL8IXSRWvOs9LKqI7" class="test-img" alt="Evidence">
+                <img src="https://lh3.googleusercontent.com/d/13IeZ4IDS52JxAy_UL8IXSRWvOs9LKqI7" class="test-img" alt="Testimonio 1">
                 <p>"Un honor formar parte de este gran proyecto con los grandes."</p>
                 <b>- KARTEL DE LAS CALLES (Tijuana, MX)</b>
             </div>
             <div class="test-card">
-                <img src="https://lh3.googleusercontent.com/d/1ikXZlai5DwtZj0EMXzke8np3hxvycik5" class="test-img" alt="Evidence">
+                <img src="https://lh3.googleusercontent.com/d/1ikXZlai5DwtZj0EMXzke8np3hxvycik5" class="test-img" alt="Testimonio 2">
                 <p>"🔥 Brutal el trabajo en los ritmos. Sonido puro de Guanatos."</p>
                 <b>- PINCHE BRUJO (Guadalajara, MX)</b>
             </div>
             <div class="test-card">
-                <img src="https://lh3.googleusercontent.com/u/0/d/1AYFhrW8KmmgaXDub95n8jUTXptwLWdXB=w800-h800-iv1" class="test-img" alt="Evidence">
+                <img src="https://lh3.googleusercontent.com/u/0/d/1AYFhrW8KmmgaXDub95n8jUTXptwLWdXB=w800-h800-iv1" class="test-img" alt="Testimonio 3">
                 <p>"Trabajando con los códigos de la vieja escuela. Calidad pura."</p>
                 <b>- MC LUKA (CDMX, MX)</b>
             </div>
             <div class="test-card">
-                <img src="https://lh3.googleusercontent.com/d/14IXaxNGNdhKoeeF1B9vwpeQBAcZeOu5S" class="test-img" alt="Evidence">
+                <img src="https://lh3.googleusercontent.com/d/14IXaxNGNdhKoeeF1B9vwpeQBAcZeOu5S" class="test-img" alt="Testimonio 4">
                 <p>"Calidad que se siente en cada barra. Representando el sureste con Base 0."</p>
                 <b>- LIL WACHO (Mérida, YUC)</b>
             </div>
@@ -711,7 +740,7 @@
             <div class="player-meta">
                 <div class="mini-art">💽</div>
                 <div>
-                    <b id="p-title" style="text-transform:uppercase; display:block;">Cargando...</b>
+                    <b id="p-title" style="text-transform:uppercase; display:block;">Selecciona un beat</b>
                     <small style="color:#aaa">BASE 0 Studio Preview</small>
                 </div>
             </div>
@@ -804,7 +833,7 @@
                     ]},
                     { name: "hard", beats: [
                         { title: "calle", drive: "1nZkBAjCBcsnKAwuCNk54Y6DttNZV84qJ" },
-                        { title: "Midnight", drive: "112BY7qbBx856UmynzxM-SToia_p6wb1w" },
+                        { title: "Midnight hard", drive: "112BY7qbBx856UmynzxM-SToia_p6wb1w" },
                         { title: "Noche en la Pista 2025", drive: "1rpivwd2rW7X00aAXy_exqqKhqlae1K1V" },
                         { title: "Noche", drive: "182uIK-KOSRMswwJEj5H_gyJV4BZANCmH" },
                         { title: "sin sombra", drive: "1mVRoxpdQd0N6xkX5Co6fEFiRk3bK8RXu" },
@@ -823,7 +852,7 @@
                         { title: "Cold Steel", drive: "10Z9-5upFuwaHgfP3muSUjGpS_z1uXWOl" },
                         { title: "Midnight Scrap Yard", drive: "185QEGKS71OnEVu5ZQtvf7ygI5PPhrg63" },
                         { title: "Midnight Scrap", drive: "1vw4K7yOcSPcin9RgdTYFtdRqoNCeLCFU" },
-                        { title: "Midnight", drive: "1U0iMGY4FQsV0pcEnVgTP8mcupRFzhMUw" },
+                        { title: "Midnight Detroit", drive: "1U0iMGY4FQsV0pcEnVgTP8mcupRFzhMUw" },
                         { title: "Penthouse in My Cup", drive: "1Fu76vh3xEMARCqxhG5TqZGwym9Y8onN6" },
                         { title: "Penthouse", drive: "1s6xye8ULKqoqU8F4qxISjeVbrOrtZoIq" },
                         { title: "SCRAP", drive: "1k-ZpiNVDSyn5JndF_evwHFS71iq9zD-V" },
@@ -885,7 +914,7 @@
                         { title: "Hallways", drive: "1PzxRaNi-QDL1mX8BfN0re4CdG6KVkrv3" },
                         { title: "Late-Night Attic Tapes", drive: "1WNr4nFkgSWFkJ8s14ZkHztwHRJLtoGAH" },
                         { title: "Midnight Station Dust", drive: "1w3uivN3gBlyb0nrc7q-21ZgDl8hPhzE2" },
-                        { title: "Midnight", drive: "1KjJZBCrSNdER509QvZfFdnGiy5vAHt-X" },
+                        { title: "Midnight Boombap", drive: "1KjJZBCrSNdER509QvZfFdnGiy5vAHt-X" },
                         { title: "Tapes", drive: "14J021Vv2vJE3zL40P2eYNDVPuDwBXniZ" }
                     ]},
                     { name: "rap mexa", beats: [
@@ -914,7 +943,7 @@
                         { title: "Sombras del olvido", drive: "1zcP1tCe3rMWWpBFdYSlcsZFM-xJdJ4Rh" },
                         { title: "Sombras en la Banqueta", drive: "1x-cwtbgufQ9xImUE09pO2HrlyKDREZWp" },
                         { title: "Sombras en la mente", drive: "1pWlDsRNXC92Slmjhnk2LYpM3hAcU9CDZ" },
-                        { title: "Sombras en la Pista", drive: "179ishObha9P9ytUq_f-D8OkwZbX6bA8L" }
+                        { title: "Sombras en la Pista Urbano", drive: "179ishObha9P9ytUq_f-D8OkwZbX6bA8L" }
                     ]},
                     { name: "type beat wu tang clan", beats: [
                         { title: "Basement Cipher", drive: "178KB3dgteqmVoq-w6BBq6lQ1M82Offte" },
@@ -922,7 +951,7 @@
                         { title: "Dark Stairwell Cipher", drive: "1_bLhy4oTXgY1WVqqjuF_TZK1ufJ6Ic0r" },
                         { title: "Dark", drive: "1rRR-ICpFdZg-yEigjZEUFSbmrvvRwOtq" },
                         { title: "Freight", drive: "1Zu8DIautRlmx-0zj1yHUz4gMazIGYrJ-" },
-                        { title: "Graveyard Cipher", drive: "1K5jk791znc7_2T662U_eLObBrlPxoHvy" },
+                        { title: "Graveyard Cipher Wu", drive: "1K5jk791znc7_2T662U_eLObBrlPxoHvy" },
                         { title: "Graveyard", drive: "1ACctw8pO2m3iFXP-BiJaqoXM6GQn9sQN" },
                         { title: "Subway Cipher", drive: "1dg7Tamx99Wl7LOFkVimnzKd9VmJmyI4N" },
                         { title: "subway", drive: "1_wzxYHRVDqn5bxh14bLaFCcO0CHq2_LQ" }
@@ -963,7 +992,7 @@
                         { title: "March", drive: "1TdXDFh-N-eRJHM3OHa-1IlYSEcyzJAZb" },
                         { title: "MARZO", drive: "1luuymNKg3w6J9jPIprefq0LzsaC5P8iW" },
                         { title: "Mi Barrio Brilla", drive: "1FMFbzlqp5Koq_tHGLsHQrvz0rMw7TlC1" },
-                        { title: "Sombras de Asfalto", drive: "1KfjLlndP80w_pPqSFC4h1QbFQy4mhoNI" },
+                        { title: "Sombras de Asfalto West", drive: "1KfjLlndP80w_pPqSFC4h1QbFQy4mhoNI" },
                         { title: "sombras", drive: "1jbqnRige4LPZ1jrUp7RVwGfO1PhttlkG" }
                     ]
                 }]
@@ -1008,17 +1037,13 @@
             }, 3000);
         }
 
-        // CORRECCIÓN: Función de scroll funcional
         function scrollToSection(id) {
             const el = document.getElementById(id);
             if (el) {
-                const headerOffset = 80;
-                const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
-                const offsetPosition = elementPosition - headerOffset;
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
+                const headerOffset = 90;
+                const elementPosition = el.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                window.scrollTo({ top: offsetPosition, behavior: "smooth" });
             }
         }
 
@@ -1058,8 +1083,7 @@
             if(!beats || beats.length === 0) return '<p style="padding:10px; font-size:10px; color:#333; text-align:center;">PRÓXIMAMENTE...</p>';
             return beats.map(b => `
                 <div class="beat-card-new">
-                    <div class="vinyl-hero-new" onclick="play('${b.title.replace(/'/g,"\\'")}', '${b.drive}', this)">
-                    </div>
+                    <div class="vinyl-hero-new" onclick="play('${b.title.replace(/'/g,"\\'")}', '${btoa(b.drive)}', this)"></div>
                     <div class="beat-title-new">${b.title}</div>
                     <div class="lic-btn-stack-new">
                         <button class="lic-btn-new" onclick="addBeat('${b.title.replace(/'/g,"\\'")}', 'bronce')">
@@ -1075,14 +1099,14 @@
                 </div>`).join('');
         }
 
-        // CORRECCIÓN: Reproductor con lógica de parada
-        function play(title, driveId, el) {
-            if (!driveId || driveId.trim() === "") {
+        function play(title, encodedDriveId, el) {
+            if (!encodedDriveId || encodedDriveId.trim() === "") {
                 alert("Vista previa no disponible");
                 return;
             }
             
-            // Si ya está sonando este mismo beat, lo paramos
+            const driveId = atob(encodedDriveId);
+
             if(el.classList.contains('playing')) {
                 stopBeat();
                 return;
@@ -1092,7 +1116,12 @@
             el.classList.add('playing');
             document.getElementById('p-title').textContent = title;
             document.getElementById('player-frame-container').innerHTML = `
-                <iframe src="https://drive.google.com/file/d/${driveId}/preview" allow="autoplay"></iframe>
+                <iframe 
+                    src="https://drive.google.com/file/d/${driveId}/preview" 
+                    allow="autoplay"
+                    sandbox="allow-scripts allow-same-origin"
+                    style="width:100%;height:100%;border:none;">
+                </iframe>
             `;
             document.getElementById('m-player').style.display = 'flex';
         }
@@ -1110,7 +1139,6 @@
             showToastNew(`✅ ${title} (${l.n}) añadido`);
         }
 
-        // CORRECCIÓN: Añadir servicios al pedido
         function addService(name, mxn, usd) {
             cart.push({ title: name, lic: 'SERVICIO PRO', price: mxn, usd: usd, promo: false });
             updateCart();
@@ -1156,9 +1184,13 @@
             document.getElementById('cart-side').classList.toggle('open', force);
         }
 
-        function toggleMobileNav() {
+        function toggleMobileNav(show) {
             const nav = document.getElementById('mobile-nav');
-            nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+            if(show) {
+                nav.classList.add('open');
+            } else {
+                nav.classList.remove('open');
+            }
         }
 
         function checkoutWA() {
