@@ -46,13 +46,17 @@
             mix-blend-mode: screen;
         }
         header {
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 18px 5%;
             background: var(--bg-glass);
             backdrop-filter: blur(32px);
             position: sticky; top: 0; z-index: 1000;
             border-bottom: 1px solid rgba(255,215,0,0.15);
             box-shadow: 0 8px 35px rgba(0,0,0,0.45);
+            flex-wrap: wrap;
+            gap: 15px;
         }
         .logo::before {
             content: "BASE 0";
@@ -61,6 +65,27 @@
             color: var(--neon-gold);
             text-shadow: var(--accent-glow), 0 0 70px #ffd700;
             letter-spacing: -4px;
+        }
+        .currency-selector {
+            display: flex;
+            background: rgba(255,215,0,0.12);
+            border-radius: 999px;
+            border: 1px solid rgba(255,215,0,0.3);
+            overflow: hidden;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+        .currency-selector button {
+            padding: 8px 16px;
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .currency-selector button.active {
+            background: var(--neon-gold);
+            color: black;
         }
         .nav-links { display: flex; gap: 32px; align-items: center; }
         .nav-links a {
@@ -94,7 +119,6 @@
             gap: 10px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.35);
             position: relative;
-            overflow: hidden;
         }
         .cart-trigger:hover { transform: scale(1.05); }
         .cart-badge-new {
@@ -284,17 +308,24 @@
             transition: 0.3s;
             text-transform: uppercase;
             text-decoration: none;
-            display: inline-block;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 68px;
+            gap: 3px;
         }
         .lic-btn-new:hover {
             background: var(--neon-gold);
             color: #000;
         }
-        .lic-btn-new span {
-            display: block;
-            font-size: 0.65rem;
-            opacity: 0.8;
+        .lic-btn-new .price-main {
+            font-size: 1.05rem;
+            font-weight: 900;
+        }
+        .lic-btn-new .price-equiv {
+            font-size: 0.68rem;
+            opacity: 0.75;
         }
         .master-player {
             position: fixed;
@@ -490,10 +521,12 @@
             font-weight: 900;
             color: var(--gold);
             margin: 20px 0;
+            line-height: 1.2;
         }
         .license-price small {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             opacity: 0.8;
+            display: block;
         }
         .license-features {
             list-style: none;
@@ -525,6 +558,19 @@
         .test-card b { display: block; margin-top: 15px; font-size: 0.8rem; color: #fff; letter-spacing: 1px; }
         .test-img { width: 100%; height: auto; border: 1px solid #333; border-radius: 4px; filter: grayscale(100%); transition: 0.3s; }
         .test-card:hover .test-img { filter: grayscale(0%); border-color: #fff; }
+        .yt-link {
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+        .yt-link a {
+            color: var(--neon-gold);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .yt-link a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
         .contact-section { text-align: center; padding: 100px 5%; background: rgba(0,0,0,0.9); }
         .social-links { display: flex; justify-content: center; gap: 30px; margin-top: 40px; flex-wrap: wrap; }
         .social-btn {
@@ -540,34 +586,72 @@
         .social-btn.wa-btn:hover { transform: scale(1.05); box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5); background: #20ba5a; }
         .social-btn.wa-btn img { height: 30px; width: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
         footer { background: var(--bg-black); padding: 40px 5%; text-align: center; border-top: 1px solid var(--grey-dark); color: var(--text-grey); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; }
-       
-        .cart-side { position: fixed; top: 0; right: -450px; width: 450px; height: 100%; background: #050505; z-index: 5000; transition: 0.5s ease; padding: 40px; border-left: 1px solid #1a1a1a; overflow-y: auto; }
+        .cart-side { 
+            position: fixed; 
+            top: 0; 
+            right: -450px; 
+            width: 450px; 
+            height: 100%; 
+            background: #050505; 
+            z-index: 5000; 
+            transition: right 0.5s ease; 
+            padding: 40px; 
+            border-left: 1px solid #1a1a1a; 
+            overflow-y: auto; 
+        }
         .cart-side.open { right: 0; }
-       
-        .checkout-wa { width: 100%; padding: 18px; background: #fff; color: #000; border: none; font-weight: 900; cursor: pointer; margin-top: 20px; text-transform: uppercase; transition: 0.3s; }
+        .checkout-wa { 
+            width: 100%; 
+            padding: 18px; 
+            background: #fff; 
+            color: #000; 
+            border: none; 
+            font-weight: 900; 
+            cursor: pointer; 
+            margin-top: 20px; 
+            text-transform: uppercase; 
+            transition: 0.3s; 
+        }
         .checkout-wa:hover { background: var(--wa-green); color: #fff; }
-       
-        /* PAYMENT SELECTOR STYLING */
         .payment-selector { margin-top: 20px; border-top: 1px solid #222; padding-top: 20px; }
-        .payment-selector label { display: block; font-size: 0.75rem; font-weight: 800; color: var(--gold); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .payment-selector label { 
+            display: block; 
+            font-size: 0.75rem; 
+            font-weight: 800; 
+            color: var(--gold); 
+            margin-bottom: 10px; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+        }
         .pay-option {
-            background: #111; border: 1px solid #333; padding: 12px; border-radius: 6px; margin-bottom: 8px;
-            cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s;
+            background: #111; 
+            border: 1px solid #333; 
+            padding: 12px; 
+            border-radius: 6px; 
+            margin-bottom: 8px;
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            transition: 0.3s;
         }
         .pay-option:hover { border-color: var(--gold); }
         .pay-option.selected { border-color: var(--gold); background: rgba(255,215,0,0.05); }
         .pay-option input { display: none; }
         .pay-option i { font-size: 1.2rem; color: var(--text-grey); }
         .pay-option.selected i { color: var(--gold); }
-       
         .bank-details-box {
-            background: #0a0a0a; border: 1px dashed var(--gold); padding: 15px; border-radius: 8px; margin-top: 15px;
-            display: none; text-align: left;
+            background: #0a0a0a; 
+            border: 1px dashed var(--gold); 
+            padding: 15px; 
+            border-radius: 8px; 
+            margin-top: 15px;
+            display: none; 
+            text-align: left;
         }
         .bank-details-box p { font-size: 0.8rem; margin-bottom: 5px; color: #ccc; }
         .bank-details-box b { color: #fff; letter-spacing: 1px; }
         .hamburger { display: none; background: transparent; border: none; color: #fff; font-size: 2rem; cursor: pointer; }
-       
         .mobile-nav {
             display: none;
             position: fixed;
@@ -604,7 +688,6 @@
             .btn-explore { padding: 14px 40px; font-size: 0.9rem; }
             .cart-side { width: 100%; right: -100%; }
         }
-        /* CATALOG TOOLBAR */
         .catalog-toolbar{
             display:flex;
             gap:14px;
@@ -629,7 +712,6 @@
                 width:100%;
             }
         }
-        /* Estilo extra para PayPal (opcional, combina con tu tema) */
         #paypal-button-container {
             margin: 20px 0;
             padding: 10px;
@@ -637,20 +719,30 @@
             border-radius: 8px;
             border: 1px solid var(--gold);
             min-height: 50px;
+            display: none; /* oculto por defecto */
         }
     </style>
 </head>
 <body>
+
     <canvas id="bg-particles"></canvas>
     <div id="toast-root-new" class="toast-container-new"></div>
+
     <header>
         <div class="logo"></div>
+
+        <div class="currency-selector">
+            <button data-currency="USD" class="active">USD</button>
+            <button data-currency="MXN">MXN</button>
+        </div>
+
         <nav class="nav-links">
             <a href="#catalog">Catálogo</a>
             <a href="#services">Servicios</a>
             <a href="#testimonials">Testimonios</a>
             <a href="#contact">Contacto</a>
         </nav>
+
         <div class="cart-trigger" onclick="toggleCart(true)">
             <span class="material-icons">shopping_bag</span>
             <span id="cart-count">0 ITEMS</span>
@@ -658,6 +750,7 @@
         </div>
         <button class="hamburger" onclick="toggleMobileNav(true)">☰</button>
     </header>
+
     <nav id="mobile-nav" class="mobile-nav">
         <span class="close-mobile" onclick="toggleMobileNav(false)">×</span>
         <a href="#catalog" onclick="toggleMobileNav(false)">Catálogo</a>
@@ -665,9 +758,11 @@
         <a href="#testimonials" onclick="toggleMobileNav(false)">Testimonios</a>
         <a href="#contact" onclick="toggleMobileNav(false)">Contacto</a>
     </nav>
+
     <div class="promo-banner" onclick="scrollToSection('licensing')">
         🔥 APROVECHA: 3X1 EN TODO EL CATÁLOGO (BRONCE Y PLATA) 🔥
     </div>
+
     <section class="hero">
         <div class="hero-content">
             <p>90s Underground Style</p>
@@ -676,12 +771,14 @@
             <a class="btn-explore" onclick="scrollToSection('catalog')">Explorar Catálogo</a>
         </div>
     </section>
+
     <section id="about">
         <div class="section-header"><h2>ORIGEN</h2></div>
         <p style="font-size: 1.4rem; color: var(--text-grey); max-width: 850px; font-weight: 300; margin: 0 auto; text-align: center;">
             <b>BASE 0</b> es el cimiento rítmico del hip-hop underground. Sonido con textura, grasa y autoridad. Vandalizamos el silencio con producciones de nivel industria inspiradas en los 90s.
         </p>
     </section>
+
     <section id="services">
         <div class="section-header"><h2>SERVICIOS PRO</h2></div>
         <div class="services-grid">
@@ -703,11 +800,12 @@
                 <i class="material-icons">brush</i>
                 <h3>BEATS A MEDIDA</h3>
                 <p>MXN $1,000 / USD $53.99</p>
-                <p style="font-size: 0.75rem;">Producciones exclusivas diseñadas desde cero para ti.<br><b>Stems (Opcional): +$18.50 USD / $350 MXN</b></p>
+                <p style="font-size: 0.75rem;">Producciones exclusivas diseñadas desde cero para ti.<br><b>Stems (Opcional): +$350 MXN / $18.50 USD</b></p>
                 <button class="checkout-wa" style="padding:10px; font-size:12px;" onclick="addService('BEAT EXCLUSIVO A MEDIDA', 1000, 53.99)">AÑADIR AL PEDIDO</button>
             </div>
         </div>
     </section>
+
     <section id="catalog">
         <div class="section-header"><h2>BEATS DE CATÁLOGO</h2></div>
         <div class="catalog-toolbar">
@@ -718,12 +816,13 @@
         </div>
         <div id="catalog-root"></div>
     </section>
+
     <section id="licensing">
         <div class="section-header"><h2>LICENCIAS DISPONIBLES</h2></div>
         <div class="licenses-grid">
             <div class="license-card">
                 <div class="license-title">BRONCE</div>
-                <div class="license-price">$18<span>.99</span> <small>USD</small></div>
+                <div class="license-price" id="price-bronce">$18.99 <small>USD</small><br><small>≈ $365 MXN</small></div>
                 <ul class="license-features">
                     <li>Uso en 1 pista (no exclusiva)</li>
                     <li>Distribución en plataformas digitales</li>
@@ -736,9 +835,10 @@
                     <button class="lic-btn-new" onclick="scrollToSection('catalog')">Elegir beats</button>
                 </div>
             </div>
+
             <div class="license-card popular">
                 <div class="license-title">PLATA</div>
-                <div class="license-price">$26<span>.99</span> <small>USD</small></div>
+                <div class="license-price" id="price-plata">$26.99 <small>USD</small><br><small>≈ $518 MXN</small></div>
                 <ul class="license-features">
                     <li>Uso en 1 pista (no exclusiva)</li>
                     <li>Distribución ilimitada en plataformas</li>
@@ -751,9 +851,10 @@
                     <button class="lic-btn-new" onclick="scrollToSection('catalog')">Elegir beats</button>
                 </div>
             </div>
+
             <div class="license-card">
                 <div class="license-title">ORO</div>
-                <div class="license-price">$53<span>.99</span> <small>USD</small></div>
+                <div class="license-price" id="price-oro">$53.99 <small>USD</small><br><small>≈ $1,037 MXN</small></div>
                 <ul class="license-features">
                     <li>Uso ilimitado (no exclusiva)</li>
                     <li>Derechos de publicación incluidos</li>
@@ -768,6 +869,7 @@
             </div>
         </div>
     </section>
+
     <section id="testimonials">
         <div class="section-header"><h2>TESTIMONIOS</h2></div>
         <div class="testimonial-grid">
@@ -775,24 +877,45 @@
                 <img src="https://lh3.googleusercontent.com/d/13IeZ4IDS52JxAy_UL8IXSRWvOs9LKqI7" class="test-img" alt="Testimonio 1">
                 <p>"Un honor formar parte de este gran proyecto con los grandes."</p>
                 <b>- KARTEL DE LAS CALLES (Tijuana, MX)</b>
+                <div class="yt-link">
+                    <a href="https://youtu.be/OQPpV7NtvXU?si=olRl7rt7UaAkDW3E" target="_blank">Ver en YouTube →</a>
+                </div>
             </div>
             <div class="test-card">
                 <img src="https://lh3.googleusercontent.com/d/1ikXZlai5DwtZj0EMXzke8np3hxvycik5" class="test-img" alt="Testimonio 2">
                 <p>"🔥 Brutal el trabajo en los ritmos. Sonido puro de Guanatos."</p>
-                <b>- PINCHE BRUJO (Guadalajara, MX)</b>
+                <b>- KING KAISER (El Pinche Brujo) (Guadalajara, MX)</b>
+                <div class="yt-link">
+                    <a href="https://youtu.be/9Ym6owlpCn4?si=nfXsNk3s87QKOKq6" target="_blank">Ver en YouTube →</a>
+                </div>
             </div>
             <div class="test-card">
                 <img src="https://lh3.googleusercontent.com/u/0/d/1AYFhrW8KmmgaXDub95n8jUTXptwLWdXB=w800-h800-iv1" class="test-img" alt="Testimonio 3">
                 <p>"Trabajando con los códigos de la vieja escuela. Calidad pura."</p>
                 <b>- MC LUKA (CDMX, MX)</b>
+                <div class="yt-link">
+                    <a href="https://youtu.be/dV-M_123rZs?si=dXvEMCTs2fR0CZfv" target="_blank">Ver en YouTube →</a>
+                </div>
             </div>
             <div class="test-card">
                 <img src="https://lh3.googleusercontent.com/d/14IXaxNGNdhKoeeF1B9vwpeQBAcZeOu5S" class="test-img" alt="Testimonio 4">
                 <p>"Calidad que se siente en cada barra. Representando el sureste con Base 0."</p>
                 <b>- LIL WACHO (Mérida, YUC)</b>
+                <div class="yt-link">
+                    <a href="https://youtu.be/9Ym6owlpCn4?si=nfXsNk3s87QKOKq6" target="_blank">Ver en YouTube →</a>
+                </div>
+            </div>
+            <div class="test-card">
+                <img src="https://drive.google.com/thumbnail?id=1Vpq5I0B04pZnZOern6h91ILFlXg2dQfi" class="test-img" alt="Costa Oeste Bandida - Wason Low Cali">
+                <p>"Sonido callejero con mucho flow. Base 0 le dio ese toque crudo que necesitábamos."</p>
+                <b>- Costa Oeste Bandida - Wason Low Cali (Originarios de Ensenada)</b>
+                <div class="yt-link">
+                    <a href="https://youtu.be/GNgkiWPINuQ?si=fz4jrFIw9xZ8BC2u" target="_blank">Ver en YouTube →</a>
+                </div>
             </div>
         </div>
     </section>
+
     <section id="contact" class="contact-section">
         <div class="section-header"><h2>CONTÁCTANOS</h2></div>
         <div class="social-links">
@@ -807,7 +930,10 @@
             </a>
         </div>
     </section>
+
     <footer>BASE 0 STUDIO - TODOS LOS DERECHOS RESERVADOS © 2026</footer>
+
+    <!-- Reproductor -->
     <div class="master-player" id="m-player">
         <div class="player-top-row">
             <div class="player-meta">
@@ -823,16 +949,19 @@
         </div>
         <div class="iframe-container" id="player-frame-container"></div>
     </div>
+
+    <!-- Carrito -->
     <div class="cart-side" id="cart-side">
         <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom:40px;">
             <h2 style="font-weight: 900;">TU PEDIDO</h2>
             <i class="material-icons" onclick="toggleCart(false)" style="cursor:pointer">close</i>
         </div>
+
         <div id="cart-items-list"></div>
-       
+
         <div class="payment-selector">
             <label>Método de Pago:</label>
-            <div class="pay-option" id="opt-transfer" onclick="selectPayment('transfer')">
+            <div class="pay-option selected" id="opt-transfer" onclick="selectPayment('transfer')">
                 <i class="material-icons">account_balance</i>
                 <div>
                     <b style="font-size: 0.8rem; display: block;">Transferencia / Depósito</b>
@@ -854,7 +983,6 @@
             </div>
         </div>
 
-        <!-- CONTENEDOR DEL BOTÓN PAYPAL -->
         <div id="paypal-button-container"></div>
 
         <div style="border-top: 1px solid #111; padding-top:20px; margin-top:20px;">
@@ -866,6 +994,8 @@
             <button class="checkout-wa" onclick="checkoutWA()">Enviar Cotización por WhatsApp</button>
         </div>
     </div>
+
+    <!-- Modal Stems -->
     <div id="stems-modal" class="stems-modal">
         <div class="stems-modal-content">
             <h3 style="color: var(--neon-gold); margin-bottom: 1.2rem; font-size: 1.4rem;">¿Deseas añadir los stems al pedido?</h3>
@@ -882,6 +1012,80 @@
     </div>
 
     <script>
+        // ────────────────────────────────────────────────
+        // CONFIGURACIÓN DE MONEDAS
+        // ────────────────────────────────────────────────
+        const EXCHANGE_RATE = 19.20;
+
+        let currentCurrency = localStorage.getItem('preferredCurrency') || 'USD';
+
+        const licensePrices = {
+            bronce: { usd: 18.99, mxn: 365 },
+            plata:  { usd: 26.99, mxn: 518 },
+            oro:    { usd: 53.99, mxn: 1037 }
+        };
+
+        function formatPrice(value, currency) {
+            if (currency === 'USD') {
+                return `$${value.toFixed(2)} <small>USD</small><br><small>≈ $${Math.round(value * EXCHANGE_RATE)} MXN</small>`;
+            }
+            return `$${Math.round(value)} <small>MXN</small><br><small>≈ $${(value / EXCHANGE_RATE).toFixed(2)} USD</small>`;
+        }
+
+        function updateLicensePrices() {
+            ['bronce','plata','oro'].forEach(key => {
+                const el = document.getElementById(`price-${key}`);
+                if (el) {
+                    const price = licensePrices[key][currentCurrency.toLowerCase()];
+                    el.innerHTML = formatPrice(price, currentCurrency);
+                }
+            });
+        }
+
+        function updateBeatButtons() {
+            document.querySelectorAll('.lic-btn-new').forEach(btn => {
+                const txt = btn.textContent.trim().toLowerCase();
+                let type = null;
+                if (txt.includes('bronce')) type = 'bronce';
+                else if (txt.includes('plata')) type = 'plata';
+                else if (txt.includes('oro')) type = 'oro';
+
+                if (type) {
+                    const p = licensePrices[type];
+                    const main = currentCurrency === 'USD' ? p.usd : p.mxn;
+                    const equiv = currentCurrency === 'USD' ? p.mxn : p.usd;
+                    const eqCur = currentCurrency === 'USD' ? 'MXN' : 'USD';
+
+                    const span = btn.querySelector('span');
+                    if (span) {
+                        span.innerHTML = `
+                            <div class="price-main">$${currentCurrency === 'USD' ? main.toFixed(2) : Math.round(main)} ${currentCurrency}</div>
+                            <div class="price-equiv">≈ $${currentCurrency === 'USD' ? Math.round(equiv) : equiv.toFixed(2)} ${eqCur}</div>
+                        `;
+                    }
+                }
+            });
+        }
+
+        function updateAllPrices() {
+            updateLicensePrices();
+            updateBeatButtons();
+        }
+
+        document.querySelectorAll('.currency-selector button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentCurrency = btn.dataset.currency;
+                localStorage.setItem('preferredCurrency', currentCurrency);
+                document.querySelectorAll('.currency-selector button').forEach(b => {
+                    b.classList.toggle('active', b.dataset.currency === currentCurrency);
+                });
+                updateAllPrices();
+            });
+        });
+
+        // ────────────────────────────────────────────────
+        // BASE DE DATOS (completa)
+        // ────────────────────────────────────────────────
         const database = [
             { name: "trap", subs: [
                 { name: "trap hard", beats: [
@@ -1097,16 +1301,94 @@
                 { title: "tu recuerdo", drive: "1csbAMeCyEELO90_gHNwWSSPrKN-pHcJR" }
             ]}]}
         ];
+
         const licDetails = {
             bronce: { n: 'BRONCE', m: 350, u: 18.99, p: true },
-            plata: { n: 'PLATA', m: 500, u: 26.99, p: true },
-            oro: { n: 'ORO', m: 1000, u: 53.99, p: false }
+            plata:  { n: 'PLATA',  m: 500, u: 26.99, p: true },
+            oro:    { n: 'ORO',    m: 1000, u: 53.99, p: false }
         };
+
         let cart = [];
         let pendingGoldBeat = null;
         const stemsPriceMXN = 350;
         const stemsPriceUSD = 18.50;
-        let selectedPaymentMethod = 'transfer'; // Default
+        let selectedPaymentMethod = 'transfer';
+
+        // ────────────────────────────────────────────────
+        // CONTROL DE PAYPAL – RENDERIZADO ÚNICO
+        // ────────────────────────────────────────────────
+        let paypalRendered = false;
+
+        function initPayPalButton() {
+            if (paypalRendered) return;
+            if (typeof paypal === 'undefined' || !paypal.Buttons) {
+                setTimeout(initPayPalButton, 500);
+                return;
+            }
+
+            paypal.Buttons({
+                style: {
+                    shape: 'rect',
+                    color: 'gold',
+                    layout: 'vertical',
+                    label: 'paypal'
+                },
+                createOrder: function(data, actions) {
+                    let totalUSD = 0;
+                    cart.forEach(item => totalUSD += item.usd);
+                    if (totalUSD <= 0) {
+                        alert('El carrito está vacío.');
+                        return actions.reject();
+                    }
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                currency_code: 'USD',
+                                value: totalUSD.toFixed(2)
+                            },
+                            description: 'Compra en BASE 0 Studio'
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        alert('¡Pago exitoso! Gracias ' + details.payer.name.given_name + ' 🎉');
+                        cart = [];
+                        updateCart();
+                        toggleCart(false);
+                    });
+                },
+                onCancel: function() {},
+                onError: function(err) {
+                    console.error('Error PayPal:', err);
+                    alert('Error al procesar el pago con PayPal. Intenta de nuevo o usa transferencia.');
+                }
+            }).render('#paypal-button-container');
+
+            paypalRendered = true;
+        }
+
+        // ────────────────────────────────────────────────
+        // TOGGLE CARRITO – ahora solo muestra/oculta
+        // ────────────────────────────────────────────────
+        function toggleCart(force) {
+            const side = document.getElementById('cart-side');
+            const paypalContainer = document.getElementById('paypal-button-container');
+
+            const shouldBeOpen = force !== false;
+
+            side.classList.toggle('open', shouldBeOpen);
+
+            if (shouldBeOpen) {
+                paypalContainer.style.display = 'block';
+            } else {
+                paypalContainer.style.display = 'none';
+            }
+        }
+
+        // ────────────────────────────────────────────────
+        // Resto de funciones (sin cambios relevantes)
+        // ────────────────────────────────────────────────
         function showToastNew(msg) {
             const root = document.getElementById('toast-root-new');
             const toast = document.createElement('div');
@@ -1118,6 +1400,7 @@
                 setTimeout(() => toast.remove(), 400);
             }, 3000);
         }
+
         function scrollToSection(id) {
             const el = document.getElementById(id);
             if (el) {
@@ -1127,78 +1410,68 @@
                 window.scrollTo({ top: offsetPosition, behavior: "smooth" });
             }
         }
+
         function selectPayment(method) {
             selectedPaymentMethod = method;
             document.getElementById('opt-transfer').classList.toggle('selected', method === 'transfer');
             document.getElementById('opt-online').classList.toggle('selected', method === 'online');
             document.getElementById('bank-box').style.display = method === 'transfer' ? 'block' : 'none';
         }
+
         function catalogFilter() {
-            const searchTerm = document.getElementById('catalogSearch').value.toLowerCase();
-            const subFilter = document.getElementById('catalogSub').value.toLowerCase();
-            const folders = document.querySelectorAll('.folder-main');
-            folders.forEach(folder => {
-                const folderName = folder.querySelector('.folder-header span').innerText.toLowerCase();
-                const subFolders = folder.querySelectorAll('.sub-folder');
-                let folderHasVisibleContent = false;
-                subFolders.forEach(sub => {
-                    const subName = sub.querySelector('.sub-header').innerText.toLowerCase();
-                    const beats = sub.querySelectorAll('.beat-card-new');
-                    let subHasVisibleBeats = false;
-                    const matchesSub = subFilter === "" || subName.includes(subFilter);
-                   
-                    beats.forEach(beat => {
-                        const title = beat.querySelector('.beat-title-new').innerText.toLowerCase();
-                        const matchesSearch = title.includes(searchTerm) || folderName.includes(searchTerm);
-                        if (matchesSub && matchesSearch) {
-                            beat.style.display = "block";
-                            subHasVisibleBeats = true;
-                        } else {
-                            beat.style.display = "none";
-                        }
+            const searchTerm = document.getElementById('catalogSearch')?.value.toLowerCase() || '';
+            const subFilter = document.getElementById('catalogSub')?.value.toLowerCase() || '';
+            document.querySelectorAll('.folder-main').forEach(folder => {
+                let visible = false;
+                folder.querySelectorAll('.sub-folder').forEach(sub => {
+                    let subVisible = false;
+                    sub.querySelectorAll('.beat-card-new').forEach(card => {
+                        const title = card.querySelector('.beat-title-new')?.textContent.toLowerCase() || '';
+                        const show = (!subFilter || sub.querySelector('.sub-header')?.textContent.toLowerCase().includes(subFilter)) &&
+                                     (!searchTerm || title.includes(searchTerm));
+                        card.style.display = show ? 'block' : 'none';
+                        if (show) subVisible = true;
                     });
-                    sub.style.display = subHasVisibleBeats ? "block" : "none";
-                    if(subHasVisibleBeats) folderHasVisibleContent = true;
+                    sub.style.display = subVisible ? 'block' : 'none';
+                    if (subVisible) visible = true;
                 });
-                folder.style.display = folderHasVisibleContent ? "block" : "none";
+                folder.style.display = visible ? 'block' : 'none';
             });
         }
+
         function initSubgenreSelect() {
             const select = document.getElementById('catalogSub');
-            const subSet = new Set();
-            database.forEach(f => {
-                if(f.subs) f.subs.forEach(s => subSet.add(s.name));
-            });
-            Array.from(subSet).sort().forEach(subName => {
+            if (!select) return;
+            const subs = new Set();
+            database.forEach(f => f.subs?.forEach(s => subs.add(s.name)));
+            [...subs].sort().forEach(name => {
                 const opt = document.createElement('option');
-                opt.value = subName;
-                opt.innerText = subName.toUpperCase();
+                opt.value = name;
+                opt.textContent = name.toUpperCase();
                 select.appendChild(opt);
             });
         }
+
         function render() {
             const root = document.getElementById('catalog-root');
+            if (!root) return;
             root.innerHTML = '';
             database.forEach((folder, i) => {
-                let html = `
-                <div class="folder-main" id="f-${i}">
+                let html = `<div class="folder-main" id="f-${i}">
                     <div class="folder-header" onclick="this.parentElement.classList.toggle('active')">
                         <span><i class="material-icons" style="vertical-align:middle">folder</i> ${folder.name}</span>
                         <i class="material-icons">add</i>
-                    </div>
-                    <div class="folder-content">`;
-               
-                if(folder.subs && folder.subs.length > 0) {
+                    </div><div class="folder-content">`;
+
+                if (folder.subs?.length) {
                     folder.subs.forEach((sub, si) => {
-                        html += `
-                        <div class="sub-folder" id="s-${i}-${si}">
+                        html += `<div class="sub-folder" id="s-${i}-${si}">
                             <div class="sub-header" onclick="this.parentElement.classList.toggle('active')">
                                 <i class="material-icons">folder_open</i> ${sub.name}
                             </div>
                             <div class="sub-content">
                                 <div class="beats-catalog-grid">${renderBeats(sub.beats)}</div>
-                            </div>
-                        </div>`;
+                            </div></div>`;
                     });
                 } else {
                     html += `<div class="beats-catalog-grid">${renderBeats(folder.beats || [])}</div>`;
@@ -1206,24 +1479,28 @@
                 html += `</div></div>`;
                 root.innerHTML += html;
             });
+            setTimeout(updateAllPrices, 100);
         }
+
         function renderBeats(beats) {
-            if(!beats || beats.length === 0) return '<p style="padding:10px; font-size:10px; color:#333; text-align:center;">PRÓXIMAMENTE...</p>';
+            if (!beats?.length) return '<p style="padding:10px; font-size:10px; color:#333; text-align:center;">PRÓXIMAMENTE...</p>';
             return beats.map(b => `
                 <div class="beat-card-new">
                     <div class="vinyl-hero-new" onclick="play('${b.title.replace(/'/g,"\\'")}', '${btoa(b.drive)}', this)"></div>
                     <div class="beat-title-new">${b.title}</div>
                     <div class="lic-btn-stack-new">
-                        <button class="lic-btn-new" onclick="addBeat('${b.title.replace(/'/g,"\\'")}', 'bronce')">BRONCE <span>$18.99 USD</span></button>
-                        <button class="lic-btn-new" onclick="addBeat('${b.title.replace(/'/g,"\\'")}', 'plata')">PLATA <span>$26.99 USD</span></button>
-                        <button class="lic-btn-new" onclick="addBeat('${b.title.replace(/'/g,"\\'")}', 'oro')">ORO <span>$53.99 USD</span></button>
+                        <button class="lic-btn-new" onclick="addBeat('${b.title.replace(/'/g,"\\'")}', 'bronce')">BRONCE <span></span></button>
+                        <button class="lic-btn-new" onclick="addBeat('${b.title.replace(/'/g,"\\'")}', 'plata')">PLATA <span></span></button>
+                        <button class="lic-btn-new" onclick="addBeat('${b.title.replace(/'/g,"\\'")}', 'oro')">ORO <span></span></button>
                     </div>
-                </div>`).join('');
+                </div>
+            `).join('');
         }
+
         function play(title, encodedDriveId, el) {
-            if (!encodedDriveId || encodedDriveId.trim() === "") return;
+            if (!encodedDriveId?.trim()) return;
             const driveId = atob(encodedDriveId);
-            if(el.classList.contains('playing')) { stopBeat(); return; }
+            if (el.classList.contains('playing')) return stopBeat();
             document.querySelectorAll('.vinyl-hero-new').forEach(v => v.classList.remove('playing'));
             el.classList.add('playing');
             document.getElementById('p-title').textContent = title;
@@ -1231,11 +1508,13 @@
                 <iframe src="https://drive.google.com/file/d/${driveId}/preview" allow="autoplay" sandbox="allow-scripts allow-same-origin" style="width:100%;height:100%;border:none;"></iframe>`;
             document.getElementById('m-player').style.display = 'flex';
         }
+
         function stopBeat() {
             document.getElementById('player-frame-container').innerHTML = '';
             document.getElementById('m-player').style.display = 'none';
             document.querySelectorAll('.vinyl-hero-new').forEach(v => v.classList.remove('playing'));
         }
+
         function confirmStems(wantStems) {
             if (!pendingGoldBeat) return;
             const { title } = pendingGoldBeat;
@@ -1250,144 +1529,120 @@
             updateCart();
             hideStemsModal();
         }
+
         function addBeat(title, key) {
             if (key === 'oro') {
                 pendingGoldBeat = { title };
                 document.getElementById('stems-modal').classList.add('show');
                 document.body.style.overflow = 'hidden';
-            } else {
-                const l = licDetails[key];
-                cart.push({ title, lic: l.n, price: l.m, usd: l.u, promo: l.p });
-                updateCart();
-                showToastNew(`✅ ${title} (${l.n}) añadido`);
+                return;
             }
+            const l = licDetails[key];
+            cart.push({ title, lic: l.n, price: l.m, usd: l.u, promo: l.p });
+            updateCart();
+            showToastNew(`✅ ${title} (${l.n}) añadido`);
         }
+
         function addService(name, mxn, usd) {
-            cart.push({ title: name, lic: 'SERVICIO PRO', price: mxn, usd: usd, promo: false });
+            cart.push({ title: name, lic: 'SERVICIO PRO', price: mxn, usd, promo: false });
             updateCart();
             showToastNew(`✅ ${name} añadido al pedido`);
         }
+
         function updateCart() {
-            document.getElementById('cart-count').innerText = `${cart.length} ITEMS`;
-            document.getElementById('cart-badge-new').innerText = cart.length;
-            document.getElementById('cart-badge-new').style.display = cart.length > 0 ? 'flex' : 'none';
+            const countEl = document.getElementById('cart-count');
+            const badgeEl = document.getElementById('cart-badge-new');
             const list = document.getElementById('cart-items-list');
+            const totalEl = document.getElementById('cart-total');
+            const promoEl = document.getElementById('promo-msg');
+
+            countEl.textContent = `${cart.length} ITEMS`;
+            badgeEl.textContent = cart.length;
+            badgeEl.style.display = cart.length > 0 ? 'flex' : 'none';
+
             list.innerHTML = '';
             let totalMXN = 0, totalUSD = 0;
-            cart.forEach((item, index) => {
+
+            cart.forEach((item, i) => {
                 totalMXN += item.price;
                 totalUSD += item.usd;
                 const div = document.createElement('div');
-                div.style = 'display:flex; justify-content:space-between; align-items:center; margin:10px 0; padding:12px; background:#111; border-radius:6px; border:1px solid #222;';
-                div.innerHTML = `<div><strong style="font-size:0.9rem;">${item.title}</strong><br><small style="color:var(--gold);">${item.lic} - $${item.usd} USD</small></div>
-                    <i class="material-icons" style="cursor:pointer; color:#ff4444;" onclick="removeFromCart(${index})">delete_outline</i>`;
+                div.style.cssText = 'display:flex; justify-content:space-between; align-items:center; margin:10px 0; padding:12px; background:#111; border-radius:6px; border:1px solid #222;';
+                div.innerHTML = `
+                    <div>
+                        <strong style="font-size:0.9rem;">${item.title}</strong><br>
+                        <small style="color:var(--gold);">${item.lic} - $${item.usd.toFixed(2)} USD</small>
+                    </div>
+                    <i class="material-icons" style="cursor:pointer; color:#ff4444;" onclick="removeFromCart(${i})">delete_outline</i>
+                `;
                 list.appendChild(div);
             });
-            document.getElementById('cart-total').textContent = `$${totalUSD.toFixed(2)} USD / $${totalMXN} MXN`;
+
+            totalEl.textContent = `$${totalUSD.toFixed(2)} USD / $${totalMXN} MXN`;
+
             const promoActive = cart.length >= 3 && cart.filter(i => i.promo).length >= 3;
-            document.getElementById('promo-msg').style.display = promoActive ? 'block' : 'none';
+            promoEl.style.display = promoActive ? 'block' : 'none';
         }
-        function removeFromCart(index) { cart.splice(index, 1); updateCart(); }
-        function toggleCart(force) { document.getElementById('cart-side').classList.toggle('open', force); }
-        function toggleMobileNav(show) { document.getElementById('mobile-nav').classList.toggle('open', show); }
-        function hideStemsModal() { document.getElementById('stems-modal').classList.remove('show'); document.body.style.overflow = ''; pendingGoldBeat = null; }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function hideStemsModal() {
+            document.getElementById('stems-modal').classList.remove('show');
+            document.body.style.overflow = '';
+            pendingGoldBeat = null;
+        }
+
         function checkoutWA() {
-            if (cart.length === 0) { alert("Tu carrito está vacío."); return; }
-           
-            let totalMXN = 0, totalUSD = 0, itemsList = [];
-            let promoCount = cart.filter(i => i.promo).length;
-            let promoActive = promoCount >= 3;
-           
+            if (!cart.length) return alert("Tu carrito está vacío.");
+
+            let totalMXN = 0, totalUSD = 0, items = [];
+            const promoActive = cart.length >= 3 && cart.filter(i => i.promo).length >= 3;
+
             cart.forEach(item => {
                 totalMXN += item.price;
                 totalUSD += item.usd;
-                itemsList.push(`• ${item.title} (${item.lic}) → $${item.usd} USD`);
+                items.push(`• ${item.title} (${item.lic}) → $${item.usd.toFixed(2)} USD`);
             });
-            const paymentText = selectedPaymentMethod === 'transfer'
-                ? 'TRANSFERENCIA / DEPÓSITO (BBVA)'
-                : 'TARJETA / PAYPAL';
-            const bankInstructions = selectedPaymentMethod === 'transfer'
-                ? '\n\n💳 DATOS BBVA:\nTitular: BASE CERO ESTUDIO\nTarjeta: 4152 3145 5220 8277\nConcepto: Base 0 Studio BBVA\n\n⚠️ COMPARTIRÉ EL COMPROBANTE POR AQUÍ UNA VEZ LISTO.'
-                : '\n\n⚠️ SOLICITO ENLACE DE PAGO EN LÍNEA.';
-            const mensaje = `¡Hola! Quiero finalizar este pedido desde BASE 0 Studio:\n\n${itemsList.join('\n')}\n\n${promoActive ? '🔥 OFERTA 3X1 APLICADA (Bronce/Plata)\n' : ''}TOTAL: $${totalUSD.toFixed(2)} USD / $${totalMXN} MXN\n\nMÉTODO DE PAGO: ${paymentText}${bankInstructions}`;
-           
-            window.open(`https://wa.me/524775874578?text=${encodeURIComponent(mensaje)}`, '_blank');
+
+            const payment = selectedPaymentMethod === 'transfer' ? 'TRANSFERENCIA / DEPÓSITO (BBVA)' : 'TARJETA / PAYPAL';
+
+            const bankInfo = selectedPaymentMethod === 'transfer' ? `
+💳 DATOS BBVA:
+Titular: BASE CERO ESTUDIO
+Tarjeta: 4152 3145 5220 8277
+Concepto: Base 0 Studio BBVA
+
+⚠️ COMPARTIRÉ EL COMPROBANTE POR AQUÍ UNA VEZ LISTO.` : `
+⚠️ SOLICITO ENLACE DE PAGO EN LÍNEA.`;
+
+            const msg = `¡Hola! Quiero finalizar este pedido desde BASE 0 Studio:
+
+${items.join('\n')}
+
+${promoActive ? '🔥 OFERTA 3X1 ACTIVADA (Bronce/Plata)\n' : ''}TOTAL: $${totalUSD.toFixed(2)} USD / $${totalMXN} MXN
+
+MÉTODO DE PAGO: ${payment}${bankInfo}`;
+
+            window.open(`https://wa.me/524775874578?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        // ────────────────────────────────────────────────
-        //           INTEGRACIÓN PAYPAL - SOLO AGREGADO
-        // ────────────────────────────────────────────────
-        function initPayPalButton() {
-            if (typeof paypal === 'undefined' || !paypal.Buttons) {
-                console.warn('PayPal SDK no está cargado todavía');
-                return;
-            }
-
-            paypal.Buttons({
-                style: {
-                    shape: 'rect',
-                    color: 'gold',
-                    layout: 'vertical',
-                    label: 'paypal'
-                },
-
-                createOrder: function(data, actions) {
-                    let totalUSD = 0;
-                    cart.forEach(item => totalUSD += item.usd);
-
-                    if (totalUSD <= 0) {
-                        alert('El carrito está vacío.');
-                        return actions.reject();
-                    }
-
-                    return actions.order.create({
-                        purchase_units: [{
-                            amount: {
-                                currency_code: 'USD',
-                                value: totalUSD.toFixed(2)
-                            },
-                            description: 'Compra en BASE 0 Studio'
-                        }]
-                    });
-                },
-
-                onApprove: function(data, actions) {
-                    return actions.order.capture().then(function(details) {
-                        alert('¡Pago exitoso! Gracias ' + details.payer.name.given_name + ' 🎉');
-                        cart = [];
-                        updateCart();
-                        toggleCart(false);
-                    });
-                },
-
-                onCancel: function() {
-                    // El usuario canceló - no hacemos nada especial
-                },
-
-                onError: function(err) {
-                    console.error('Error PayPal:', err);
-                    alert('Error al procesar el pago con PayPal. Intenta de nuevo o usa transferencia.');
-                }
-
-            }).render('#paypal-button-container');
+        function toggleMobileNav(show) {
+            document.getElementById('mobile-nav').classList.toggle('open', show);
         }
-
-        // Renderizamos el botón cuando se abre el carrito
-        const originalToggle = toggleCart;
-        toggleCart = function(force) {
-            originalToggle(force);
-            if (document.getElementById('cart-side').classList.contains('open')) {
-                // Pequeño retraso para asegurar que el contenedor esté en el DOM
-                setTimeout(initPayPalButton, 300);
-            }
-        };
-        // ────────────────────────────────────────────────
 
         function createParticles() {
             const canvas = document.getElementById('bg-particles');
             const ctx = canvas.getContext('2d');
             let particles = [];
-            function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
             class Particle {
                 constructor() {
                     this.x = Math.random() * canvas.width;
@@ -1397,35 +1652,63 @@
                     this.speedY = Math.random() * 0.5 - 0.25;
                 }
                 update() {
-                    this.x += this.speedX; this.y += this.speedY;
+                    this.x += this.speedX;
+                    this.y += this.speedY;
                     if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
                     if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
                 }
                 draw() {
                     ctx.fillStyle = 'rgba(255,215,0,0.6)';
-                    ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
                 }
             }
-            function init() { particles = []; for (let i = 0; i < 80; i++) particles.push(new Particle()); }
+
+            function init() {
+                particles = [];
+                for (let i = 0; i < 80; i++) particles.push(new Particle());
+            }
+
             function animate() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 particles.forEach(p => { p.update(); p.draw(); });
                 requestAnimationFrame(animate);
             }
+
             window.addEventListener('resize', resize);
-            resize(); init(); animate();
+            resize();
+            init();
+            animate();
         }
-        window.onload = () => {
+
+        // ────────────────────────────────────────────────
+        // INICIALIZACIÓN
+        // ────────────────────────────────────────────────
+        window.addEventListener('load', () => {
             render();
             initSubgenreSelect();
             createParticles();
-            selectPayment('transfer'); // Iniciar con transferencia por defecto
+            selectPayment('transfer');
+
             document.getElementById('stems-yes')?.addEventListener('click', () => confirmStems(true));
             document.getElementById('stems-no')?.addEventListener('click', () => confirmStems(false));
-        };
+
+            // Moneda guardada
+            const saved = localStorage.getItem('preferredCurrency');
+            if (saved && ['USD','MXN'].includes(saved)) {
+                currentCurrency = saved;
+                document.querySelector(`.currency-selector button[data-currency="${saved}"]`)?.classList.add('active');
+            }
+
+            updateAllPrices();
+
+            // Render PayPal UNA SOLA VEZ
+            initPayPalButton();
+        });
     </script>
 
-    <!-- SDK de PayPal - REEMPLAZA CON TU CLIENT ID REAL DE MODO LIVE -->
+    <!-- PayPal SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=AbNRj3n1KSvQO1iTC0FINBshC5qe297frqOUFbEdkoH-OVe-uqSsNurWKjEkltQEH3iVBSP9K_pxw-9i&currency=USD&components=buttons"></script>
 
 </body>
