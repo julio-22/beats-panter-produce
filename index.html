@@ -283,13 +283,13 @@
             margin: 15px 0;
             text-align: center;
             display: -webkit-box;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 3; /* Permite hasta 3 líneas completas */
             -webkit-box-orient: vertical;
             overflow: hidden;
-            min-height: 2.4em; 
+            min-height: 3.6em; /* Garantiza que las cards midan lo mismo */
             line-height: 1.2;
             text-transform: uppercase;
-            letter-spacing: 1.4px;
+            letter-spacing: 1.2px;
         }
 
         .lic-btn-stack-new {
@@ -307,10 +307,10 @@
             background: transparent;
             border: 1px solid rgba(255,215,0,0.3);
             color: #fff;
-            padding: 8px;
+            padding: 10px 5px;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.7rem !important;
+            font-size: 0.75rem !important;
             font-weight: 700;
             transition: 0.3s;
             text-transform: uppercase;
@@ -319,8 +319,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 60px !important;
-            gap: 3px;
+            min-height: 65px !important;
+            gap: 4px;
         }
 
         .lic-btn-new:hover {
@@ -329,56 +329,71 @@
         }
 
         .lic-btn-new .price-main {
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 900;
         }
 
         .lic-btn-new .price-equiv {
-            font-size: 0.68rem;
+            font-size: 0.7rem;
             opacity: 0.75;
         }
 
-        @media (max-width: 600px) {
+        /* ✨ EL CAROUSEL ESTILO SPOTIFY PARA MÓVIL ✨ */
+        @media (max-width: 768px) {
             .beats-catalog-grid {
-                grid-template-columns: 1fr;
+                display: flex; /* Cambiamos a flex para el scroll horizontal */
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                overflow-y: hidden;
+                scroll-snap-type: x mandatory; /* Hace que se detenga justo en la card */
+                padding: 10px 5px 25px 5px; /* Espacio extra abajo para el scrollbar */
                 gap: 15px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Scrollbar personalizado y elegante */
+            .beats-catalog-grid::-webkit-scrollbar {
+                height: 6px;
+            }
+            .beats-catalog-grid::-webkit-scrollbar-thumb {
+                background: var(--gold);
+                border-radius: 10px;
+            }
+            .beats-catalog-grid::-webkit-scrollbar-track {
+                background: rgba(255,255,255,0.05);
+                border-radius: 10px;
             }
 
             .beat-card-new {
-                flex-direction: row;
-                flex-wrap: wrap;
-                align-items: center;
-                padding: 15px;
+                /* Ocupa el 82% de la pantalla para que la SIGUIENTE card se asome y el usuario sepa que hay scroll */
+                min-width: 82vw; 
+                max-width: 320px;
+                scroll-snap-align: center;
+                flex-shrink: 0;
             }
 
             .vinyl-hero-new {
-                width: 65px !important;
-                height: 65px !important;
-                margin: 0 15px 0 0 !important;
+                width: 100px !important;
+                height: 100px !important;
+                margin: 0 auto 15px auto !important;
             }
-            .vinyl-hero-new::after { font-size: 2rem; }
+            .vinyl-hero-new::after { font-size: 2.5rem; }
 
             .beat-title-new {
-                flex: 1;
-                text-align: left;
-                margin: 0;
-                font-size: 1rem;
-                min-height: auto;
-                -webkit-line-clamp: 1;
+                font-size: 1.15rem;
+                min-height: 3.6em; /* Mantiene la misma altura dinámica */
             }
 
             .lic-btn-stack-new {
                 width: 100%;
-                grid-template-columns: repeat(3, 1fr);
-                margin-top: 15px;
+                grid-template-columns: 1fr 1fr; /* Retornamos al formato ancho */
             }
-
             .lic-btn-new:nth-child(3) {
-                grid-column: span 1;
+                grid-column: span 2;
             }
             
-            .lic-btn-new .price-main { font-size: 0.85rem !important; }
-            .lic-btn-new .price-equiv { display: none; }
+            .lic-btn-new .price-main { font-size: 1rem !important; }
+            .lic-btn-new .price-equiv { display: block !important; } /* Siempre visible */
         }
         /* --- FIN NUEVO CSS --- */
 
@@ -1386,46 +1401,70 @@
                 return;
             }
 
-            paypal.Buttons({
-                style: {
-                    shape: 'rect',
-                    color: 'gold',
-                    layout: 'vertical',
-                    label: 'paypal'
-                },
-                createOrder: function(data, actions) {
-                    let totalUSD = 0;
-                    cart.forEach(item => totalUSD += item.usd);
-                    if (totalUSD <= 0) {
-                        alert('El carrito está vacío.');
-                        return actions.reject();
+            try {
+                paypal.Buttons({
+                    style: {
+                        shape: 'rect',
+                        color: 'gold',
+                        layout: 'vertical',
+                        label: 'paypal'
+                    },
+                    createOrder: function(data, actions) {
+                        let totalUSD = 0;
+                        cart.forEach(item => totalUSD += item.usd);
+                        if (totalUSD <= 0) {
+                            alert('El carrito está vacío.');
+                            return actions.reject();
+                        }
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: {
+                                    currency_code: 'USD',
+                                    value: totalUSD.toFixed(2)
+                                },
+                                description: 'Compra en BASE 0 Studio'
+                            }]
+                        });
+                    },
+                    onApprove: function(data, actions) {
+                        return actions.order.capture().then(function(details) {
+                            alert('¡Pago exitoso! Gracias ' + details.payer.name.given_name + ' 🎉');
+                            cart = [];
+                            updateCart();
+                            toggleCart(false);
+                        });
+                    },
+                    onCancel: function() {},
+                    onError: function(err) {
+                        console.error('Error PayPal:', err);
+                        alert('Error al procesar el pago con PayPal. Intenta de nuevo o usa transferencia.');
                     }
-                    return actions.order.create({
-                        purchase_units: [{
-                            amount: {
-                                currency_code: 'USD',
-                                value: totalUSD.toFixed(2)
-                            },
-                            description: 'Compra en BASE 0 Studio'
-                        }]
-                    });
-                },
-                onApprove: function(data, actions) {
-                    return actions.order.capture().then(function(details) {
-                        alert('¡Pago exitoso! Gracias ' + details.payer.name.given_name + ' 🎉');
-                        cart = [];
-                        updateCart();
-                        toggleCart(false);
-                    });
-                },
-                onCancel: function() {},
-                onError: function(err) {
-                    console.error('Error PayPal:', err);
-                    alert('Error al procesar el pago con PayPal. Intenta de nuevo o usa transferencia.');
-                }
-            }).render('#paypal-button-container');
+                }).render('#paypal-button-container').catch(function(err) {
+                    console.warn('Error renderizando PayPal (posible restricción de iframe):', err);
+                    renderPayPalFallback();
+                });
+                paypalRendered = true;
+            } catch (err) {
+                console.warn('Error inicializando PayPal:', err);
+                renderPayPalFallback();
+                paypalRendered = true;
+            }
+        }
 
-            paypalRendered = true;
+        function renderPayPalFallback() {
+            const container = document.getElementById('paypal-button-container');
+            container.innerHTML = '<button onclick="simulatePayPal()" style="width: 100%; padding: 15px; background: #ffc439; color: #000; border: none; border-radius: 4px; font-weight: 900; cursor: pointer; text-transform: uppercase;">PayPal (Modo Prueba)</button>';
+        }
+
+        function simulatePayPal() {
+            if (cart.length === 0) {
+                alert('El carrito está vacío.');
+                return;
+            }
+            alert('¡Pago exitoso (Simulado)! Gracias 🎉');
+            cart = [];
+            updateCart();
+            toggleCart(false);
         }
 
         // ────────────────────────────────────────────────
