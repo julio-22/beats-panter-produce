@@ -134,6 +134,12 @@
                         <h3 class="text-lg font-black flex items-center gap-2"><span class="material-icons gold-text">view_list</span> CATÁLOGO DE BEATS</h3>
                         <span id="total-beats" class="bg-gray-800 text-xs font-bold px-3 py-1 rounded-full text-white">0 Beats</span>
                     </div>
+
+                    <!-- Buscador de Beats -->
+                    <div class="mb-6 relative">
+                        <i class="material-icons absolute left-3 top-2.5 text-gray-500">search</i>
+                        <input type="text" id="search-beat" onkeyup="filterBeats()" placeholder="Buscar beat por nombre..." class="w-full py-2 pl-10 pr-4 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
+                    </div>
                     
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm text-white">
@@ -185,7 +191,6 @@
             const password = document.getElementById('password').value;
             const errorEl = document.getElementById('login-error');
             const submitBtn = document.getElementById('submit-btn');
-            const originalText = submitBtn.textContent;
             
             // Estado de carga
             submitBtn.textContent = 'CARGANDO...';
@@ -208,7 +213,6 @@
                     errorEl.classList.remove('hidden');
                 } else {
                     console.log("Sesión iniciada correctamente.");
-                    // El onAuthStateChange ocultará el form de login automáticamente
                 }
             } catch (err) {
                 console.error("Error inesperado:", err);
@@ -255,16 +259,29 @@
             categories.forEach(c => catOptions += `<option value="${c.id}">${c.name.toUpperCase()}</option>`);
             catSelects.forEach(select => select.innerHTML = catOptions);
 
-            // Actualizar tabla de beats
+            // Mostrar todos los beats inicialmente usando la función de filtro
+            filterBeats();
+        }
+
+        // --- SISTEMA DE BÚSQUEDA Y RENDERIZADO DE TABLA ---
+
+        function filterBeats() {
+            const searchInput = document.getElementById('search-beat');
+            const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
             const tbody = document.getElementById('beats-table-body');
-            document.getElementById('total-beats').textContent = `${beats.length} Beats`;
             
-            if (beats.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-gray-500">No hay beats en el catálogo.</td></tr>';
+            // Filtrar beats por nombre
+            const filteredBeats = beats.filter(b => b.title.toLowerCase().includes(searchTerm));
+            
+            document.getElementById('total-beats').textContent = `${filteredBeats.length} Beats`;
+            
+            if (filteredBeats.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-gray-500">No se encontraron beats.</td></tr>';
                 return;
             }
 
-            tbody.innerHTML = beats.map(b => {
+            // Renderizar la tabla con los beats filtrados
+            tbody.innerHTML = filteredBeats.map(b => {
                 const subName = b.subcategories?.name || 'Sin Subgénero';
                 const catName = b.subcategories?.categories?.name || 'Desconocido';
                 
@@ -273,7 +290,7 @@
                         <td class="p-3 font-bold">${b.title}</td>
                         <td class="p-3 text-xs text-gray-400">${catName.toUpperCase()} > ${subName}</td>
                         <td class="p-3 text-right">
-                            <button onclick="deleteBeat('${b.id}', '${b.title.replace(/'/g,"\\'")}')" class="text-red-500 hover:text-red-400 p-2">
+                            <button onclick="deleteBeat('${b.id}', '${b.title.replace(/'/g,"\\'")}')" class="text-red-500 hover:text-red-400 p-2" title="Eliminar beat">
                                 <span class="material-icons text-sm">delete</span>
                             </button>
                         </td>
