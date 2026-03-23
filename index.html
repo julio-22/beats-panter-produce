@@ -6,6 +6,10 @@
     <title>BASE 0 Studio | Beatmaking, Mix & Mastering</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- SDK de Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
         :root {
             --bg-black: #000000;
@@ -221,7 +225,7 @@
             margin-bottom: 50px;
         }
         
-        /* --- NUEVO CSS PARA BEATS RESPONSIVE --- */
+        /* --- CSS PARA BEATS RESPONSIVE --- */
         .beats-catalog-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -283,10 +287,10 @@
             margin: 15px 0;
             text-align: center;
             display: -webkit-box;
-            -webkit-line-clamp: 3; /* Permite hasta 3 líneas completas */
+            -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            min-height: 3.6em; /* Garantiza que las cards midan lo mismo */
+            min-height: 3.6em;
             line-height: 1.2;
             text-transform: uppercase;
             letter-spacing: 1.2px;
@@ -338,7 +342,7 @@
             opacity: 0.75;
         }
 
-        /* ✨ EL CAROUSEL CON FLECHAS Y SOMBRAS ESTILO SPOTIFY PARA MÓVIL ✨ */
+        /* CAROUSEL CON FLECHAS Y SOMBRAS ESTILO SPOTIFY PARA MÓVIL */
         .carousel-wrapper {
             position: relative;
             width: 100%;
@@ -375,10 +379,9 @@
         }
 
         @media (max-width: 768px) {
-            .scroll-btn { display: flex; } /* Mostrar flechas en móvil */
-            .scroll-btn.right { animation: pulseArrow 2s infinite; } /* Llamada a la acción */
+            .scroll-btn { display: flex; }
+            .scroll-btn.right { animation: pulseArrow 2s infinite; }
 
-            /* Sombras laterales para indicar desbordamiento visual */
             .carousel-wrapper::before {
                 content: '';
                 position: absolute;
@@ -399,21 +402,19 @@
             }
 
             .beats-catalog-grid {
-                display: flex; /* Cambiamos a flex para el scroll horizontal */
+                display: flex;
                 flex-wrap: nowrap;
                 overflow-x: auto;
                 overflow-y: hidden;
-                scroll-snap-type: x mandatory; /* Hace que se detenga justo en la card */
-                padding: 10px 45px 25px 35px; /* Espacio extra a los lados para las flechas */
+                scroll-snap-type: x mandatory;
+                padding: 10px 45px 25px 35px;
                 gap: 15px;
                 -webkit-overflow-scrolling: touch;
             }
 
-            /* Scrollbar oculto o minimalista */
             .beats-catalog-grid::-webkit-scrollbar { height: 0px; display: none; }
 
             .beat-card-new {
-                /* Ocupa el 85% de la pantalla */
                 min-width: 85vw; 
                 max-width: 320px;
                 scroll-snap-align: center;
@@ -429,21 +430,20 @@
 
             .beat-title-new {
                 font-size: 1.15rem;
-                min-height: 3.6em; /* Mantiene la misma altura dinámica */
+                min-height: 3.6em;
             }
 
             .lic-btn-stack-new {
                 width: 100%;
-                grid-template-columns: 1fr 1fr; /* Retornamos al formato ancho */
+                grid-template-columns: 1fr 1fr;
             }
             .lic-btn-new:nth-child(3) {
                 grid-column: span 2;
             }
             
             .lic-btn-new .price-main { font-size: 1rem !important; }
-            .lic-btn-new .price-equiv { display: block !important; } /* Siempre visible */
+            .lic-btn-new .price-equiv { display: block !important; }
         }
-        /* --- FIN NUEVO CSS --- */
 
         @media (max-width: 768px) {
             .hero h1 { font-size: 3.5rem; letter-spacing: -2px; }
@@ -937,7 +937,9 @@
                 <option value="">Todos los subgéneros</option>
             </select>
         </div>
-        <div id="catalog-root"></div>
+        <div id="catalog-root">
+            <p style="text-align:center; padding: 40px; color: var(--gold); font-weight: 900;">Cargando catálogo desde la base de datos...</p>
+        </div>
     </section>
 
     <section id="licensing">
@@ -1136,6 +1138,68 @@
 
     <script>
         // ────────────────────────────────────────────────
+        // CONFIGURACIÓN SUPABASE (BACKEND)
+        // ────────────────────────────────────────────────
+        
+        // ¡¡¡ ATENCIÓN !!! NUNCA PONGAS TU CONTRASEÑA DE BASE DE DATOS AQUÍ.
+        // Solo necesitas el Project URL y tu ANON KEY.
+        
+        // 1. Aquí se ingresó correctamente el ID de tu proyecto generado
+        const SUPABASE_URL = 'https://bltlprtphzejinwqdwdo.supabase.co'; 
+        
+        // 2. Tu clave pública anónima de Supabase
+        const SUPABASE_ANON_KEY = 'sb_publishable_h-6mJS9NZhgPZtY2HwMLmA_rxWThIqu';
+        
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // La base de datos local ahora empieza vacía
+        let database = [];
+
+        // Función para cargar los datos dinámicamente
+        async function fetchCatalogFromSupabase() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('categories')
+                    .select(`
+                        name,
+                        subs:subcategories (
+                            name,
+                            beats:beats (title, drive_id)
+                        )
+                    `);
+
+                if (error) throw error;
+
+                // Adaptamos la respuesta de Supabase para que funcione exactamente 
+                // con tu código original sin tener que cambiar nada del HTML/CSS
+                if (data && data.length > 0) {
+                    database = data.map(category => ({
+                        name: category.name,
+                        subs: category.subs.map(sub => ({
+                            name: sub.name,
+                            beats: sub.beats.map(beat => ({
+                                title: beat.title,
+                                drive: beat.drive_id // Se mapea drive_id a drive
+                            }))
+                        }))
+                    }));
+                }
+
+                // Una vez obtenidos los datos, dibujamos el catálogo
+                render();
+                initSubgenreSelect();
+                updateAllPrices();
+
+            } catch (err) {
+                console.error("Error al cargar el catálogo de Supabase:", err);
+                const root = document.getElementById('catalog-root');
+                if (root) {
+                    root.innerHTML = '<p style="text-align:center; padding: 40px; color: #ff4444; font-weight: 900;">Error al conectar con la base de datos. Verifica tu conexión a internet o tus claves de Supabase.</p>';
+                }
+            }
+        }
+
+        // ────────────────────────────────────────────────
         // CONFIGURACIÓN DE MONEDAS
         // ────────────────────────────────────────────────
         const EXCHANGE_RATE = 19.20;
@@ -1207,224 +1271,8 @@
         });
 
         // ────────────────────────────────────────────────
-        // BASE DE DATOS (completa)
+        // CONFIGURACIÓN GENERAL / CARRITO
         // ────────────────────────────────────────────────
-        const database = [
-            { name: "trap", subs: [
-                { name: "trap hard", beats: [
-                    { title: "Callejón 140", drive: "1lVcE4vc8dwNAZ24elDU4UkhdPDj9PJPP" },
-                    { title: "Cero Respeto", drive: "1gvu-UhbkcCF34EpARA6IyG8Cmp5db-k8" },
-                    { title: "Dosis de Asfalto", drive: "1R7VlDQ74wktkXEqn_OOSmviXfteliMZf" },
-                    { title: "Efecto Narcótico", drive: "1YLjmQnWSFPq1V4TDXKR6nMubr-822i9h" },
-                    { title: "Frenesí 808", drive: "1ymCZYZo7pywYnphQxFhPAOmiQ4IfgCnC" },
-                    { title: "Instinto de Caza", drive: "1mPOKhP1pUnb7h6lSkLWBldByi-rqC4nJ" },
-                    { title: "Mandíbula de Hierro", drive: "1lJ0U8URua0u_sVTjyx2JpNdat7sOcemL" },
-                    { title: "Pánico en el Bloque", drive: "14NT8R1mlHZUU3SiHTLw8Xd73KVniQQKr" },
-                    { title: "SIN PIEDAD", drive: "1M3kP172qbkLy942tw0zvcaZFa56qLUbN" },
-                    { title: "Voltaje Negro", drive: "1SrqFW2k-N6zscC8LgBZCxlJqjGx_TKVg" }
-                ]},
-                { name: "trap fresh", beats: [
-                    { title: "acoustic beat", drive: "1qtQKuZJ65MTY0ArEBuBs4xB2gwhBQSA9" },
-                    { title: "cell night", drive: "1YiF3FAWV_-MBL514mQxMSRPShkmn_Yie" },
-                    { title: "Grin With shit", drive: "1LrQGvq5jDbKswfscm9hOyFfibJqFGdye" },
-                    { title: "Grin With The fam", drive: "18BlqzI-Pf8LB_38bovwntFSFIia0YecR" },
-                    { title: "Grin With The Fangs", drive: "1GB0PCOSja6iZUWwj1FXWohq8QsOjINeq" },
-                    { title: "guitar fresh", drive: "1a9ZAr2boRNs-hlaLjCl189RJkuEphrdn" },
-                    { title: "Moonlit Bounce", drive: "1ewQ-VIuP6qFXT19ITKD6v7oc767belXM" },
-                    { title: "Moonlit moon", drive: "1QJFzs3cyVGsAgckem6uY82iGmY9eSp59" },
-                    { title: "Shadow Black", drive: "1Xlo0iKEMP604h-z9bNfGxB_Mo9JtHCnE" },
-                    { title: "Shadow Bounce", drive: "175ovzle5w_AJprZkkhyXOqfILAN6XAn9" }
-                ]},
-                { name: "trap pluck", beats: [
-                    { title: "Bailando en Silencio", drive: "1D1suzV9JkMXOTEtiKmL4RMJTvafs_-LM" },
-                    { title: "cuando", drive: "1WlD7W_pdMHuV1O_XeQzAC5BW3aKoYZAL" },
-                    { title: "Dame despacio", drive: "1-i3IMk5L03cBXQFk26ZkCFqDGNDioUPE" },
-                    { title: "de ti", drive: "1w9Ks1LaE9fLP1dI1td-XzJlk2D8PRB00" },
-                    { title: "donde", drive: "1WH_JfsUqc7ig17kc3vehtKwHFDS04BEJ" },
-                    { title: "entre tus labios", drive: "1-3t-CDDHaQg7IlQ2H9D2oYYu2U1Nh-yo" },
-                    { title: "entre tus sombras", drive: "1x-WM-Kyv37-_2IeTDTB7aWu030dSz-_l" },
-                    { title: "noches", drive: "1Czo-WRYqHTsErz24E5ags52h0DZ_OLPX" },
-                    { title: "por mi", drive: "1_la37kwIClXN8KVJusIwWlhI3nrtqBr1" },
-                    { title: "Ritmo en tu piel", drive: "1pk8QBvU9wS7PhyMIm4sauKuTkhc0mFG8" }
-                ]}
-            ]},
-            { name: "corridos tumbados", subs: [{ name: "tumbados pro", beats: [
-                { title: "Ausencia", drive: "1Mk-pvQfR5mfagPZLONGLGTK9HI5kRQa6" },
-                { title: "Bajo las Estrellas", drive: "1C5Dxc15qD51UmavV5S3IhWr_nYF0ckT_" },
-                { title: "Calle y Nostalgia", drive: "1-lMerGNnqy2ZQQbQsexWLmMABwMPtQgf" },
-                { title: "Carretera de Recuerdos", drive: "17nmSQmmxh4ONuBnCrn9tlrvNeS57tDnd" },
-                { title: "carretera", drive: "1dTroqrXLy8gzH672c297dozbreAWxVkL" },
-                { title: "Cima del Recuerdo", drive: "18W_OiLW_AqiP9gnIF9ofQ2Dc5UTcd9Vn" },
-                { title: "cima", drive: "1mepSbfUBn-smJLT-VLPisvMbCGut7fL7" },
-                { title: "Corrido de Lujo en 128", drive: "1f9QZ1F8lXBl408WO2e6ciRf_qiJ2yk_N" },
-                { title: "Lágrimas en la 12 Cuerdas", drive: "1oUfDr-NxPE-lZ-7aXKDZmzhIms3V7bVU" },
-                { title: "Lágrimas", drive: "1qe9QHV2pSUDhOQGuJx-jKkWi1Pzbukph" },
-                { title: "rosa", drive: "1faYx874pzmNwEql9bstmOVPxmMv40lEg" },
-                { title: "Under the Dusty Sky", drive: "1jKtV-uT0EFdClN-14ohJd2agFr4Qqqjs" },
-                { title: "under", drive: "17wBS_feuXYYErrCuWeL5C0_hLBgBszvM" },
-                { title: "Velocidad en el Pecho", drive: "1xEu_wQUnCFXJ9gUs8hptAjT6rNW_SLQ6" }
-            ]}]},
-            { name: "denbow", subs: [
-                { name: "fresh", beats: [
-                    { title: "Caribbean Heatwave", drive: "1jYNkQX0PMqo2aaFvR7sxIhPHF5qf6HsO" },
-                    { title: "Midnight On The Malecón", drive: "1AGyWiLueMqNyY6LscaJf7BkJNhzBB7AC" },
-                    { title: "Midnight", drive: "1caKY6dnGjiFR8BOcXNaNZ7ZbvOJC4bsb" },
-                    { title: "Sol de Mañana", drive: "1UtIM7El9QsStJnD0EfoQL3KBzrV_1ZAs" },
-                    { title: "sol", drive: "1i4mHVLkBbAxMALncfAqG31karYvGYN2Z" },
-                    { title: "Sun On Your Hips", drive: "1XCu99liEk3KwbwcYHqx7_D-2Z-BO6aLq" }
-                ]},
-                { name: "hard", beats: [
-                    { title: "calle", drive: "1nZkBAjCBcsnKAwuCNk54Y6DttNZV84qJ" },
-                    { title: "Midnight hard", drive: "112BY7qbBx856UmynzxM-SToia_p6wb1w" },
-                    { title: "Noche en la Pista 2025", drive: "1rpivwd2rW7X00aAXy_exqqKhqlae1K1V" },
-                    { title: "Noche", drive: "182uIK-KOSRMswwJEj5H_gyJV4BZANCmH" },
-                    { title: "sin sombra", drive: "1mVRoxpdQd0N6xkX5Co6fEFiRk3bK8RXu" },
-                    { title: "Sombras En La Disco", drive: "1aLyGNey2PJVCHnK0iCRR-tDMdS5pnCQh" },
-                    { title: "Sombras frías", drive: "17BeBEHK5hPRCcj6KSa-orz-zFgTpLtg5" }
-                ]}
-            ]},
-            { name: "detroit", subs: [{ name: "Detroit Style", beats: [
-                { title: "Champagne", drive: "1Fqj8gdUdnp9rwgee_EHcNVG5cbDnbyoQ" },
-                { title: "Cold Steel Circles", drive: "1tlaqgI6-CSuqknUv9lS8gS9mFJZDyZB9" },
-                { title: "Cold Steel", drive: "10Z9-5upFuwaHgfP3muSUjGpS_z1uXWOl" },
-                { title: "Midnight Scrap Yard", drive: "185QEGKS71OnEVu5ZQtvf7ygI5PPhrg63" },
-                { title: "Midnight Scrap", drive: "1vw4K7yOcSPcin9RgdTYFtdRqoNCeLCFU" },
-                { title: "Midnight Detroit", drive: "1U0iMGY4FQsV0pcEnVgTP8mcupRFzhMUw" },
-                { title: "Penthouse in My Cup", drive: "1Fu76vh3xEMARCqxhG5TqZGwym9Y8onN6" },
-                { title: "Penthouse", drive: "1s6xye8ULKqoqU8F4qxISjeVbrOrtZoIq" },
-                { title: "SCRAP", drive: "1k-ZpiNVDSyn5JndF_evwHFS71iq9zD-V" },
-                { title: "Skyline Champagne", drive: "1BchiBBa5K_dmkAkWUN1HY7GEJA5s26wb" },
-                { title: "visión", drive: "1FhbejrrdOYn8W-IStDqv2hp0c7EhriF7" }
-            ]}]},
-            { name: "drill-uk", subs: [{ name: "UK Drill Style", beats: [
-                { title: "Air In My fam", drive: "1jA1vNSKOtDPQyW0sxgkqBeQAtOpTQ1oN" },
-                { title: "Air In My Lungs", drive: "14flfvTs-giWq-0z9XOSNQ8DTQdq0XkPJ" },
-                { title: "Cold brain", drive: "17BQu5v3NmQh3Sd4MjuC7AyITz_QyavOH" },
-                { title: "Cold in the Ends", drive: "1btpsQ6CSZoLuJ6wKZe9OreNzX4McyLtJ" },
-                { title: "Cold in the mind", drive: "10hai37SuS16SgjUZ1vVTqSqf1fMIE61L" },
-                { title: "Cold Steps", drive: "1INgUHXwPT_oTE7-Gw9D6SuhjRj4vCujU" },
-                { title: "Night dreams", drive: "1aOITe4apDCS5wsC8KbBXvVlKoWOm6F0V" },
-                { title: "Night Shift on My Block", drive: "1P47sJRLCrdJzrnRGmMmmc6h1KFyYNeTm" },
-                { title: "Shadow in My Hood", drive: "1LNocOYLC-AChzFxVa3TQZ9DZA7gRrCtT" },
-                { title: "Shadow in My main", drive: "10ZN2QRZylFGn3uqAkTFOpgDEL2-FQPbJ" }
-            ]}]},
-            { name: "boombap", subs: [
-                { name: "hardcore", beats: [
-                    { title: "Blood on the Backroom Floor", drive: "1sSZfd_kIggK2zOTJcwbZvaZvb8Srg7-k" },
-                    { title: "Back Alley Riot Loops", drive: "1RbsNMcKc87RlBCMZBQbSSYIk2yFCD0_D" },
-                    { title: "Back Alley Uprising", drive: "1qpMaOpbpFjZ1wfyR_ewfLyLG4ILc8-_s" },
-                    { title: "Back out", drive: "1JMuSvyzhJrCJ4B82Sqw93-1TkyBFyK9z" },
-                    { title: "black shadow", drive: "1kTFG88IHx8Lu8ouF0qxjeUNfQnEZ9c9y" },
-                    { title: "calle prendida", drive: "1dcDiHqZVeA6B1H1eL94Ct0Jem75m7bJd" },
-                    { title: "Graveyard Cipher", drive: "1ydoo46WOfCT0V3a0d4r30g7duHgR-vUv" },
-                    { title: "Grime Under the Overpass", drive: "1F8Mbh-jMdRNZXvkhnrArSVIwGmbrB7oG" },
-                    { title: "ritmo bajo", drive: "1HG-MJokBVLsm5w213L7xXGJZdc1ILDMv" },
-                    { title: "transe hard", drive: "1JzCaKGsrK99BzbPoHhhAOyDlB2kfk93V" },
-                    { title: "under look", drive: "1k9yRXRbv41KxCcPpEeFwJJ8_4BxPHwkL" }
-                ]},
-                { name: "jazz-boombap", beats: [
-                    { title: "back", drive: "1U99C7IGlL1u8yPpHHV6LExgo0sWPKpFs" },
-                    { title: "Crates of Tomorrow", drive: "1HUbOHkOExBlQ60QFgKiMCL-_CXz9fq8T" },
-                    { title: "Dreams", drive: "14l62pmqbJKmn5fwBYFjr-J_-nXPMYY1b" },
-                    { title: "elegancia", drive: "1cypLxsR91zw6I2UyfbykHPdxPe2sXUwn" },
-                    { title: "Golden Hours, Concrete Dreams", drive: "1OJjvl0SLpJIa5Fjm9dmh3dbh14XvZD5N" },
-                    { title: "Golden Steps", drive: "1Ly8VYEOR5VzY5R1O1NFNS-kiBqoFSosg" },
-                    { title: "Hood", drive: "18CbKT61GdCbME3MuyU_VADSYWefQimHJ" },
-                    { title: "Soul Steps at 92", drive: "14eUxXB7JzuDkg7JI7zixAs7ePA_FRdPW" },
-                    { title: "Street", drive: "10s7DNqHS7Q4mjtKnRBMUw9pF8XMbTTMp" },
-                    { title: "Tomorrow", drive: "1y5qviTxLg-AV9q-MUuKnZIEzI0GkZCE_" },
-                    { title: "88", drive: "1Pcg6gZ10jXwUUKYPkPBorhtIJqQP-0m6" },
-                    { title: "Asfalto", drive: "1g70pSwfpBrhdbrJSUHDsMH_xgBiqLDr4" },
-                    { title: "Cicatrices del Asfalto", drive: "1IhIRIL0X4tmGctpGXjfANVBuJI1KeSou" },
-                    { title: "Dust", drive: "1ZCDp-y83RzWJ0atNZTQ7GsQtmeJozXVw" },
-                    { title: "Glass Hallways", drive: "10yUFRKHVckX5l39f2zGGv_7bZ3tCXVHv" },
-                    { title: "Hallways", drive: "1PzxRaNi-QDL1mX8BfN0re4CdG6KVkrv3" },
-                    { title: "Late-Night Attic Tapes", drive: "1WNr4nFkgSWFkJ8s14ZkHztwHRJLtoGAH" },
-                    { title: "Midnight Station Dust", drive: "1w3uivN3gBlyb0nrc7q-21ZgDl8hPhzE2" },
-                    { title: "Midnight Boombap", drive: "1KjJZBCrSNdER509QvZfFdnGiy5vAHt-X" },
-                    { title: "Tapes", drive: "14J021Vv2vJE3zL40P2eYNDVPuDwBXniZ" }
-                ]},
-                { name: "rap mexa", beats: [
-                    { title: "Bajo Mundo raro", drive: "1TZpCxUT-WZhIYVXcHRvTbJPTRR9koIk0" },
-                    { title: "Bajo Mundo Sermón", drive: "1V5c1LKBygXcADtx_hfl1iya9w8SodI_d" },
-                    { title: "Barrio Coronado", drive: "1icGoJSzf4g5A8mOl14_MXMIcX_vu_FS2" },
-                    { title: "Barrio disfrazado", drive: "1hKTYwZLgv6jKf7v0eqp2-f95zJBkPXKR" },
-                    { title: "Cicatrices en el alma", drive: "1YrSIi_Uq6Yd1Nvr81P57mKKaGh9at8bo" },
-                    { title: "Cicatrices en la Tarima", drive: "125UcU3eD-P2FDbmEu-OFzuVsIgt844E2" },
-                    { title: "Rey de mi zona", drive: "1sWUUIccOArO5HE4CWVTAd-wdaIhrGXoV" },
-                    { title: "Rey Del Asfalto", drive: "1CJLHsL85UYzHbqJOMvPtShYNjtIhnq3p" },
-                    { title: "Rey Del barrio", drive: "1WkoYHFAd1v__3F-uDMlGHcAiBduBCM8U" },
-                    { title: "Rey del Pavimento", drive: "1AY5cflalXQvDxFkFXMvCZJtpVaf-XCNM" }
-                ]},
-                { name: "rap urbano", beats: [
-                    { title: "Barrio en el olvido", drive: "1Aafa17XRDvnVbUTkryemuBvULGIf8xFl" },
-                    { title: "Barrio en la Memoria", drive: "1affa850ZC2Ptt0dSJ7M9-6fF4siM5vii" },
-                    { title: "Barrio en Llamas", drive: "1KT9lenpU93X16lvcl_EThUd3fH1eNLs6" },
-                    { title: "Barrio en sinfonía", drive: "1Q06IhkPv7Vcwuh3RTOrOc3l_Gze8hyUf" },
-                    { title: "Barrio Luminoso", drive: "1qqdzA3320qRi9XvTWwrG2E4dUibD8HOE" },
-                    { title: "Barrio Symphony", drive: "1iT9m62C0qvhUBp9cA0dCF5qBSMHm3Ua2" },
-                    { title: "Carta Que Nunca Envié", drive: "18G-GLCizgQ_-1HiU0YjfamGIs5pKTnHG" },
-                    { title: "Glass Corridor Reverie", drive: "1wD6tFJcaw5Zsl-tmqPCl7gxotX58Dp_v" },
-                    { title: "Sombras del Asfalto", drive: "18ggTOdLU9FVxl5_iraAwZZbl1eGtCVLM" },
-                    { title: "Sombras del Ayer", drive: "1QPZeVWEjDLJXVNji4nRWFKZLx2Ng9N70" },
-                    { title: "Sombras del olvido", drive: "1zcP1tCe3rMWWpBFdYSlcsZFM-xJdJ4Rh" },
-                    { title: "Sombras en la Banqueta", drive: "1x-cwtbgufQ9xImUE09pO2HrlyKDREZWp" },
-                    { title: "Sombras en la mente", drive: "1pWlDsRNXC92Slmjhnk2LYpM3hAcU9CDZ" },
-                    { title: "Sombras en la Pista Urbano", drive: "179ishObha9P9ytUq_f-D8OkwZbX6bA8L" }
-                ]},
-                { name: "type beat wu tang clan", beats: [
-                    { title: "Basement Cipher", drive: "178KB3dgteqmVoq-w6BBq6lQ1M82Offte" },
-                    { title: "Cipher", drive: "1v20iT7Hm0KLeADcw6DcxhW8qr6vSvkDe" },
-                    { title: "Dark Stairwell Cipher", drive: "1_bLhy4oTXgY1WVqqjuF_TZK1ufJ6Ic0r" },
-                    { title: "Dark", drive: "1rRR-ICpFdZg-yEigjZEUFSbmrvvRwOtq" },
-                    { title: "Freight", drive: "1Zu8DIautRlmx-0zj1yHUz4gMazIGYrJ-" },
-                    { title: "Graveyard Cipher Wu", drive: "1K5jk791znc7_2T662U_eLObBrlPxoHvy" },
-                    { title: "Graveyard", drive: "1ACctw8pO2m3iFXP-BiJaqoXM6GQn9sQN" },
-                    { title: "Subway Cipher", drive: "1dg7Tamx99Wl7LOFkVimnzKd9VmJmyI4N" },
-                    { title: "subway", drive: "1_wzxYHRVDqn5bxh14bLaFCcO0CHq2_LQ" }
-                ]}
-            ]},
-            { name: "rnb", subs: [{ name: "R&B Vibe", beats: [
-                { title: "Checkout", drive: "1t5E2EAXbQt0jTrcKk8B0Wze5KlMJfS7t" },
-                { title: "Late Checkout", drive: "1CLwvSEGeMRhTYorIaMdVNPgjwv-vfMXK" },
-                { title: "Late Night Glow", drive: "1tkXyjpPJyShVeu63AzgmDNQtqjjXKx6D" },
-                { title: "Late Night sad", drive: "16HcTFIpswxK2i0y3oxm2b7JPMJ2okc68" },
-                { title: "late", drive: "1LBKaztRcZJnMS4srgcLAFUCcLQAkBCet" },
-                { title: "Slow Motion August", drive: "1Qb0af9QGhhh2L0sCcIgr7o6Qscx21jOw" },
-                { title: "Slow Motion", drive: "1loR1iadr5B61FXvOuHuM8K1TTE6DdtLv" },
-                { title: "Velvet flawless", drive: "1m1mA-XShfmMUvUitUvu8Qm3VXB1EP7JX" },
-                { title: "Velvet Moonlight", drive: "1PEg-s6bkxjTdKZhrL2_blCg2-BMHGAv7" }
-            ]}]},
-            { name: "west coast", subs: [{ name: "West Coast", beats: [
-                { title: "Bajo De Neón", drive: "1Sh-M72pRa-cB5vzsKasOy_yAJjdjf_dH" },
-                { title: "Bajo La Lluvia Del Barrio", drive: "1-AW66Nyyuplv1DnOD2D67hR46iC-_-Bi" },
-                { title: "Barrio Nocturno", drive: "1YoBzOaTCQbAO6vGjOzMsarE08PKWXut9" },
-                { title: "Boulevard Halo", drive: "1rwOjoWfFP2RSnUMRH_NwPQpId-ODu7lD" },
-                { title: "Cold Hood Stare", drive: "1xRW6396k3_0QT42ye81v6XF19JMXCjom" },
-                { title: "cold", drive: "1wjLt_XstQQMTNv580qedia8IQaRAAEZe" },
-                { title: "Concrete Jungle Funeral March", drive: "1nVYeM9Wjt07cYNWcMxiC9Qje9lpdu8Wk" },
-                { title: "Concrete", drive: "16uO5WYBfveD0zEHV5ARC6rUFEYCQq9WW" },
-                { title: "Jungle", drive: "1VM_CDdBkiZNiosISwKegoTwjjBSCfKYR" },
-                { title: "March", drive: "1TdXDFh-N-eRJHM3OHa-1IlYSEcyzJAZb" },
-                { title: "MARZO", drive: "1luuymNKg3w6J9jPIprefq0LzsaC5P8iW" },
-                { title: "Mi Barrio Brilla", drive: "1FMFbzlqp5Koq_tHGLsHQrvz0rMw7TlC1" },
-                { title: "Sombras de Asfalto West", drive: "1KfjLlndP80w_pPqSFC4h1QbFQy4mhoNI" },
-                { title: "sombras", drive: "1jbqnRige4LPZ1jrUp7RVwGfO1PhttlkG" }
-            ]}]},
-            { name: "bachata", subs: [{ name: "bachata style", beats: [
-                { title: "Bailando en Silencio", drive: "142xW9w8Y1IH8SsF8BgZMMLTk_1TcOmPs" },
-                { title: "Dame Despacio", drive: "1iQ0SO8-IXb8J0t2ivZqftG3Tk8sJqZN7" },
-                { title: "Entre Tus Labios", drive: "1wtQYj_4vsXrylhnR-miHuOmuAWRIKL2J" },
-                { title: "Entre Tus Sombras", drive: "1gQ5e5trOnidDrENMVP1PtWFdzkw3Qkg-" },
-                { title: "lento", drive: "1gblzd_jWiGekykl0fnL43nhaxfbNXDBb" },
-                { title: "Ritmo en Tu Piel", drive: "17e7Z-CUm1OEA2M93hqZ293u8LIU8rw7s" },
-                { title: "Ritmo", drive: "1uRnpd1NiHOC3NXM-rQRb3EaBv_VVW31f" },
-                { title: "silencio", drive: "1Hc8cwLYXVQGcGj4c6WBrFQzrjV2N7DTQ" },
-                { title: "tu piel", drive: "1cVAs_8bnbNSfCF-c3yVDxZCuGHS7jCyC" },
-                { title: "tu recuerdo", drive: "1csbAMeCyEELO90_gHNwWSSPrKN-pHcJR" }
-            ]}]}
-        ];
-
         const licDetails = {
             bronce: { n: 'BRONCE', m: 350, u: 18.99, p: true },
             plata:  { n: 'PLATA',  m: 500, u: 26.99, p: true },
@@ -1437,9 +1285,6 @@
         const stemsPriceUSD = 18.50;
         let selectedPaymentMethod = 'transfer';
 
-        // ────────────────────────────────────────────────
-        // CONTROL DE PAYPAL – RENDERIZADO ÚNICO
-        // ────────────────────────────────────────────────
         let paypalRendered = false;
 
         function initPayPalButton() {
@@ -1451,12 +1296,7 @@
 
             try {
                 paypal.Buttons({
-                    style: {
-                        shape: 'rect',
-                        color: 'gold',
-                        layout: 'vertical',
-                        label: 'paypal'
-                    },
+                    style: { shape: 'rect', color: 'gold', layout: 'vertical', label: 'paypal' },
                     createOrder: function(data, actions) {
                         let totalUSD = 0;
                         cart.forEach(item => totalUSD += item.usd);
@@ -1466,10 +1306,7 @@
                         }
                         return actions.order.create({
                             purchase_units: [{
-                                amount: {
-                                    currency_code: 'USD',
-                                    value: totalUSD.toFixed(2)
-                                },
+                                amount: { currency_code: 'USD', value: totalUSD.toFixed(2) },
                                 description: 'Compra en BASE 0 Studio'
                             }]
                         });
@@ -1488,7 +1325,7 @@
                         alert('Error al procesar el pago con PayPal. Intenta de nuevo o usa transferencia.');
                     }
                 }).render('#paypal-button-container').catch(function(err) {
-                    console.warn('Error renderizando PayPal (posible restricción de iframe):', err);
+                    console.warn('Error renderizando PayPal:', err);
                     renderPayPalFallback();
                 });
                 paypalRendered = true;
@@ -1515,9 +1352,6 @@
             toggleCart(false);
         }
 
-        // ────────────────────────────────────────────────
-        // TOGGLE CARRITO – ahora solo muestra/oculta
-        // ────────────────────────────────────────────────
         function toggleCart(force) {
             const side = document.getElementById('cart-side');
             const paypalContainer = document.getElementById('paypal-button-container');
@@ -1525,17 +1359,9 @@
             const shouldBeOpen = force !== false;
 
             side.classList.toggle('open', shouldBeOpen);
-
-            if (shouldBeOpen) {
-                paypalContainer.style.display = 'block';
-            } else {
-                paypalContainer.style.display = 'none';
-            }
+            paypalContainer.style.display = shouldBeOpen ? 'block' : 'none';
         }
 
-        // ────────────────────────────────────────────────
-        // Resto de funciones (sin cambios relevantes)
-        // ────────────────────────────────────────────────
         function showToastNew(msg) {
             const root = document.getElementById('toast-root-new');
             const toast = document.createElement('div');
@@ -1589,6 +1415,7 @@
         function initSubgenreSelect() {
             const select = document.getElementById('catalogSub');
             if (!select) return;
+            select.innerHTML = '<option value="">Todos los subgéneros</option>';
             const subs = new Set();
             database.forEach(f => f.subs?.forEach(s => subs.add(s.name)));
             [...subs].sort().forEach(name => {
@@ -1599,10 +1426,15 @@
             });
         }
 
-        // MODIFICADO: Agrega el Carousel Wrapper y las flechas a cada contenedor de beats
         function render() {
             const root = document.getElementById('catalog-root');
             if (!root) return;
+            
+            if (database.length === 0) {
+                root.innerHTML = '<p style="text-align:center; padding: 40px; color: #888;">El catálogo está vacío actualmente.</p>';
+                return;
+            }
+
             root.innerHTML = '';
             database.forEach((folder, i) => {
                 let html = `<div class="folder-main" id="f-${i}">
@@ -1653,19 +1485,12 @@
             `).join('');
         }
 
-        // NUEVO: Función para desplazar el carousel con el botón
         function scrollCarousel(btn, direction) {
             const wrapper = btn.closest('.carousel-wrapper');
             const grid = wrapper.querySelector('.beats-catalog-grid');
-            
-            // Moverse el ancho de casi una tarjeta
             const scrollAmount = window.innerWidth * 0.75; 
             grid.scrollBy({ left: scrollAmount * direction, behavior: 'smooth' });
-            
-            // Quitar animación de pulso si se clickeó para que deje de parpadear
-            if (direction === 1) {
-                btn.style.animation = 'none';
-            }
+            if (direction === 1) btn.style.animation = 'none';
         }
 
         function play(title, encodedDriveId, el) {
@@ -1779,23 +1604,15 @@
             });
 
             const payment = selectedPaymentMethod === 'transfer' ? 'TRANSFERENCIA / DEPÓSITO (BBVA)' : 'TARJETA / PAYPAL';
-
             const bankInfo = selectedPaymentMethod === 'transfer' ? `
 💳 DATOS BBVA:
 Titular: BASE CERO ESTUDIO
 Tarjeta: 4152 3145 5220 8277
 Concepto: Base 0 Studio BBVA
 
-⚠️ COMPARTIRÉ EL COMPROBANTE POR AQUÍ UNA VEZ LISTO.` : `
-⚠️ SOLICITO ENLACE DE PAGO EN LÍNEA.`;
+⚠️ COMPARTIRÉ EL COMPROBANTE POR AQUÍ UNA VEZ LISTO.` : `\n⚠️ SOLICITO ENLACE DE PAGO EN LÍNEA.`;
 
-            const msg = `¡Hola! Quiero finalizar este pedido desde BASE 0 Studio:
-
-${items.join('\n')}
-
-${promoActive ? '🔥 OFERTA 3X1 ACTIVADA (Bronce/Plata)\n' : ''}TOTAL: $${totalUSD.toFixed(2)} USD / $${totalMXN} MXN
-
-MÉTODO DE PAGO: ${payment}${bankInfo}`;
+            const msg = `¡Hola! Quiero finalizar este pedido desde BASE 0 Studio:\n\n${items.join('\n')}\n\n${promoActive ? '🔥 OFERTA 3X1 ACTIVADA (Bronce/Plata)\n' : ''}TOTAL: $${totalUSD.toFixed(2)} USD / $${totalMXN} MXN\n\nMÉTODO DE PAGO: ${payment}${bankInfo}`;
 
             window.open(`https://wa.me/524775874578?text=${encodeURIComponent(msg)}`, '_blank');
         }
@@ -1857,8 +1674,10 @@ MÉTODO DE PAGO: ${payment}${bankInfo}`;
         // INICIALIZACIÓN
         // ────────────────────────────────────────────────
         window.addEventListener('load', () => {
-            render();
-            initSubgenreSelect();
+            
+            // Reemplazamos render() con la carga desde Supabase
+            fetchCatalogFromSupabase(); 
+
             createParticles();
             selectPayment('transfer');
 
@@ -1871,8 +1690,6 @@ MÉTODO DE PAGO: ${payment}${bankInfo}`;
                 currentCurrency = saved;
                 document.querySelector(`.currency-selector button[data-currency="${saved}"]`)?.classList.add('active');
             }
-
-            updateAllPrices();
 
             // Render PayPal UNA SOLA VEZ
             initPayPalButton();
