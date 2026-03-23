@@ -708,7 +708,31 @@
         }
         .social-btn.wa-btn:hover { transform: scale(1.05); box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5); background: #20ba5a; }
         .social-btn.wa-btn img { height: 30px; width: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
-        footer { background: var(--bg-black); padding: 40px 5%; text-align: center; border-top: 1px solid var(--grey-dark); color: var(--text-grey); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; }
+        
+        /* FOOTER MODIFICADO PARA EL ACCESO DE ADMIN */
+        footer { 
+            background: var(--bg-black); 
+            padding: 40px 5%; 
+            text-align: center; 
+            border-top: 1px solid var(--grey-dark); 
+            color: var(--text-grey); 
+            font-size: 0.75rem; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            position: relative;
+        }
+        .admin-link-secret {
+            color: #1a1a1a; /* Casi invisible */
+            text-decoration: none;
+            font-size: 0.65rem;
+            margin-top: 15px;
+            display: inline-block;
+            transition: color 0.3s;
+        }
+        .admin-link-secret:hover {
+            color: var(--gold);
+        }
+        
         .cart-side { 
             position: fixed; 
             top: 0; 
@@ -1056,7 +1080,12 @@
         </div>
     </section>
 
-    <footer>BASE 0 STUDIO - TODOS LOS DERECHOS RESERVADOS © 2026</footer>
+    <!-- FOOTER MODIFICADO -->
+    <footer>
+        BASE 0 STUDIO - TODOS LOS DERECHOS RESERVADOS © 2026
+        <br>
+        <a href="admin.html" id="admin-link" class="admin-link-secret">Admin Access</a>
+    </footer>
 
     <!-- Reproductor -->
     <div class="master-player" id="m-player">
@@ -1141,21 +1170,13 @@
         // CONFIGURACIÓN SUPABASE (BACKEND)
         // ────────────────────────────────────────────────
         
-        // ¡¡¡ ATENCIÓN !!! NUNCA PONGAS TU CONTRASEÑA DE BASE DE DATOS AQUÍ.
-        // Solo necesitas el Project URL y tu ANON KEY.
-        
-        // 1. Aquí se ingresó correctamente el ID de tu proyecto generado
         const SUPABASE_URL = 'https://bltlprtphzejinwqdwdo.supabase.co'; 
-        
-        // 2. Tu clave pública anónima de Supabase
         const SUPABASE_ANON_KEY = 'sb_publishable_h-6mJS9NZhgPZtY2HwMLmA_rxWThIqu';
         
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // La base de datos local ahora empieza vacía
         let database = [];
 
-        // Función para cargar los datos dinámicamente
         async function fetchCatalogFromSupabase() {
             try {
                 const { data, error } = await supabaseClient
@@ -1170,8 +1191,6 @@
 
                 if (error) throw error;
 
-                // Adaptamos la respuesta de Supabase para que funcione exactamente 
-                // con tu código original sin tener que cambiar nada del HTML/CSS
                 if (data && data.length > 0) {
                     database = data.map(category => ({
                         name: category.name,
@@ -1179,13 +1198,12 @@
                             name: sub.name,
                             beats: sub.beats.map(beat => ({
                                 title: beat.title,
-                                drive: beat.drive_id // Se mapea drive_id a drive
+                                drive: beat.drive_id 
                             }))
                         }))
                     }));
                 }
 
-                // Una vez obtenidos los datos, dibujamos el catálogo
                 render();
                 initSubgenreSelect();
                 updateAllPrices();
@@ -1671,7 +1689,7 @@ Concepto: Base 0 Studio BBVA
         }
 
         // ────────────────────────────────────────────────
-        // INICIALIZACIÓN
+        // INICIALIZACIÓN Y DETECCIÓN DE ADMIN
         // ────────────────────────────────────────────────
         window.addEventListener('load', () => {
             
@@ -1693,6 +1711,22 @@ Concepto: Base 0 Studio BBVA
 
             // Render PayPal UNA SOLA VEZ
             initPayPalButton();
+
+            // -------------------------------------------------------------
+            // ⭐ DETECCIÓN INTELIGENTE DE ADMIN LOGUEADO
+            // -------------------------------------------------------------
+            supabaseClient.auth.getSession().then(({ data: { session } }) => {
+                if (session) {
+                    // Si el usuario ya está logueado en su panel en este navegador,
+                    // resaltamos el botón para que sepa que tiene acceso.
+                    const adminLink = document.getElementById('admin-link');
+                    if(adminLink) {
+                        adminLink.style.color = '#ffd700';
+                        adminLink.style.fontWeight = 'bold';
+                        adminLink.innerHTML = '⚙️ PANEL DE CONTROL (SESIÓN ACTIVA)';
+                    }
+                }
+            });
         });
     </script>
 
