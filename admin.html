@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BASE 0 Studio - Admin Panel</title>
+    
+    <!-- Supabase & Tailwind -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        body { background-color: #0a0a0a; color: #fff; font-family: 'Inter', sans-serif; }
+        .gold-border { border-color: #ffd700; }
+        .gold-text { color: #ffd700; }
+        .gold-bg { background-color: #ffd700; color: #000; }
+        .gold-bg:hover { background-color: #e6c200; }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- PANTALLA DE LOGIN -->
+    <div id="login-screen" class="flex items-center justify-center min-h-screen bg-black">
+        <div class="bg-gray-900 p-8 rounded-lg border border-gray-800 shadow-2xl w-full max-w-md">
+            <h2 class="text-3xl font-black mb-6 text-center gold-text tracking-widest">BASE 0 ADMIN</h2>
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2 text-gray-400">Correo Electrónico</label>
+                    <input type="email" id="email" required class="w-full p-3 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-bold mb-2 text-gray-400">Contraseña</label>
+                    <input type="password" id="password" required class="w-full p-3 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
+                </div>
+                <button type="submit" class="w-full font-bold py-3 px-4 rounded gold-bg transition duration-200 text-black">
+                    INGRESAR AL PANEL
+                </button>
+                <p id="login-error" class="text-red-500 text-sm mt-4 hidden text-center"></p>
+            </form>
+            
+            <!-- Enlace a la tienda principal -->
+            <div class="mt-6 text-center">
+                <a href="index.html" class="text-gray-500 hover:text-white text-xs underline transition">Volver a la tienda pública</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA DEL DASHBOARD -->
+    <div id="dashboard-screen" class="hidden">
+        
+        <!-- Header -->
+        <header class="bg-black border-b border-gray-800 p-4 flex justify-between items-center sticky top-0 z-50">
+            <h1 class="text-2xl font-black gold-text tracking-widest">BASE 0 STUDIO <span class="text-xs text-gray-500 font-normal">ADMIN</span></h1>
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="text-gray-400 hover:text-white text-sm font-bold underline mr-4 hidden md:block transition">Ir a la tienda</a>
+                <span id="user-email" class="text-sm text-gray-400 hidden md:block"></span>
+                <button onclick="handleLogout()" class="bg-red-600 hover:bg-red-700 text-white text-sm font-bold py-2 px-4 rounded transition">
+                    CERRAR SESIÓN
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="p-4 md:p-8 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Columna Izquierda: Formularios -->
+            <div class="space-y-8 lg:col-span-1">
+                
+                <!-- Agregar Nuevo Beat -->
+                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg">
+                    <h3 class="text-lg font-black mb-4 flex items-center gap-2"><span class="material-icons gold-text">library_music</span> SUBIR NUEVO BEAT</h3>
+                    <form id="add-beat-form" onsubmit="addBeat(event)">
+                        <div class="mb-4">
+                            <label class="block text-xs font-bold mb-1 text-gray-400">Género (Categoría)</label>
+                            <select id="select-category" onchange="updateSubcategoriesSelect()" required class="w-full p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
+                                <option value="">Selecciona un género...</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-xs font-bold mb-1 text-gray-400">Subgénero</label>
+                            <select id="select-subcategory" required disabled class="w-full p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400 disabled:opacity-50">
+                                <option value="">Primero selecciona un género...</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-xs font-bold mb-1 text-gray-400">Título del Beat</label>
+                            <input type="text" id="beat-title" required placeholder="Ej: Sombras Nocturnas" class="w-full p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-xs font-bold mb-1 text-gray-400">ID de Google Drive</label>
+                            <input type="text" id="beat-drive" required placeholder="1lVcE4vc8dwNAZ..." class="w-full p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
+                            <p class="text-[10px] text-gray-500 mt-1">Asegúrate de que el enlace en Drive sea público.</p>
+                        </div>
+                        <button type="submit" class="w-full font-bold py-2 px-4 rounded gold-bg transition duration-200 text-black">
+                            GUARDAR BEAT
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Agregar Género / Subgénero -->
+                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg">
+                    <h3 class="text-lg font-black mb-4 flex items-center gap-2"><span class="material-icons gold-text">folder</span> ESTRUCTURA</h3>
+                    
+                    <!-- Form Categoría -->
+                    <form onsubmit="addCategory(event)" class="mb-6 pb-6 border-b border-gray-800">
+                        <label class="block text-xs font-bold mb-1 text-gray-400">Crear Nuevo Género</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="new-cat-name" required placeholder="Ej: Reggaeton" class="flex-1 p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
+                            <button type="submit" class="font-bold py-2 px-4 rounded bg-gray-800 hover:bg-gray-700 transition text-white">+</button>
+                        </div>
+                    </form>
+
+                    <!-- Form Subcategoría -->
+                    <form onsubmit="addSubcategory(event)">
+                        <label class="block text-xs font-bold mb-1 text-gray-400">Crear Nuevo Subgénero</label>
+                        <select id="parent-cat-select" required class="w-full p-2 mb-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
+                            <option value="">¿A qué género pertenece?</option>
+                        </select>
+                        <div class="flex gap-2">
+                            <input type="text" id="new-sub-name" required placeholder="Ej: Perreo Old School" class="flex-1 p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
+                            <button type="submit" class="font-bold py-2 px-4 rounded bg-gray-800 hover:bg-gray-700 transition text-white">+</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- Columna Derecha: Lista de Beats -->
+            <div class="lg:col-span-2">
+                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg min-h-[600px]">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-black flex items-center gap-2"><span class="material-icons gold-text">view_list</span> CATÁLOGO DE BEATS</h3>
+                        <span id="total-beats" class="bg-gray-800 text-xs font-bold px-3 py-1 rounded-full text-white">0 Beats</span>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-white">
+                            <thead class="bg-black text-gray-400">
+                                <tr>
+                                    <th class="p-3 rounded-tl-lg">Título</th>
+                                    <th class="p-3">Género > Subgénero</th>
+                                    <th class="p-3 text-right rounded-tr-lg">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="beats-table-body" class="divide-y divide-gray-800">
+                                <tr><td colspan="3" class="p-4 text-center text-gray-500">Cargando base de datos...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // --- CONFIGURACIÓN DE SUPABASE ---
+        const SUPABASE_URL = 'https://bltlprtphzejinwqdwdo.supabase.co'; 
+        const SUPABASE_ANON_KEY = 'sb_publishable_h-6mJS9NZhgPZtY2HwMLmA_rxWThIqu';
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // --- ESTADO GLOBAL ---
+        let categories = [];
+        let subcategories = [];
+        let beats = [];
+
+        // --- SISTEMA DE AUTENTICACIÓN ---
+        supabase.auth.onAuthStateChange((event, session) => {
+            if (session) {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('dashboard-screen').classList.remove('hidden');
+                document.getElementById('user-email').textContent = session.user.email;
+                loadDatabase();
+            } else {
+                document.getElementById('dashboard-screen').classList.add('hidden');
+                document.getElementById('login-screen').classList.remove('hidden');
+            }
+        });
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorEl = document.getElementById('login-error');
+            
+            const { error } = await supabase.auth.signInWithPassword({ email, password });
+            
+            if (error) {
+                // Ahora mostrará el error EXACTO que devuelve Supabase
+                errorEl.textContent = "Error: " + error.message;
+                errorEl.classList.remove('hidden');
+            } else {
+                errorEl.classList.add('hidden');
+            }
+        }
+
+        async function handleLogout() {
+            await supabase.auth.signOut();
+        }
+
+        // --- GESTIÓN DE BASE DE DATOS (CRUD) ---
+        
+        async function loadDatabase() {
+            // Cargar categorías
+            const { data: cats } = await supabase.from('categories').select('*').order('name');
+            categories = cats || [];
+
+            // Cargar subcategorías
+            const { data: subs } = await supabase.from('subcategories').select('*').order('name');
+            subcategories = subs || [];
+
+            // Cargar Beats (con referencias cruzadas para saber el género)
+            const { data: bts } = await supabase.from('beats')
+                .select(`
+                    id, title, drive_id, created_at,
+                    subcategories ( id, name, category_id, categories (name) )
+                `)
+                .order('created_at', { ascending: false });
+            beats = bts || [];
+
+            updateUI();
+        }
+
+        function updateUI() {
+            // Actualizar selects de categorías
+            const catSelects = [document.getElementById('select-category'), document.getElementById('parent-cat-select')];
+            let catOptions = '<option value="">Selecciona un género...</option>';
+            categories.forEach(c => catOptions += `<option value="${c.id}">${c.name.toUpperCase()}</option>`);
+            catSelects.forEach(select => select.innerHTML = catOptions);
+
+            // Actualizar tabla de beats
+            const tbody = document.getElementById('beats-table-body');
+            document.getElementById('total-beats').textContent = `${beats.length} Beats`;
+            
+            if (beats.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-gray-500">No hay beats en el catálogo.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = beats.map(b => {
+                const subName = b.subcategories?.name || 'Sin Subgénero';
+                const catName = b.subcategories?.categories?.name || 'Desconocido';
+                
+                return `
+                    <tr class="hover:bg-gray-800 transition">
+                        <td class="p-3 font-bold">${b.title}</td>
+                        <td class="p-3 text-xs text-gray-400">${catName.toUpperCase()} > ${subName}</td>
+                        <td class="p-3 text-right">
+                            <button onclick="deleteBeat('${b.id}', '${b.title.replace(/'/g,"\\'")}')" class="text-red-500 hover:text-red-400 p-2">
+                                <span class="material-icons text-sm">delete</span>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function updateSubcategoriesSelect() {
+            const catId = document.getElementById('select-category').value;
+            const subSelect = document.getElementById('select-subcategory');
+            
+            const filteredSubs = subcategories.filter(s => s.category_id === catId);
+            
+            subSelect.innerHTML = '<option value="">Selecciona un subgénero...</option>' + 
+                filteredSubs.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+            
+            subSelect.disabled = filteredSubs.length === 0;
+        }
+
+        // --- ACCIONES (AGREGAR / BORRAR) ---
+
+        async function addBeat(e) {
+            e.preventDefault();
+            const subcategory_id = document.getElementById('select-subcategory').value;
+            const title = document.getElementById('beat-title').value;
+            const drive_id = document.getElementById('beat-drive').value;
+
+            if (!subcategory_id) return alert("Debes seleccionar un subgénero. Si no existe, créalo a la izquierda.");
+
+            const { error } = await supabase.from('beats').insert([{ subcategory_id, title, drive_id }]);
+            
+            if (error) alert("Error al subir: " + error.message);
+            else {
+                document.getElementById('add-beat-form').reset();
+                document.getElementById('select-subcategory').disabled = true;
+                loadDatabase();
+                alert("¡Beat subido a la base de datos con éxito!");
+            }
+        }
+
+        async function deleteBeat(id, title) {
+            if (!confirm(`¿Estás seguro de que deseas ELIMINAR permanentemente el beat "${title}"?`)) return;
+
+            const { error } = await supabase.from('beats').delete().eq('id', id);
+            
+            if (error) alert("Error al eliminar: " + error.message);
+            else loadDatabase();
+        }
+
+        async function addCategory(e) {
+            e.preventDefault();
+            const name = document.getElementById('new-cat-name').value.toLowerCase();
+            const { error } = await supabase.from('categories').insert([{ name }]);
+            
+            if (error) alert("Error: " + error.message);
+            else {
+                document.getElementById('new-cat-name').value = '';
+                loadDatabase();
+            }
+        }
+
+        async function addSubcategory(e) {
+            e.preventDefault();
+            const category_id = document.getElementById('parent-cat-select').value;
+            const name = document.getElementById('new-sub-name').value.toLowerCase();
+            
+            const { error } = await supabase.from('subcategories').insert([{ category_id, name }]);
+            
+            if (error) alert("Error: " + error.message);
+            else {
+                document.getElementById('new-sub-name').value = '';
+                loadDatabase();
+            }
+        }
+
+    </script>
+</body>
+</html>
