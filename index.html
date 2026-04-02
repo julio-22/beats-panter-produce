@@ -568,15 +568,54 @@
             transform: scale(1);
             opacity: 1;
         }
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
         .service-card {
-            background: rgba(10, 10, 10, 0.8); padding: 50px; border: 1px solid var(--grey-dark);
-            text-align: center; transition: var(--transition); backdrop-filter: blur(5px);
+            background: rgba(15,15,15,0.88); 
+            border: 1px solid #333;
+            border-radius: 12px;
+            text-align: center; 
+            transition: all 0.4s ease; 
+            backdrop-filter: blur(8px);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
-        .service-card:hover { border-color: #fff; transform: translateY(-10px); }
-        .service-card i { font-size: 3.5rem; margin-bottom: 25px; color: #fff; }
-        .service-card h3 { margin-bottom: 15px; font-weight: 800; font-size: 1rem; line-height: 1.2; }
-        .service-card p { color: var(--text-grey); font-size: 0.95rem; margin-bottom: 25px; }
+        .service-card:hover { border-color: var(--gold); transform: translateY(-12px); box-shadow: 0 20px 40px rgba(255,215,0,0.15); }
+        .service-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 2px solid var(--gold);
+        }
+        .service-content {
+            padding: 30px 25px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .service-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+            line-height: 1.2;
+            color: #fff;
+        }
+        .service-price {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--gold);
+            margin: 15px 0;
+            line-height: 1.2;
+        }
+        .service-price small {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            display: block;
+        }
+        .service-desc { color: #ddd; font-size: 0.95rem; margin-bottom: 25px; flex-grow: 1; }
         .folder-main { margin-bottom: 15px; border: 1px solid #151515; background: rgba(10, 10, 10, 0.9); border-radius: 12px; overflow: hidden; transition: 0.25s; }
         .folder-main:hover { border-color: var(--gold); }
         .folder-header {
@@ -796,8 +835,16 @@
             display: none; 
             text-align: left;
         }
-        .bank-details-box p { font-size: 0.8rem; margin-bottom: 5px; color: #ccc; }
+        .bank-details-box p { font-size: 0.85rem; margin-bottom: 5px; color: #ccc; }
         .bank-details-box b { color: #fff; letter-spacing: 1px; }
+        .bank-card-img {
+            width: 100%;
+            max-width: 280px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid #333;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
         .hamburger { display: none; background: transparent; border: none; color: #fff; font-size: 2rem; cursor: pointer; }
         .mobile-nav {
             display: none;
@@ -868,6 +915,32 @@
             min-height: 50px;
             display: none;
         }
+
+        /* --- ANIMACIÓN HINT SWIPE --- */
+        .global-swipe-hint {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neon-gold);
+            font-size: 0.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 15px auto 25px auto;
+            background: rgba(255, 215, 0, 0.08);
+            border: 1px dashed var(--gold);
+            padding: 12px 25px;
+            border-radius: 50px;
+            animation: slideHint 2.5s infinite ease-in-out;
+            transition: opacity 0.5s ease;
+            max-width: 90vw;
+            cursor: pointer;
+        }
+        .global-swipe-hint i { font-size: 1.4rem; margin-right: 10px; }
+        @keyframes slideHint {
+            0%, 100% { transform: translateX(-8px); opacity: 0.8; }
+            50% { transform: translateX(8px); opacity: 1; box-shadow: 0 0 15px rgba(255,215,0,0.3); }
+        }
     </style>
 </head>
 <body>
@@ -930,25 +1003,33 @@
         <div class="section-header"><h2>SERVICIOS PRO</h2></div>
         <div class="services-grid">
             <div class="service-card">
-                <i class="material-icons">palette</i>
-                <h3>DISEÑO DE PORTADAS Y LOGOTIPOS</h3>
-                <p>MXN $665 / USD $35.99</p>
-                <p style="font-size: 0.75rem;">Diseño profesional personalizado para tu marca artística.</p>
-                <button class="checkout-wa" style="padding:10px; font-size:12px;" onclick="addService('DISEÑO PORTADA/LOGO', 665, 35.99)">AÑADIR AL PEDIDO</button>
+                <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&q=80&w=800" alt="Diseño de portadas" class="service-img">
+                <div class="service-content">
+                    <div class="service-title">DISEÑO DE PORTADAS Y LOGOTIPOS</div>
+                    <div class="service-price">$35.99 <small>USD</small><small>≈ $665 MXN</small></div>
+                    <p class="service-desc">Diseño profesional y exclusivo personalizado para la identidad de tu marca artística.</p>
+                    <button class="lic-btn-new" style="width: 100%; min-height: 50px !important; margin-top: auto;" onclick="addService('DISEÑO PORTADA/LOGO', 665, 35.99)">AÑADIR AL PEDIDO</button>
+                </div>
             </div>
-            <div class="service-card" style="background:#fff; color:#000;">
-                <i class="material-icons" style="color:#000;">settings_input_component</i>
-                <h3>MIX / MASTERING</h3>
-                <p>MXN $1,000 / USD $53.99</p>
-                <p style="font-size: 0.75rem;">Claridad, pegada y volumen competitivo para tus temas.</p>
-                <button class="checkout-wa" style="padding:10px; font-size:12px; background:#000; color:#fff;" onclick="addService('MIX / MASTERING', 1000, 53.99)">AÑADIR AL PEDIDO</button>
+            
+            <div class="service-card" style="border-color: var(--neon-gold);">
+                <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&q=80&w=800" alt="Mix y Mastering" class="service-img">
+                <div class="service-content">
+                    <div class="service-title">MIX / MASTERING PROFESIONAL</div>
+                    <div class="service-price">$53.99 <small>USD</small><small>≈ $1,000 MXN</small></div>
+                    <p class="service-desc">Claridad, pegada y volumen competitivo para que tus temas suenen a nivel industria.</p>
+                    <button class="lic-btn-new" style="width: 100%; min-height: 50px !important; margin-top: auto; background: var(--neon-gold); color: #000;" onclick="addService('MIX / MASTERING', 1000, 53.99)">AÑADIR AL PEDIDO</button>
+                </div>
             </div>
+            
             <div class="service-card">
-                <i class="material-icons">brush</i>
-                <h3>BEATS A MEDIDA</h3>
-                <p>MXN $1,000 / USD $53.99</p>
-                <p style="font-size: 0.75rem;">Producciones exclusivas diseñadas desde cero para ti.<br><b>Stems (Opcional): +$350 MXN / $18.50 USD</b></p>
-                <button class="checkout-wa" style="padding:10px; font-size:12px;" onclick="addService('BEAT EXCLUSIVO A MEDIDA', 1000, 53.99)">AÑADIR AL PEDIDO</button>
+                <img src="https://images.unsplash.com/photo-1598653222000-6b7b7a552625?auto=format&fit=crop&q=80&w=800" alt="Beats a medida" class="service-img">
+                <div class="service-content">
+                    <div class="service-title">BEATS A MEDIDA (EXCLUSIVO)</div>
+                    <div class="service-price">$53.99 <small>USD</small><small>≈ $1,000 MXN</small></div>
+                    <p class="service-desc">Producciones exclusivas diseñadas desde cero específicamente para tu estilo.<br><br><b style="color:var(--gold); font-size:0.85rem;">Stems (Opcional): +$350 MXN</b></p>
+                    <button class="lic-btn-new" style="width: 100%; min-height: 50px !important; margin-top: auto;" onclick="addCustomBeatModal('BEAT EXCLUSIVO A MEDIDA', 1000, 53.99)">AÑADIR AL PEDIDO</button>
+                </div>
             </div>
         </div>
     </section>
@@ -960,6 +1041,11 @@
             <select id="catalogSub" onchange="catalogFilter()">
                 <option value="">Todos los subgéneros</option>
             </select>
+        </div>
+        <div style="text-align: center;">
+            <div class="global-swipe-hint" id="swipe-hint-text" onclick="hideGlobalHint()">
+                <i class="material-icons">swipe</i> Desliza o usa las flechas para explorar más beats 👉
+            </div>
         </div>
         <div id="catalog-root">
             <p style="text-align:center; padding: 40px; color: var(--gold); font-weight: 900;">Cargando catálogo desde la base de datos...</p>
@@ -973,11 +1059,12 @@
                 <div class="license-title">BRONCE</div>
                 <div class="license-price" id="price-bronce">$18.99 <small>USD</small><br><small>≈ $365 MXN</small></div>
                 <ul class="license-features">
-                    <li>Uso en 1 pista (no exclusiva)</li>
-                    <li>Archivo MP3 alta calidad (320kbps)</li>
-                    <li>Contrato de licencia estándar</li>
-                    <li class="excluded">Sin archivos fuente ni stems</li>
-                    <li class="excluded">Sin derechos de publicación / sync</li>
+                    <li>MP3 + WAV de Alta Calidad</li>
+                    <li>Hasta 100,000 Streams</li>
+                    <li>Hasta 5,000 Copias (Ventas)</li>
+                    <li class="excluded">Radio / TV (No permitido)</li>
+                    <li class="excluded">Sin Stems (Pistas separadas)</li>
+                    <li class="excluded">Licencia No Exclusiva</li>
                 </ul>
                 <div class="lic-btn-stack-new">
                     <button class="lic-btn-new" onclick="scrollToSection('catalog')">Elegir beats</button>
@@ -988,12 +1075,12 @@
                 <div class="license-title">PLATA</div>
                 <div class="license-price" id="price-plata">$26.99 <small>USD</small><br><small>≈ $518 MXN</small></div>
                 <ul class="license-features">
-                    <li>Uso en 1 pista (no exclusiva)</li>
-                    
-                    <li>MP3 + WAV de alta calidad</li>
-                    <li>Contrato extendido</li>
-                    <li>Stems disponibles (opcional +$18.50)</li>
-                    <li class="excluded">Sin derechos de publicación / sync</li>
+                    <li>MP3 + WAV de Alta Calidad</li>
+                    <li><b>Streams Ilimitados</b></li>
+                    <li><b>Copias (Ventas) Ilimitadas</b></li>
+                    <li>Radio / TV (Permitido)</li>
+                    <li class="excluded">Sin Stems (Pistas separadas)</li>
+                    <li class="excluded">Licencia No Exclusiva</li>
                 </ul>
                 <div class="lic-btn-stack-new">
                     <button class="lic-btn-new" onclick="scrollToSection('catalog')">Elegir beats</button>
@@ -1004,13 +1091,12 @@
                 <div class="license-title">ORO</div>
                 <div class="license-price" id="price-oro">$53.99 <small>USD</small><br><small>≈ $1,037 MXN</small></div>
                 <ul class="license-features">
-                    <li>Uso ilimitado (no exclusiva)</li>
-                    <li>Derechos de publicación incluidos</li>
-                    <li>Archivos fuente + stems completos</li>
-                    <li>Distribución ilimitada en plataformas</li>
-                    <li>WAV 24-bit / 48kHz profesional</li>
-                    <li>Contrato premium + soporte prioritario</li>
-                    <li>Posibilidad de acuerdos de sync</li>
+                    <li>MP3 + WAV de Alta Calidad</li>
+                    <li><b>Streams Ilimitados</b></li>
+                    <li><b>Copias (Ventas) Ilimitadas</b></li>
+                    <li>Radio / TV (Permitido)</li>
+                    <li><b>Stems Completos</b> (Pistas separadas)</li>
+                    <li><b>Uso Exclusivo</b> (Se retira de la tienda)</li>
                 </ul>
                 <div class="lic-btn-stack-new">
                     <button class="lic-btn-new" onclick="scrollToSection('catalog')">Elegir beats</button>
@@ -1033,7 +1119,7 @@
             <div class="test-card">
                 <img src="https://lh3.googleusercontent.com/d/1ikXZlai5DwtZj0EMXzke8np3hxvycik5" class="test-img" alt="Testimonio 2">
                 <p>"🔥 Brutal el trabajo en los ritmos. Sonido puro de Guanatos."</p>
-                <b>- KING KAISER (El Pinche Brujo) (Guadalajara, MX)</b>
+                <b>- El Pinche Brujo (KING KAISER) (Guadalajara, MX)</b>
                 <div class="yt-link">
                     <a href="https://youtu.be/9Ym6owlpCn4?si=nfXsNk3s87QKOKq6" target="_blank">Ver en YouTube →</a>
                 </div>
@@ -1134,6 +1220,7 @@
                 <p>Titular: <b>BASE CERO ESTUDIO</b></p>
                 <p>Tarjeta: <b>4152 3145 5220 8277</b></p>
                 <p>Concepto: <b>Base 0 Studio BBVA</b></p>
+                <img src="https://lh3.googleusercontent.com/d/19OLOQQ8nCemZwWEc4ISCRDMt07zvmH7Q" alt="Tarjeta BBVA Base 0 Studio" class="bank-card-img">
             </div>
         </div>
 
@@ -1470,7 +1557,7 @@
                             <div class="sub-content">
                                 <div class="carousel-wrapper">
                                     <button class="scroll-btn left" onclick="scrollCarousel(this, -1)"><i class="material-icons">chevron_left</i></button>
-                                    <div class="beats-catalog-grid">${renderBeats(sub.beats)}</div>
+                                    <div class="beats-catalog-grid" onscroll="hideGlobalHint()">${renderBeats(sub.beats)}</div>
                                     <button class="scroll-btn right" onclick="scrollCarousel(this, 1)"><i class="material-icons">chevron_right</i></button>
                                 </div>
                             </div></div>`;
@@ -1478,7 +1565,7 @@
                 } else {
                     html += `<div class="carousel-wrapper">
                                 <button class="scroll-btn left" onclick="scrollCarousel(this, -1)"><i class="material-icons">chevron_left</i></button>
-                                <div class="beats-catalog-grid">${renderBeats(folder.beats || [])}</div>
+                                <div class="beats-catalog-grid" onscroll="hideGlobalHint()">${renderBeats(folder.beats || [])}</div>
                                 <button class="scroll-btn right" onclick="scrollCarousel(this, 1)"><i class="material-icons">chevron_right</i></button>
                             </div>`;
                 }
@@ -1509,6 +1596,15 @@
             const scrollAmount = window.innerWidth * 0.75; 
             grid.scrollBy({ left: scrollAmount * direction, behavior: 'smooth' });
             if (direction === 1) btn.style.animation = 'none';
+            hideGlobalHint();
+        }
+
+        function hideGlobalHint() {
+            const hint = document.getElementById('swipe-hint-text');
+            if (hint && hint.style.opacity !== '0') {
+                hint.style.opacity = '0';
+                setTimeout(() => { if(hint) hint.style.display = 'none'; }, 500);
+            }
         }
 
         function play(title, encodedDriveId, el) {
@@ -1531,22 +1627,36 @@
 
         function confirmStems(wantStems) {
             if (!pendingGoldBeat) return;
-            const { title } = pendingGoldBeat;
-            const l = licDetails.oro;
-            cart.push({ title, lic: l.n, price: l.m, usd: l.u, promo: l.p });
-            if (wantStems) {
-                cart.push({ title: `${title} – Stems`, lic: 'STEMS (opcional)', price: stemsPriceMXN, usd: stemsPriceUSD, promo: false });
-                showToastNew(`✅ ${title} (ORO) + Stems añadidos`);
+            
+            if (pendingGoldBeat.isCustom) {
+                // Es un Beat a la medida
+                cart.push({ title: pendingGoldBeat.title, lic: 'SERVICIO PRO', price: pendingGoldBeat.mxn, usd: pendingGoldBeat.usd, promo: false });
+                if (wantStems) {
+                    cart.push({ title: `${pendingGoldBeat.title} – Stems`, lic: 'STEMS (opcional)', price: stemsPriceMXN, usd: stemsPriceUSD, promo: false });
+                    showToastNew(`✅ ${pendingGoldBeat.title} + Stems añadidos`);
+                } else {
+                    showToastNew(`✅ ${pendingGoldBeat.title} añadido`);
+                }
             } else {
-                showToastNew(`✅ ${title} (ORO) añadido`);
+                // Es un Beat Oro del catálogo
+                const { title } = pendingGoldBeat;
+                const l = licDetails.oro;
+                cart.push({ title, lic: l.n, price: l.m, usd: l.u, promo: l.p });
+                if (wantStems) {
+                    cart.push({ title: `${title} – Stems`, lic: 'STEMS (opcional)', price: stemsPriceMXN, usd: stemsPriceUSD, promo: false });
+                    showToastNew(`✅ ${title} (ORO) + Stems añadidos`);
+                } else {
+                    showToastNew(`✅ ${title} (ORO) añadido`);
+                }
             }
+            
             updateCart();
             hideStemsModal();
         }
 
         function addBeat(title, key) {
             if (key === 'oro') {
-                pendingGoldBeat = { title };
+                pendingGoldBeat = { title: title, isCustom: false };
                 document.getElementById('stems-modal').classList.add('show');
                 document.body.style.overflow = 'hidden';
                 return;
@@ -1555,6 +1665,12 @@
             cart.push({ title, lic: l.n, price: l.m, usd: l.u, promo: l.p });
             updateCart();
             showToastNew(`✅ ${title} (${l.n}) añadido`);
+        }
+
+        function addCustomBeatModal(title, mxn, usd) {
+            pendingGoldBeat = { title: title, mxn: mxn, usd: usd, isCustom: true };
+            document.getElementById('stems-modal').classList.add('show');
+            document.body.style.overflow = 'hidden';
         }
 
         function addService(name, mxn, usd) {
