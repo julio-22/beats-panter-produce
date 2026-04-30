@@ -158,7 +158,7 @@
         // --- CONFIGURACIÓN DE SUPABASE ---
         const SUPABASE_URL = 'https://bltlprtphzejinwqdwdo.supabase.co'; 
         const SUPABASE_ANON_KEY = 'sb_publishable_h-6mJS9NZhgPZtY2HwMLmA_rxWThIqu';
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // --- ESTADO GLOBAL ---
         let categories = [];
@@ -166,7 +166,7 @@
         let beats = [];
 
         // --- SISTEMA DE AUTENTICACIÓN ---
-        supabase.auth.onAuthStateChange((event, session) => {
+        _supabase.auth.onAuthStateChange((event, session) => {
             if (session) {
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('dashboard-screen').classList.remove('hidden');
@@ -192,7 +192,7 @@
             btn.classList.add('opacity-50', 'cursor-not-allowed');
 
             try {
-                const { error } = await supabase.auth.signInWithPassword({ email, password });
+                const { error } = await _supabase.auth.signInWithPassword({ email, password });
                 
                 if (error) {
                     errorEl.textContent = "Error: " + error.message;
@@ -213,22 +213,22 @@
         }
 
         async function handleLogout() {
-            await supabase.auth.signOut();
+            await _supabase.auth.signOut();
         }
 
         // --- GESTIÓN DE BASE DE DATOS (CRUD) ---
         
         async function loadDatabase() {
             // Cargar categorías
-            const { data: cats } = await supabase.from('categories').select('*').order('name');
+            const { data: cats } = await _supabase.from('categories').select('*').order('name');
             categories = cats || [];
 
             // Cargar subcategorías
-            const { data: subs } = await supabase.from('subcategories').select('*').order('name');
+            const { data: subs } = await _supabase.from('subcategories').select('*').order('name');
             subcategories = subs || [];
 
             // Cargar Beats (con referencias cruzadas para saber el género)
-            const { data: bts } = await supabase.from('beats')
+            const { data: bts } = await _supabase.from('beats')
                 .select(`
                     id, title, drive_id, created_at,
                     subcategories ( id, name, category_id, categories (name) )
@@ -295,7 +295,7 @@
 
             if (!subcategory_id) return alert("Debes seleccionar un subgénero. Si no existe, créalo a la izquierda.");
 
-            const { error } = await supabase.from('beats').insert([{ subcategory_id, title, drive_id }]);
+            const { error } = await _supabase.from('beats').insert([{ subcategory_id, title, drive_id }]);
             
             if (error) alert("Error al subir: " + error.message);
             else {
@@ -309,7 +309,7 @@
         async function deleteBeat(id, title) {
             if (!confirm(`¿Estás seguro de que deseas ELIMINAR permanentemente el beat "${title}"?`)) return;
 
-            const { error } = await supabase.from('beats').delete().eq('id', id);
+            const { error } = await _supabase.from('beats').delete().eq('id', id);
             
             if (error) alert("Error al eliminar: " + error.message);
             else loadDatabase();
@@ -318,7 +318,7 @@
         async function addCategory(e) {
             e.preventDefault();
             const name = document.getElementById('new-cat-name').value.toLowerCase();
-            const { error } = await supabase.from('categories').insert([{ name }]);
+            const { error } = await _supabase.from('categories').insert([{ name }]);
             
             if (error) alert("Error: " + error.message);
             else {
@@ -332,7 +332,7 @@
             const category_id = document.getElementById('parent-cat-select').value;
             const name = document.getElementById('new-sub-name').value.toLowerCase();
             
-            const { error } = await supabase.from('subcategories').insert([{ category_id, name }]);
+            const { error } = await _supabase.from('subcategories').insert([{ category_id, name }]);
             
             if (error) alert("Error: " + error.message);
             else {
