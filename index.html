@@ -2,302 +2,1860 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Sorteos TRÉBOL 777 — Gana con nosotros</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BASE 0 Studio | Beatmaking, Mix & Mastering</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Supabase JS SDK -->
+    <!-- SDK de Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- Estilos Personalizados -->
     <style>
         :root {
-            --trebol-green: #22c55e;
-            --trebol-dark: #14532d;
-            --trebol-gold: #fbbf24;
-            --trebol-bg: #f8fafc;
+            --bg-black: #000000;
+            --bg-dark: #0a0a0a;
+            --grey-light: #f4f4f4;
+            --grey-mid: #444444;
+            --grey-dark: #1a1a1a;
+            --text-main: #ffffff;
+            --text-grey: #888888;
+            --bg-glass: rgba(10, 10, 10, 0.94);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --wa-green: #25D366;
+            --gold: #ffd700;
+            --neon-gold: #ffeb3b;
+            --accent-glow: 0 0 40px rgba(255, 215, 0, 0.5);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: linear-gradient(rgba(0,0,0,0.18), rgba(0,0,0,0.65)),
+                        url('https://lh3.googleusercontent.com/d/1KmOCQYHylJbFtdAhWT0AZuEOFN5f1W-9');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-bottom: 120px;
+            position: relative;
+        }
+        #bg-particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.15;
+            mix-blend-mode: screen;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 5%;
+            background: var(--bg-glass);
+            backdrop-filter: blur(32px);
+            position: sticky; top: 0; z-index: 1000;
+            border-bottom: 1px solid rgba(255,215,0,0.15);
+            box-shadow: 0 8px 35px rgba(0,0,0,0.45);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .logo::before {
+            content: "BASE 0";
+            font-family: 'Mrs Saint Delafield', cursive;
+            font-size: 2.9rem;
+            color: var(--neon-gold);
+            text-shadow: var(--accent-glow), 0 0 70px #ffd700;
+            letter-spacing: -4px;
+        }
+        .currency-selector {
+            display: flex;
+            background: rgba(255,215,0,0.12);
+            border-radius: 999px;
+            border: 1px solid rgba(255,215,0,0.3);
+            overflow: hidden;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+        .currency-selector button {
+            padding: 8px 16px;
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .currency-selector button.active {
+            background: var(--neon-gold);
+            color: black;
+        }
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a {
+            color:#FFFFFF;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.83rem;
+            text-transform: uppercase;
+            letter-spacing: 1.8px;
+            position: relative;
+        }
+        .nav-links a:hover { color: #fff; }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 2px;
+            background: var(--neon-gold);
+            transition: width 0.4s;
+        }
+        .nav-links a:hover::after { width: 100%; }
+        .cart-trigger {
+            background: linear-gradient(135deg, #fff, #f8f8f8);
+            color: #000;
+            padding: 12px 26px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+            position: relative;
+        }
+        .cart-trigger:hover { transform: scale(1.05); }
+        .cart-badge-new {
+            position: absolute;
+            top: -9px; right: -9px;
+            background: #ff0000;
+            color: white;
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            border: 2.5px solid #000;
+            box-shadow: 0 0 18px #ff0000;
+        }
+        .promo-banner {
+            background: linear-gradient(90deg, #111, #1f1f1f);
+            color: var(--neon-gold);
+            text-align: center;
+            padding: 17px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3.5px;
+            font-size: 1.28rem;
+            animation: pulseBanner 2.4s infinite ease-in-out;
+            border-bottom: 3px solid var(--neon-gold);
+            text-shadow: 0 0 25px #ffd700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .promo-banner:hover {
+            background: linear-gradient(90deg, #1a1a1a, #2a2a2a);
+            letter-spacing: 4.5px;
+        }
+        @keyframes pulseBanner { 0%,100% { transform: scale(1); } 50% { transform: scale(1.018); } }
+        .hero {
+            height: 94vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 30%, transparent 35%, rgba(0,0,0,0.75) 85%);
+        }
+        .hero h1 {
+            font-size: 7.5rem;
+            font-weight: 900;
+            letter-spacing: -7px;
+            line-height: 0.75;
+            text-transform: uppercase;
+            text-shadow: 0 0 50px rgba(255,215,0,0.7);
+            -webkit-text-stroke: 1.8px rgba(255,235,59,0.12);
+        }
+        .studio-hand {
+            font-family: 'Mrs Saint Delafield', cursive;
+            font-size: 5.8rem;
+            color: var(--neon-gold);
+            margin-top: -42px;
+            opacity: 0.95;
+            text-shadow: 0 0 60px #ffd700;
+        }
+        .btn-explore {
+            padding: 19px 52px;
+            background: #fff;
+            color: #000;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.96rem;
+            border-radius: 50px;
+            box-shadow: 0 0 30px rgba(255,215,0,0.6);
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            position: relative;
+            z-index: 10;
+        }
+        .btn-explore:hover {
+            background: #000;
+            color: #fff;
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 15px 45px rgba(255,215,0,0.9);
+        }
+        section { padding: 120px 5%; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .section-header h2 {
+            font-size: 3.3rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            background: linear-gradient(90deg, #fff, var(--neon-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 50px;
         }
         
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Poppins', sans-serif; background-color: var(--trebol-bg); margin: 0; padding: 0; scroll-behavior: smooth; }
-        .font-bebas { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.05em; }
-        .hero-bg { background: linear-gradient(135deg, #14532d 0%, #064e3b 100%); position: relative; overflow: hidden; }
-        
-        /* Estilos de la Cuadrícula Optimizado para Touch */
-        .ticket-card { transition: all 0.1s ease; cursor: pointer; aspect-ratio: 1/1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 700; border-radius: 0.75rem; background: white; border: 2px solid #e2e8f0; color: #334155; user-select: none; font-size: 1.1rem; }
-        .ticket-card:active { transform: scale(0.9); background-color: #f1f5f9; }
-        
-        @media (min-width: 640px) { .ticket-card { font-size: 1.25rem; } }
+        /* --- CSS PARA BEATS RESPONSIVE --- */
+        .beats-catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 10px;
+        }
 
-        .ticket-card.selected { background: var(--trebol-green); color: white; border-color: var(--trebol-dark); transform: scale(1.05); box-shadow: 0 4px 6px -1px rgba(34, 197, 94, 0.5); }
-        
-        .ticket-card.sold { 
-            background-color: #ef4444 !important; 
-            color: white !important; 
-            border-color: #991b1b !important; 
-            cursor: not-allowed; 
-            opacity: 0.85; 
-            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-        }
-        
-        /* Ajuste de Carrito para iPhone con Notch */
-        #sticky-cart {
-            padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+        .beat-card-new {
+            display: flex;
+            flex-direction: column;
+            background: rgba(15, 15, 15, 0.95);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            height: 100%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
         }
 
-        /* Animaciones */
-        .loader-dark { border: 3px solid #e2e8f0; border-top: 3px solid var(--trebol-green); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .fade-in { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .beat-card-new:hover {
+            border-color: var(--neon-gold);
+            box-shadow: var(--accent-glow), 0 40px 90px rgba(255,215,0,0.3);
+            transform: scale(1.04);
+        }
+
+        .vinyl-hero-new {
+            width: 110px; height: 110px;
+            margin: 0 auto 20px;
+            background: radial-gradient(circle at 35% 30%, #555, #111, #000);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.7), inset 0 0 50px rgba(255,255,255,0.2);
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .vinyl-hero-new::after {
+            content: 'play_arrow';
+            font-family: 'Material Icons';
+            color: var(--neon-gold);
+            font-size: 2.8rem;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+        }
+
+        .vinyl-hero-new.playing {
+            animation: rotateVinyl 2.4s linear infinite;
+        }
+
+        .vinyl-hero-new.playing::after { content: 'pause'; }
+        @keyframes rotateVinyl { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .beat-title-new {
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: #fff;
+            margin: 15px 0;
+            text-align: center;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 3.6em;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .lic-btn-stack-new {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: auto;
+        }
+
+        .lic-btn-new:nth-child(3) {
+            grid-column: span 2;
+        }
+
+        .lic-btn-new {
+            background: transparent;
+            border: 1px solid rgba(255,215,0,0.3);
+            color: #fff;
+            padding: 10px 5px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem !important;
+            font-weight: 700;
+            transition: 0.3s;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 65px !important;
+            gap: 4px;
+        }
+
+        .lic-btn-new:hover {
+            background: var(--neon-gold);
+            color: #000;
+        }
+
+        .lic-btn-new .price-main {
+            font-size: 1rem;
+            font-weight: 900;
+        }
+
+        .lic-btn-new .price-equiv {
+            font-size: 0.7rem;
+            opacity: 0.75;
+        }
+
+        /* CAROUSEL CON FLECHAS Y SOMBRAS ESTILO SPOTIFY PARA MÓVIL */
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .scroll-btn {
+            display: none;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 20;
+            background: rgba(10, 10, 10, 0.95);
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+            transition: all 0.3s ease;
+        }
+
+        .scroll-btn i { font-size: 2rem; }
+        .scroll-btn:active { background: var(--gold); color: #000; transform: translateY(-50%) scale(0.9); }
+        .scroll-btn.left { left: 5px; }
+        .scroll-btn.right { right: 5px; }
+
+        @keyframes pulseArrow {
+            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.6); }
+            70% { box-shadow: 0 0 0 12px rgba(255, 215, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+        }
+
+        @media (max-width: 768px) {
+            .scroll-btn { display: flex; }
+            .scroll-btn.right { animation: pulseArrow 2s infinite; }
+
+            .carousel-wrapper::before {
+                content: '';
+                position: absolute;
+                top: 0; left: 0; bottom: 0;
+                width: 30px;
+                background: linear-gradient(to right, rgba(0,0,0,0.9), transparent);
+                z-index: 10;
+                pointer-events: none;
+            }
+            .carousel-wrapper::after {
+                content: '';
+                position: absolute;
+                top: 0; right: 0; bottom: 0;
+                width: 60px;
+                background: linear-gradient(to left, rgba(0,0,0,1), transparent);
+                z-index: 10;
+                pointer-events: none;
+            }
+
+            .beats-catalog-grid {
+                display: flex;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                overflow-y: hidden;
+                scroll-snap-type: x mandatory;
+                padding: 10px 45px 25px 35px;
+                gap: 15px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .beats-catalog-grid::-webkit-scrollbar { height: 0px; display: none; }
+
+            .beat-card-new {
+                min-width: 85vw; 
+                max-width: 320px;
+                scroll-snap-align: center;
+                flex-shrink: 0;
+            }
+
+            .vinyl-hero-new {
+                width: 100px !important;
+                height: 100px !important;
+                margin: 0 auto 15px auto !important;
+            }
+            .vinyl-hero-new::after { font-size: 2.5rem; }
+
+            .beat-title-new {
+                font-size: 1.15rem;
+                min-height: 3.6em;
+            }
+
+            .lic-btn-stack-new {
+                width: 100%;
+                grid-template-columns: 1fr 1fr;
+            }
+            .lic-btn-new:nth-child(3) {
+                grid-column: span 2;
+            }
+            
+            .lic-btn-new .price-main { font-size: 1rem !important; }
+            .lic-btn-new .price-equiv { display: block !important; }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3.5rem; letter-spacing: -2px; }
+            .section-header h2 { font-size: 2.2rem; }
+        }
+
+        .master-player {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(to bottom, #111, #000);
+            border-top: 2px solid var(--neon-gold);
+            display: none;
+            flex-direction: column;
+            z-index: 9999;
+            box-shadow: 0 -15px 50px rgba(0,0,0,0.9);
+            padding: 10px 5%;
+            transition: transform 0.3s ease;
+        }
+        .player-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .player-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .mini-art {
+            width: 45px; height: 45px;
+            background: #222;
+            border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid var(--gold);
+        }
+        .player-controls-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .iframe-container {
+            width: 100%;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #000;
+            position: relative;
+        }
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        @media (max-width: 768px) {
+            .master-player {
+                padding: 12px 15px;
+                height: auto;
+            }
+            .iframe-container {
+                height: 120px;
+            }
+            .player-meta b { font-size: 0.9rem; }
+        }
+        .toast-container-new {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .toast-msg-new {
+            background: var(--wa-green);
+            color: #fff;
+            padding: 15px 30px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            font-weight: 900;
+            font-size: 0.85rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            animation: toastIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        @keyframes toastIn {
+            from { transform: translateX(100%) scale(0.8); opacity: 0; }
+            to { transform: translateX(0) scale(1); opacity: 1; }
+        }
+        .stems-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.88);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .stems-modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        .stems-modal-content {
+            background: rgba(20,20,20,0.96);
+            border: 1px solid var(--neon-gold);
+            border-radius: 16px;
+            padding: 42px 32px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(255,215,0,0.25),
+                        inset 0 0 40px rgba(255,215,0,0.08);
+            transform: scale(0.82);
+            opacity: 0;
+            transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .stems-modal.show .stems-modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        .service-card {
+            background: rgba(15,15,15,0.88); 
+            border: 1px solid #333;
+            border-radius: 12px;
+            text-align: center; 
+            transition: all 0.4s ease; 
+            backdrop-filter: blur(8px);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .service-card:hover { border-color: var(--gold); transform: translateY(-12px); box-shadow: 0 20px 40px rgba(255,215,0,0.15); }
+        .service-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 2px solid var(--gold);
+        }
+        .service-content {
+            padding: 30px 25px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .service-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+            line-height: 1.2;
+            color: #fff;
+        }
+        .service-price {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--gold);
+            margin: 15px 0;
+            line-height: 1.2;
+        }
+        .service-price small {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            display: block;
+        }
+        .service-desc { color: #ddd; font-size: 0.95rem; margin-bottom: 25px; flex-grow: 1; }
+        .folder-main { margin-bottom: 15px; border: 1px solid #151515; background: rgba(10, 10, 10, 0.9); border-radius: 12px; overflow: hidden; transition: 0.25s; }
+        .folder-main:hover { border-color: var(--gold); }
+        .folder-header {
+            padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+            font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #fff;
+        }
+        .sub-folder { margin: 10px 20px 10px 50px; border: 1px solid var(--grey-mid); background: rgba(0,0,0,0.5); border-radius: 2px; overflow: hidden; }
+        .sub-header {
+            padding: 15px 20px; display: flex; align-items: center; cursor: pointer;
+            font-weight: 700; color: var(--grey-mid); text-transform: uppercase; font-size: 0.8rem;
+        }
+        .sub-header i { margin-right: 10px; }
+        .folder-content, .sub-content { display: none; padding: 15px; }
+        .active > .folder-content, .active > .sub-content { display: block; }
+        .licenses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .license-card {
+            background: rgba(15,15,15,0.88);
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 40px 25px;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(8px);
+        }
+        .license-card:hover {
+            transform: translateY(-12px);
+            border-color: var(--gold);
+            box-shadow: 0 20px 40px rgba(255,215,0,0.15);
+        }
+        .license-card.popular {
+            border-color: var(--gold);
+            transform: scale(1.06);
+            box-shadow: 0 25px 50px rgba(255,215,0,0.25);
+        }
+        .license-card.popular::after {
+            content: "MÁS POPULAR";
+            position: absolute;
+            top: 20px;
+            right: -50px;
+            background: var(--gold);
+            color: #000;
+            font-weight: 900;
+            font-size: 0.8rem;
+            padding: 8px 60px;
+            transform: rotate(45deg);
+            letter-spacing: 1px;
+        }
+        .license-title {
+            font-size: 2.4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+        .license-price {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--gold);
+            margin: 20px 0;
+            line-height: 1.2;
+        }
+        .license-price small {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            display: block;
+        }
+        .license-features {
+            list-style: none;
+            text-align: left;
+            margin: 30px 0;
+            padding: 0 10px;
+            font-size: 1rem;
+            color: #ddd;
+        }
+        .license-features li {
+            margin-bottom: 14px;
+            position: relative;
+            padding-left: 30px;
+        }
+        .license-features li::before {
+            content: "✔";
+            position: absolute;
+            left: 0;
+            color: #4caf50;
+            font-size: 1.3rem;
+        }
+        .license-features li.excluded::before {
+            content: "✖";
+            color: #f44336;
+        }
+        .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .test-card { background: rgba(10, 10, 10, 0.8); padding: 30px; border: 1px solid #1a1a1a; border-radius: 4px; display: flex; flex-direction: column; align-items: center; }
+        .test-card p { font-style: italic; color: #ccc; font-size: 0.9rem; margin-top: 15px; text-align: center; }
+        .test-card b { display: block; margin-top: 15px; font-size: 0.8rem; color: #fff; letter-spacing: 1px; }
+        .test-img { width: 100%; height: auto; border: 1px solid #333; border-radius: 4px; filter: grayscale(100%); transition: 0.3s; }
+        .test-card:hover .test-img { filter: grayscale(0%); border-color: #fff; }
+        .yt-link {
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+        .yt-link a {
+            color: var(--neon-gold);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .yt-link a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+        .contact-section { text-align: center; padding: 100px 5%; background: rgba(0,0,0,0.9); }
+        .social-links { display: flex; justify-content: center; gap: 30px; margin-top: 40px; flex-wrap: wrap; }
+        .social-btn {
+            text-decoration: none; color: #fff; display: flex; align-items: center; gap: 10px;
+            background: #111; padding: 15px 25px; border: 1px solid #333; transition: 0.3s; font-weight: 700;
+        }
+        .social-btn:hover { border-color: #fff; background: #222; }
+        .social-btn.wa-btn {
+            background: var(--wa-green); color: #fff; border: none; padding: 15px 35px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); position: relative; overflow: hidden;
+            min-width: 200px; justify-content: center;
+        }
+        .social-btn.wa-btn:hover { transform: scale(1.05); box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5); background: #20ba5a; }
+        .social-btn.wa-btn img { height: 30px; width: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+        
+        /* FOOTER MODIFICADO PARA EL ACCESO DE ADMIN */
+        footer { 
+            background: var(--bg-black); 
+            padding: 40px 5%; 
+            text-align: center; 
+            border-top: 1px solid var(--grey-dark); 
+            color: var(--text-grey); 
+            font-size: 0.75rem; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            position: relative;
+        }
+        .admin-link-secret {
+            color: #1a1a1a; /* Casi invisible */
+            text-decoration: none;
+            font-size: 0.65rem;
+            margin-top: 15px;
+            display: inline-block;
+            transition: color 0.3s;
+        }
+        .admin-link-secret:hover {
+            color: var(--gold);
+        }
+        
+        .cart-side { 
+            position: fixed; 
+            top: 0; 
+            right: -450px; 
+            width: 450px; 
+            height: 100%; 
+            background: #050505; 
+            z-index: 5000; 
+            transition: right 0.5s ease; 
+            padding: 40px; 
+            border-left: 1px solid #1a1a1a; 
+            overflow-y: auto; 
+        }
+        .cart-side.open { right: 0; }
+        .checkout-wa { 
+            width: 100%; 
+            padding: 18px; 
+            background: #fff; 
+            color: #000; 
+            border: none; 
+            font-weight: 900; 
+            cursor: pointer; 
+            margin-top: 20px; 
+            text-transform: uppercase; 
+            transition: 0.3s; 
+        }
+        .checkout-wa:hover { background: var(--wa-green); color: #fff; }
+        .payment-selector { margin-top: 20px; border-top: 1px solid #222; padding-top: 20px; }
+        .payment-selector label { 
+            display: block; 
+            font-size: 0.75rem; 
+            font-weight: 800; 
+            color: var(--gold); 
+            margin-bottom: 10px; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+        }
+        .pay-option {
+            background: #111; 
+            border: 1px solid #333; 
+            padding: 12px; 
+            border-radius: 6px; 
+            margin-bottom: 8px;
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            transition: 0.3s;
+        }
+        .pay-option:hover { border-color: var(--gold); }
+        .pay-option.selected { border-color: var(--gold); background: rgba(255,215,0,0.05); }
+        .pay-option input { display: none; }
+        .pay-option i { font-size: 1.2rem; color: var(--text-grey); }
+        .pay-option.selected i { color: var(--gold); }
+        .bank-details-box {
+            background: #0a0a0a; 
+            border: 1px dashed var(--gold); 
+            padding: 15px; 
+            border-radius: 8px; 
+            margin-top: 15px;
+            display: none; 
+            text-align: left;
+        }
+        .bank-details-box p { font-size: 0.85rem; margin-bottom: 5px; color: #ccc; }
+        .bank-details-box b { color: #fff; letter-spacing: 1px; }
+        .bank-card-img {
+            width: 100%;
+            max-width: 280px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid #333;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .hamburger { display: none; background: transparent; border: none; color: #fff; font-size: 2rem; cursor: pointer; }
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--bg-black);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 35px;
+            z-index: 2000;
+        }
+        .mobile-nav.open { display: flex; }
+        .mobile-nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        .close-mobile { position: absolute; top: 20px; right: 30px; font-size: 3rem; color: #fff; cursor: pointer; }
+        @media (max-width: 992px) {
+            .nav-links { display: none; }
+            .hamburger { display: block; }
+            .hero h1 { font-size: 4rem; }
+            .hero .studio-hand { font-size: 3.5rem; margin-top: -20px; }
+            section { padding: 80px 5%; }
+        }
+        @media (max-width: 768px) {
+            .hero { height: 75vh; }
+            .btn-explore { padding: 14px 40px; font-size: 0.9rem; }
+            .cart-side { width: 100%; right: -100%; }
+        }
+        .catalog-toolbar{
+            display:flex;
+            gap:14px;
+            justify-content:center;
+            flex-wrap:wrap;
+            margin:25px auto;
+            max-width:900px;
+        }
+        .catalog-toolbar input,
+        .catalog-toolbar select{
+            background:#0b0b0b;
+            border:1px solid #222;
+            color:#fff;
+            padding:12px;
+            border-radius:10px;
+            min-width:240px;
+            font-size: 1rem;
+        }
+        @media(max-width:768px){
+            .catalog-toolbar input,
+            .catalog-toolbar select{
+                width:100%;
+            }
+        }
+        #paypal-button-container {
+            margin: 20px 0;
+            padding: 10px;
+            background: #111;
+            border-radius: 8px;
+            border: 1px solid var(--gold);
+            min-height: 50px;
+            display: none;
+        }
+
+        /* --- ANIMACIÓN HINT SWIPE --- */
+        .global-swipe-hint {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neon-gold);
+            font-size: 0.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 15px auto 25px auto;
+            background: rgba(255, 215, 0, 0.08);
+            border: 1px dashed var(--gold);
+            padding: 12px 25px;
+            border-radius: 50px;
+            animation: slideHint 2.5s infinite ease-in-out;
+            transition: opacity 0.5s ease;
+            max-width: 90vw;
+            cursor: pointer;
+        }
+        .global-swipe-hint i { font-size: 1.4rem; margin-right: 10px; }
+        @keyframes slideHint {
+            0%, 100% { transform: translateX(-8px); opacity: 0.8; }
+            50% { transform: translateX(8px); opacity: 1; box-shadow: 0 0 15px rgba(255,215,0,0.3); }
+        }
     </style>
 </head>
-<body class="text-gray-800 antialiased">
+<body>
 
-    <!-- Navegación -->
-    <nav class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="#" class="flex items-center gap-2 text-xl md:text-3xl font-bebas text-green-800 tracking-wider">
-                <span class="text-2xl md:text-4xl">🍀</span> TRÉBOL 777
-            </a>
-            <a href="#verificar" class="text-[10px] md:text-sm font-bold text-green-700 hover:text-white bg-green-50 hover:bg-green-600 px-4 py-2 rounded-full transition-all border border-green-100">
-                🔍 VERIFICAR
-            </a>
-        </div>
-    </nav>
+    <canvas id="bg-particles"></canvas>
+    <div id="toast-root-new" class="toast-container-new"></div>
 
-    <!-- Hero Section -->
-    <header class="hero-bg text-white py-12 md:py-20 px-4 text-center">
-        <h1 class="text-4xl md:text-7xl font-bebas tracking-wide mb-4 text-yellow-400 drop-shadow-lg">¡GRAN SORTEO!</h1>
-        <p class="text-sm md:text-2xl mb-8 max-w-xl mx-auto font-light text-green-50 opacity-90 px-4">Gana increíbles premios. Compra tus boletos ahora y asegura tu lugar. ¡La suerte está de tu lado!</p>
-        
-        <div class="flex justify-center gap-2 md:gap-4 text-center font-bebas">
-            <div class="bg-black/30 p-3 md:p-5 rounded-xl min-w-[70px] md:min-w-[100px] backdrop-blur-md border border-white/5">
-                <span id="cd-days" class="block text-3xl md:text-5xl text-yellow-400">00</span>
-                <span class="text-[9px] md:text-xs tracking-widest uppercase font-poppins text-gray-300">Días</span>
-            </div>
-            <div class="bg-black/30 p-3 md:p-5 rounded-xl min-w-[70px] md:min-w-[100px] backdrop-blur-md border border-white/5">
-                <span id="cd-hours" class="block text-3xl md:text-5xl text-yellow-400">00</span>
-                <span class="text-[9px] md:text-xs tracking-widest uppercase font-poppins text-gray-300">Horas</span>
-            </div>
-            <div class="bg-black/30 p-3 md:p-5 rounded-xl min-w-[70px] md:min-w-[100px] backdrop-blur-md border border-white/5">
-                <span id="cd-minutes" class="block text-3xl md:text-5xl text-yellow-400">00</span>
-                <span class="text-[9px] md:text-xs tracking-widest uppercase font-poppins text-gray-300">Min</span>
-            </div>
+    <header>
+        <div class="logo"></div>
+
+        <div class="currency-selector">
+            <button data-currency="USD" class="active">USD</button>
+            <button data-currency="MXN">MXN</button>
         </div>
+
+        <nav class="nav-links">
+            <a href="#catalog">Catálogo</a>
+            <a href="#services">Servicios</a>
+            <a href="#testimonials">Testimonios</a>
+            <a href="#contact">Contacto</a>
+        </nav>
+
+        <div class="cart-trigger" onclick="toggleCart(true)">
+            <span class="material-icons">shopping_bag</span>
+            <span id="cart-count">0 ITEMS</span>
+            <div id="cart-badge-new" class="cart-badge-new">0</div>
+        </div>
+        <button class="hamburger" onclick="toggleMobileNav(true)">☰</button>
     </header>
 
-    <main class="max-w-6xl mx-auto px-4 py-8 md:py-12">
-        
-        <!-- PRODUCT GALLERY -->
-        <section class="mb-12">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center bg-white p-4 md:p-10 rounded-[2.5rem] shadow-sm border border-gray-100">
-                <div class="space-y-4">
-                    <div class="relative overflow-hidden rounded-3xl bg-gray-50 border border-gray-100">
-                        <img id="main-product-img" src="https://m.media-amazon.com/images/I/51E+vNtCsCL._AC_SX342_SY445_QL70_ML2_.jpg" alt="iPhone 17 Pro Orange" class="w-full h-auto object-contain p-6 md:p-12 aspect-square md:aspect-[4/3]">
-                        <div class="absolute top-4 right-4 bg-orange-500 text-white px-3 py-1 rounded-full font-bold text-[10px] uppercase tracking-tighter shadow-xl">Edición Especial</div>
-                    </div>
-                    <div id="thumb-grid" class="flex justify-center gap-3">
-                        <img src="https://m.media-amazon.com/images/I/51E+vNtCsCL._AC_SX342_SY445_QL70_ML2_.jpg" onclick="changeImg(this)" class="thumb-btn cursor-pointer rounded-2xl border-2 border-orange-500 w-16 h-16 object-contain p-1 bg-gray-50 transition-all">
-                    </div>
-                </div>
-                <div class="px-2">
-                    <div class="inline-block bg-orange-50 text-orange-600 px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest mb-3">🔥 Premio Estelar</div>
-                    <h2 class="text-3xl md:text-5xl font-bebas text-gray-800 mb-4 tracking-tight leading-none">iPhone 17 Pro <span class="text-orange-500">Titanio</span></h2>
-                    <p class="text-sm md:text-lg text-gray-500 mb-6 leading-relaxed">Llévate el iPhone más avanzado en su color más exclusivo. Diseño de titanio aeroespacial y cámara Pro Max.</p>
-                    <ul class="grid grid-cols-1 gap-3 mb-8">
-                        <li class="flex items-center gap-3 text-xs md:text-sm text-gray-600 font-semibold bg-gray-50 p-3 rounded-xl border border-gray-100">
-                            <span class="text-green-500 text-lg">⚡</span> Chip A19 Bionic (Nueva Gen)
-                        </li>
-                        <li class="flex items-center gap-3 text-xs md:text-sm text-gray-600 font-semibold bg-gray-50 p-3 rounded-xl border border-gray-100">
-                            <span class="text-green-500 text-lg">📸</span> Cámara 48MP Pro Max
-                        </li>
-                    </ul>
-                    <a href="#tickets-grid" class="block w-full bg-gray-900 text-white text-center py-4 rounded-2xl font-bold hover:bg-black transition-all shadow-lg active:scale-95 uppercase tracking-widest text-sm">Seleccionar Número</a>
+    <nav id="mobile-nav" class="mobile-nav">
+        <span class="close-mobile" onclick="toggleMobileNav(false)">×</span>
+        <a href="#catalog" onclick="toggleMobileNav(false)">Catálogo</a>
+        <a href="#services" onclick="toggleMobileNav(false)">Servicios</a>
+        <a href="#testimonials" onclick="toggleMobileNav(false)">Testimonios</a>
+        <a href="#contact" onclick="toggleMobileNav(false)">Contacto</a>
+    </nav>
+
+    <div class="promo-banner" onclick="scrollToSection('licensing')">
+        🔥 APROVECHA: 3X1 EN TODO EL CATÁLOGO (BRONCE Y PLATA) 🔥
+    </div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <p>90s Underground Style</p>
+            <h1>BASE 0</h1>
+            <div class="studio-hand">Studio</div>
+            <a class="btn-explore" onclick="scrollToSection('catalog')">Explorar Catálogo</a>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="section-header"><h2>ORIGEN</h2></div>
+        <p style="font-size: 1.4rem; color: var(--text-grey); max-width: 850px; font-weight: 300; margin: 0 auto; text-align: center;">
+            <b>BASE 0</b> es el cimiento rítmico del hip-hop underground. Sonido con textura, grasa y autoridad. Vandalizamos el silencio con producciones de nivel industria inspiradas en los 90s.
+        </p>
+    </section>
+
+    <section id="services">
+        <div class="section-header"><h2>SERVICIOS PRO</h2></div>
+        <div class="services-grid">
+            <div class="service-card">
+                <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&q=80&w=800" alt="Diseño de portadas" class="service-img">
+                <div class="service-content">
+                    <div class="service-title">DISEÑO DE PORTADAS Y LOGOTIPOS</div>
+                    <div class="service-price">$35.99 <small>USD</small><small>≈ $665 MXN</small></div>
+                    <p class="service-desc">Diseño profesional y exclusivo personalizado para la identidad de tu marca artística.</p>
+                    <button class="lic-btn-new" style="width: 100%; min-height: 50px !important; margin-top: auto;" onclick="addService('DISEÑO PORTADA/LOGO', 665, 35.99)">AÑADIR AL PEDIDO</button>
                 </div>
             </div>
-        </section>
-
-        <!-- VERIFICADOR -->
-        <section id="verificar" class="bg-white rounded-[2.5rem] shadow-sm p-6 md:p-10 mb-12 border border-gray-100">
-            <div class="text-center mb-8">
-                <h2 class="text-3xl font-bebas text-green-800 mb-2">Buscador de Boletos</h2>
-                <p class="text-xs text-gray-400 max-w-xs mx-auto">Ingresa tu WhatsApp para ver tus números asignados.</p>
-            </div>
-            <div class="max-w-md mx-auto flex flex-col gap-3">
-                <input type="tel" id="verify-phone" placeholder="Ej: +524771234567" class="w-full px-5 py-4 rounded-2xl border-2 border-gray-100 focus:border-green-500 outline-none transition-all font-mono text-center text-lg bg-gray-50">
-                <button id="btn-verify" onclick="verifyTicketsDB()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-2xl transition-all shadow-md active:scale-95 text-sm uppercase tracking-widest">🔍 Consultar</button>
-            </div>
-            <div id="verification-results" class="mt-8 hidden fade-in"></div>
-        </section>
-
-        <!-- GRILLA -->
-        <section class="bg-white p-4 md:p-8 rounded-[2.5rem] shadow-sm border border-gray-100">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 px-2">
-                <div class="text-center md:text-left">
-                    <h2 class="text-3xl font-bebas text-gray-800 mb-1">Elige tu Suerte</h2>
-                    <p class="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Boleto: <strong class="text-green-600 text-sm">$200 MXN</strong></p>
-                </div>
-                <div class="bg-gray-50 p-2 rounded-2xl flex items-center w-full md:w-64 border border-gray-100">
-                    <span class="px-2 opacity-30">🔍</span>
-                    <input type="text" id="search-ticket-grid" placeholder="Buscar número..." class="bg-transparent border-none outline-none w-full text-sm font-semibold">
+            
+            <div class="service-card" style="border-color: var(--neon-gold);">
+                <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&q=80&w=800" alt="Mix y Mastering" class="service-img">
+                <div class="service-content">
+                    <div class="service-title">MIX / MASTERING PROFESIONAL</div>
+                    <div class="service-price">$53.99 <small>USD</small><small>≈ $1,000 MXN</small></div>
+                    <p class="service-desc">Claridad, pegada y volumen competitivo para que tus temas suenen a nivel industria.</p>
+                    <button class="lic-btn-new" style="width: 100%; min-height: 50px !important; margin-top: auto; background: var(--neon-gold); color: #000;" onclick="addService('MIX / MASTERING', 1000, 53.99)">AÑADIR AL PEDIDO</button>
                 </div>
             </div>
-            <div id="tickets-grid" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-10 gap-2 md:gap-4 mb-24 min-h-[400px]"></div>
-        </section>
-    </main>
-
-    <!-- Carrito App-Like (Mobile Optimized) -->
-    <div id="sticky-cart" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-4 md:p-6 shadow-[0_-20px_40px_-10px_rgba(0,0,0,0.1)] transform translate-y-full transition-transform duration-500 z-[60] hidden rounded-t-[2.5rem]">
-        <div class="max-w-6xl mx-auto">
-            <!-- Barra de Resumen en Móvil -->
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="w-full md:w-auto text-center md:text-left">
-                    <div class="flex items-center justify-center md:justify-start gap-2 mb-1">
-                        <span id="cart-count" class="bg-green-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full">0</span>
-                        <p class="text-xs text-gray-400 font-bold uppercase tracking-widest">Seleccionados</p>
-                    </div>
-                    <p id="cart-numbers" class="font-bebas text-2xl text-green-700 truncate max-w-full md:max-w-md tracking-widest mb-1"></p>
-                    <p class="text-lg font-black text-gray-800">Total: <span id="cart-total" class="text-green-600">$0 MXN</span></p>
+            
+            <div class="service-card">
+                <img src="https://images.unsplash.com/photo-1598653222000-6b7b7a552625?auto=format&fit=crop&q=80&w=800" alt="Beats a medida" class="service-img">
+                <div class="service-content">
+                    <div class="service-title">BEATS A MEDIDA (EXCLUSIVO)</div>
+                    <div class="service-price">$53.99 <small>USD</small><small>≈ $1,000 MXN</small></div>
+                    <p class="service-desc">Producciones exclusivas diseñadas desde cero específicamente para tu estilo.<br><br><b style="color:var(--gold); font-size:0.85rem;">Stems (Opcional): +$350 MXN</b></p>
+                    <button class="lic-btn-new" style="width: 100%; min-height: 50px !important; margin-top: auto;" onclick="addCustomBeatModal('BEAT EXCLUSIVO A MEDIDA', 1000, 53.99)">AÑADIR AL PEDIDO</button>
                 </div>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full md:w-auto flex-1">
-                    <input type="text" id="buyer-name" placeholder="Tu Nombre" class="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-green-500/20">
-                    <input type="tel" id="buyer-phone" placeholder="Tu WhatsApp" class="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-green-500/20">
-                </div>
+            </div>
+        </div>
+    </section>
 
-                <button onclick="sendWhatsApp()" class="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white font-black py-4 px-10 rounded-2xl shadow-xl shadow-green-200 transition-all active:scale-95 uppercase tracking-widest text-sm">
-                    Apartar por WhatsApp
-                </button>
+    <section id="catalog">
+        <div class="section-header"><h2>BEATS DE CATÁLOGO</h2></div>
+        <div class="catalog-toolbar">
+            <input id="catalogSearch" placeholder="Buscar género, subgénero o beat..." onkeyup="catalogFilter()" />
+            <select id="catalogSub" onchange="catalogFilter()">
+                <option value="">Todos los subgéneros</option>
+            </select>
+        </div>
+        <div style="text-align: center;">
+            <div class="global-swipe-hint" id="swipe-hint-text" onclick="hideGlobalHint()">
+                <i class="material-icons">swipe</i> Desliza o usa las flechas para explorar más beats 👉
+            </div>
+        </div>
+        <div id="catalog-root">
+            <p style="text-align:center; padding: 40px; color: var(--gold); font-weight: 900;">Cargando catálogo desde la base de datos...</p>
+        </div>
+    </section>
+
+    <section id="licensing">
+        <div class="section-header"><h2>LICENCIAS DISPONIBLES</h2></div>
+        <div class="licenses-grid">
+            <div class="license-card">
+                <div class="license-title">BRONCE</div>
+                <div class="license-price" id="price-bronce">$18.99 <small>USD</small><br><small>≈ $365 MXN</small></div>
+                <ul class="license-features">
+                    <li>MP3 + WAV de Alta Calidad</li>
+                    <li>Hasta 100,000 Streams</li>
+                    <li>Hasta 5,000 Copias (Ventas)</li>
+                    <li class="excluded">Radio / TV (No permitido)</li>
+                    <li class="excluded">Sin Stems (Pistas separadas)</li>
+                    <li class="excluded">Licencia No Exclusiva</li>
+                </ul>
+                <div class="lic-btn-stack-new">
+                    <button class="lic-btn-new" onclick="scrollToSection('catalog')">Elegir beats</button>
+                </div>
+            </div>
+
+            <div class="license-card popular">
+                <div class="license-title">PLATA</div>
+                <div class="license-price" id="price-plata">$26.99 <small>USD</small><br><small>≈ $518 MXN</small></div>
+                <ul class="license-features">
+                    <li>MP3 + WAV de Alta Calidad</li>
+                    <li><b>Streams Ilimitados</b></li>
+                    <li><b>Copias (Ventas) Ilimitadas</b></li>
+                    <li>Radio / TV (Permitido)</li>
+                    <li class="excluded">Sin Stems (Pistas separadas)</li>
+                    <li class="excluded">Licencia No Exclusiva</li>
+                </ul>
+                <div class="lic-btn-stack-new">
+                    <button class="lic-btn-new" onclick="scrollToSection('catalog')">Elegir beats</button>
+                </div>
+            </div>
+
+            <div class="license-card">
+                <div class="license-title">ORO</div>
+                <div class="license-price" id="price-oro">$53.99 <small>USD</small><br><small>≈ $1,037 MXN</small></div>
+                <ul class="license-features">
+                    <li>MP3 + WAV de Alta Calidad</li>
+                    <li><b>Streams Ilimitados</b></li>
+                    <li><b>Copias (Ventas) Ilimitadas</b></li>
+                    <li>Radio / TV (Permitido)</li>
+                    <li><b>Stems Completos</b> (Pistas separadas)</li>
+                    <li><b>Uso Exclusivo</b> (Se retira de la tienda)</li>
+                </ul>
+                <div class="lic-btn-stack-new">
+                    <button class="lic-btn-new" onclick="scrollToSection('catalog')">Elegir beats</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials">
+        <div class="section-header"><h2>TESTIMONIOS</h2></div>
+        <div class="testimonial-grid">
+            <div class="test-card">
+                <img src="data:image/jpeg;base64,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" class="test-img" alt="Desorden - Malagradecidos">
+                <p>"DESORDEN - MALAGRADECIDOS"<br><small>KDC / CESAR DE BRONCE / LIL RAM</small></p>
+                <b style="text-align: center; margin-top: 15px;">- KDC KARTEL DE LAS CALLES (Tijuana, MX) &<br>CESAR DE BRONCE (León, GTO)</b>
+                <div class="yt-link">
+                    <a href="https://www.youtube.com/watch?v=Xz_Q1yn5BVU&list=RDXz_Q1yn5BVU&start_radio=1" target="_blank">Ver en YouTube →</a>
+                </div>
+            </div>
+            <div class="test-card">
+                <img src="https://lh3.googleusercontent.com/d/13IeZ4IDS52JxAy_UL8IXSRWvOs9LKqI7" class="test-img" alt="Testimonio 1">
+                <p>"Un honor formar parte de este gran proyecto con los grandes."</p>
+                <b>- KARTEL DE LAS CALLES (Tijuana, MX)</b>
+                <div class="yt-link">
+                    <a href="https://youtu.be/OQPpV7NtvXU?si=olRl7rt7UaAkDW3E" target="_blank">Ver en YouTube →</a>
+                </div>
+            </div>
+            <div class="test-card">
+                <img src="https://lh3.googleusercontent.com/d/1ikXZlai5DwtZj0EMXzke8np3hxvycik5" class="test-img" alt="Testimonio 2">
+                <p>"🔥 Brutal el trabajo en los ritmos. Sonido puro de Guanatos."</p>
+                <b>- El Pinche Brujo (KING KAISER) (Guadalajara, MX)</b>
+                <div class="yt-link">
+                    <a href="https://youtu.be/9Ym6owlpCn4?si=nfXsNk3s87QKOKq6" target="_blank">Ver en YouTube →</a>
+                </div>
+            </div>
+            <div class="test-card">
+                <img src="https://lh3.googleusercontent.com/u/0/d/1AYFhrW8KmmgaXDub95n8jUTXptwLWdXB=w800-h800-iv1" class="test-img" alt="Testimonio 3">
+                <p>"Trabajando con los códigos de la vieja escuela. Calidad pura."</p>
+                <b>- MC LUKA (CDMX, MX)</b>
+                <div class="yt-link">
+                    <a href="https://youtu.be/dV-M_123rZs?si=dXvEMCTs2fR0CZfv" target="_blank">Ver en YouTube →</a>
+                </div>
+            </div>
+            <div class="test-card">
+                <img src="https://lh3.googleusercontent.com/d/14IXaxNGNdhKoeeF1B9vwpeQBAcZeOu5S" class="test-img" alt="Testimonio 4">
+                <p>"Calidad que se siente en cada barra. Representando el sureste con Base 0."</p>
+                <b>- LIL WACHO (Mérida, YUC)</b>
+                <div class="yt-link">
+                    <a href="https://youtu.be/9Ym6owlpCn4?si=nfXsNk3s87QKOKq6" target="_blank">Ver en YouTube →</a>
+                </div>
+            </div>
+            <div class="test-card">
+                <img src="https://drive.google.com/thumbnail?id=1Vpq5I0B04pZnZOern6h91ILFlXg2dQfi" class="test-img" alt="Costa Oeste Bandida - Wason Low Cali">
+                <p>"Sonido callejero con mucho flow. Base 0 le dio ese toque crudo que necesitábamos."</p>
+                <b>- Costa Oeste Bandida - Wason Low Cali (Originarios de Ensenada)</b>
+                <div class="yt-link">
+                    <a href="https://youtu.be/GNgkiWPINuQ?si=fz4jrFIw9xZ8BC2u" target="_blank">Ver en YouTube →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="section-header"><h2>CONTÁCTANOS</h2></div>
+        <div class="social-links">
+            <a href="https://www.facebook.com/share/15Y91C5Rsh/?mibextid=wwXIfr" target="_blank" class="social-btn">
+                <i class="material-icons">facebook</i> FACEBOOK
+            </a>
+            <a href="https://www.tiktok.com/@basecero_?_r=1&_t=ZS-94TafinDZLB" target="_blank" class="social-btn">
+                <i class="material-icons">music_note</i> TIKTOK
+            </a>
+            <a href="https://wa.me/524775874578" target="_blank" class="social-btn wa-btn">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER MODIFICADO -->
+    <footer>
+        BASE 0 STUDIO - TODOS LOS DERECHOS RESERVADOS © 2026
+        <br>
+        <a href="admin.html" id="admin-link" class="admin-link-secret">Admin Access</a>
+    </footer>
+
+    <!-- Reproductor -->
+    <div class="master-player" id="m-player">
+        <div class="player-top-row">
+            <div class="player-meta">
+                <div class="mini-art">💽</div>
+                <div>
+                    <b id="p-title" style="text-transform:uppercase; display:block;">Selecciona un beat</b>
+                    <small style="color:#aaa">BASE 0 Studio Preview</small>
+                </div>
+            </div>
+            <div class="player-controls-right">
+                <i class="material-icons" style="font-size:2.2rem; cursor:pointer; color:var(--neon-gold);" onclick="stopBeat()">cancel</i>
+            </div>
+        </div>
+        <div class="iframe-container" id="player-frame-container"></div>
+    </div>
+
+    <!-- Carrito -->
+    <div class="cart-side" id="cart-side">
+        <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom:40px;">
+            <h2 style="font-weight: 900;">TU PEDIDO</h2>
+            <i class="material-icons" onclick="toggleCart(false)" style="cursor:pointer">close</i>
+        </div>
+
+        <div id="cart-items-list"></div>
+
+        <div class="payment-selector">
+            <label>Método de Pago:</label>
+            <div class="pay-option selected" id="opt-transfer" onclick="selectPayment('transfer')">
+                <i class="material-icons">account_balance</i>
+                <div>
+                    <b style="font-size: 0.8rem; display: block;">Transferencia / Depósito</b>
+                    <small style="font-size: 0.65rem; color: #888;">BBVA México</small>
+                </div>
+            </div>
+            <div class="pay-option" id="opt-online" onclick="selectPayment('online')">
+                <i class="material-icons">payment</i>
+                <div>
+                    <b style="font-size: 0.8rem; display: block;">Tarjeta / PayPal</b>
+                    <small style="font-size: 0.65rem; color: #888;">Procesamiento seguro</small>
+                </div>
+            </div>
+            <div class="bank-details-box" id="bank-box">
+                <p>Banco: <b>BBVA Bancomer</b></p>
+                <p>Titular: <b>BASE CERO ESTUDIO</b></p>
+                <p>Tarjeta: <b>4152 3145 5220 8277</b></p>
+                <p>Concepto: <b>Base 0 Studio BBVA</b></p>
+                <img src="https://lh3.googleusercontent.com/d/19OLOQQ8nCemZwWEc4ISCRDMt07zvmH7Q" alt="Tarjeta BBVA Base 0 Studio" class="bank-card-img">
+            </div>
+        </div>
+
+        <div id="paypal-button-container"></div>
+
+        <div style="border-top: 1px solid #111; padding-top:20px; margin-top:20px;">
+            <div style="display:flex; justify-content:space-between; font-weight:900; font-size:1.2rem">
+                <span>TOTAL:</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+            <p id="promo-msg" style="color: #fff; font-weight: 800; font-size: 0.7rem; margin-top: 10px; background:#222; text-align:center; display:none;">¡OFERTA 3X1 ACTIVADA!</p>
+            <button class="checkout-wa" onclick="checkoutWA()">Enviar Cotización por WhatsApp</button>
+        </div>
+    </div>
+
+    <!-- Modal Stems -->
+    <div id="stems-modal" class="stems-modal">
+        <div class="stems-modal-content">
+            <h3 style="color: var(--neon-gold); margin-bottom: 1.2rem; font-size: 1.4rem;">¿Deseas añadir los stems al pedido?</h3>
+            <p style="color: #ccc; margin-bottom: 1.8rem; line-height: 1.5;">Archivos fuente + stems completos (WAV 24-bit / 48kHz)</p>
+            <div style="font-size: 2.1rem; font-weight: 900; color: var(--gold); margin: 1.5rem 0;">
+                +$350 MXN
+                <small style="font-size: 1rem; opacity: 0.75; display: block; margin-top: 0.4rem;">≈ $18.50 USD</small>
+            </div>
+            <div style="display: flex; gap: 16px; justify-content: center; margin-top: 2rem;">
+                <button id="stems-no" class="lic-btn-new" style="background: #333; border-color: #555; padding: 14px 38px; font-size: 1.05rem;">No</button>
+                <button id="stems-yes" class="lic-btn-new" style="background: var(--neon-gold); color: #000; border: none; padding: 14px 38px; font-size: 1.05rem; font-weight: 900;">Sí (+$350)</button>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-500 text-center py-16 px-4 border-t-8 border-green-800">
-        <h3 class="text-2xl font-bebas text-green-500 mb-4 tracking-widest">Sorteos TRÉBOL 777</h3>
-        <p class="text-[10px] uppercase font-bold tracking-widest opacity-40">© 2026 Todos los derechos reservados.</p>
-        <a href="admin.html" class="inline-block mt-8 text-[9px] opacity-10 hover:opacity-100 transition-all uppercase tracking-tighter">Administrador</a>
-    </footer>
-
     <script>
-        const SUPABASE_URL = 'https://auqxarsyigimlcejixld.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_5LaGv8jrhP5lA2AngpAp7w_YZFX0aQB';
-        let supabaseClient = null;
-        try { if (window.supabase) supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); } catch (e) {}
+        // ────────────────────────────────────────────────
+        // CONFIGURACIÓN SUPABASE (BACKEND)
+        // ────────────────────────────────────────────────
+        
+        const SUPABASE_URL = 'https://bltlprtphzejinwqdwdo.supabase.co'; 
+        const SUPABASE_ANON_KEY = 'sb_publishable_h-6mJS9NZhgPZtY2HwMLmA_rxWThIqu';
+        
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        const TICKET_PRICE = 200; 
-        const TOTAL_TICKETS = 400; 
-        const ADMIN_WHATSAPP = "524775874578"; 
-        let selectedTickets = [];
+        let database = [];
 
-        function changeImg(el) { document.getElementById('main-product-img').src = el.src; }
-
-        function initializeGrid() {
-            const grid = document.getElementById('tickets-grid');
-            if(!grid) return; grid.innerHTML = ''; 
-            for (let i = 0; i < TOTAL_TICKETS; i++) {
-                const num = String(i).padStart(3, '0');
-                const div = document.createElement('div');
-                div.className = 'ticket-card font-bebas';
-                div.textContent = num;
-                div.dataset.number = num;
-                div.onclick = () => {
-                    if (div.classList.contains('sold')) return;
-                    const idx = selectedTickets.indexOf(num);
-                    if (idx > -1) { selectedTickets.splice(idx, 1); div.classList.remove('selected'); }
-                    else { selectedTickets.push(num); div.classList.add('selected'); }
-                    updateCartUI();
-                };
-                grid.appendChild(div);
-            }
-        }
-
-        async function loadSoldTickets() {
-            if (!supabaseClient) return;
+        async function fetchCatalogFromSupabase() {
             try {
-                const { data, error } = await supabaseClient.from('tickets').select('ticket_number');
-                if (error) throw error;
-                data?.forEach(t => {
-                    const card = document.querySelector(`.ticket-card[data-number="${t.ticket_number}"]`);
-                    if (card) { card.classList.add('sold'); card.classList.remove('selected'); }
-                });
-            } catch (err) {}
-        }
+                const { data, error } = await supabaseClient
+                    .from('categories')
+                    .select(`
+                        name,
+                        subs:subcategories (
+                            name,
+                            beats:beats (title, drive_id)
+                        )
+                    `);
 
-        function updateCartUI() {
-            const cart = document.getElementById('sticky-cart');
-            if (selectedTickets.length > 0) {
-                cart.classList.remove('hidden');
-                setTimeout(() => cart.classList.remove('translate-y-full'), 10);
-                document.getElementById('cart-count').textContent = selectedTickets.length;
-                document.getElementById('cart-numbers').textContent = selectedTickets.sort().join(', ');
-                document.getElementById('cart-total').textContent = `$${(selectedTickets.length * TICKET_PRICE).toLocaleString()} MXN`;
-            } else {
-                cart.classList.add('translate-y-full');
-                setTimeout(() => { if(selectedTickets.length === 0) cart.classList.add('hidden'); }, 500);
+                if (error) throw error;
+
+                if (data && data.length > 0) {
+                    database = data.map(category => ({
+                        name: category.name,
+                        subs: category.subs.map(sub => ({
+                            name: sub.name,
+                            beats: sub.beats.map(beat => ({
+                                title: beat.title,
+                                drive: beat.drive_id 
+                            }))
+                        }))
+                    }));
+                }
+
+                render();
+                initSubgenreSelect();
+                updateAllPrices();
+
+            } catch (err) {
+                console.error("Error al cargar el catálogo de Supabase:", err);
+                const root = document.getElementById('catalog-root');
+                if (root) {
+                    root.innerHTML = '<p style="text-align:center; padding: 40px; color: #ff4444; font-weight: 900;">Error al conectar con la base de datos. Verifica tu conexión a internet o tus claves de Supabase.</p>';
+                }
             }
         }
 
-        function sendWhatsApp() {
-            const name = document.getElementById('buyer-name').value.trim();
-            const phone = document.getElementById('buyer-phone').value.trim();
-            if (!name || !phone) return alert("Por favor completa tus datos.");
-            const msg = `¡Hola! 🍀\nQuiero apartar estos boletos:\n✨ *Números:* ${selectedTickets.sort().join(', ')}\n👤 *Nombre:* ${name}\n📞 *WhatsApp:* ${phone}\n💰 *Total:* $${selectedTickets.length * TICKET_PRICE} MXN`;
-            window.open(`https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
+        // ────────────────────────────────────────────────
+        // CONFIGURACIÓN DE MONEDAS
+        // ────────────────────────────────────────────────
+        const EXCHANGE_RATE = 19.20;
+
+        let currentCurrency = localStorage.getItem('preferredCurrency') || 'USD';
+
+        const licensePrices = {
+            bronce: { usd: 18.99, mxn: 365 },
+            plata:  { usd: 26.99, mxn: 518 },
+            oro:    { usd: 53.99, mxn: 1037 }
+        };
+
+        function formatPrice(value, currency) {
+            if (currency === 'USD') {
+                return `$${value.toFixed(2)} <small>USD</small><br><small>≈ $${Math.round(value * EXCHANGE_RATE)} MXN</small>`;
+            }
+            return `$${Math.round(value)} <small>MXN</small><br><small>≈ $${(value / EXCHANGE_RATE).toFixed(2)} USD</small>`;
         }
 
-        document.getElementById('search-ticket-grid').addEventListener('input', (e) => {
-            const val = e.target.value.trim();
-            document.querySelectorAll('.ticket-card').forEach(t => {
-                t.style.display = t.dataset.number.includes(val) ? 'flex' : 'none';
+        function updateLicensePrices() {
+            ['bronce','plata','oro'].forEach(key => {
+                const el = document.getElementById(`price-${key}`);
+                if (el) {
+                    const price = licensePrices[key][currentCurrency.toLowerCase()];
+                    el.innerHTML = formatPrice(price, currentCurrency);
+                }
+            });
+        }
+
+        function updateBeatButtons() {
+            document.querySelectorAll('.lic-btn-new').forEach(btn => {
+                const txt = btn.textContent.trim().toLowerCase();
+                let type = null;
+                if (txt.includes('bronce')) type = 'bronce';
+                else if (txt.includes('plata')) type = 'plata';
+                else if (txt.includes('oro')) type = 'oro';
+
+                if (type) {
+                    const p = licensePrices[type];
+                    const main = currentCurrency === 'USD' ? p.usd : p.mxn;
+                    const equiv = currentCurrency === 'USD' ? p.mxn : p.usd;
+                    const eqCur = currentCurrency === 'USD' ? 'MXN' : 'USD';
+
+                    const span = btn.querySelector('span');
+                    if (span) {
+                        span.innerHTML = `
+                            <div class="price-main">$${currentCurrency === 'USD' ? main.toFixed(2) : Math.round(main)} ${currentCurrency}</div>
+                            <div class="price-equiv">≈ $${currentCurrency === 'USD' ? Math.round(equiv) : equiv.toFixed(2)} ${eqCur}</div>
+                        `;
+                    }
+                }
+            });
+        }
+
+        function updateAllPrices() {
+            updateLicensePrices();
+            updateBeatButtons();
+        }
+
+        document.querySelectorAll('.currency-selector button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentCurrency = btn.dataset.currency;
+                localStorage.setItem('preferredCurrency', currentCurrency);
+                document.querySelectorAll('.currency-selector button').forEach(b => {
+                    b.classList.toggle('active', b.dataset.currency === currentCurrency);
+                });
+                updateAllPrices();
             });
         });
 
-        async function verifyTicketsDB() {
-            const phone = document.getElementById('verify-phone').value.trim();
-            const results = document.getElementById('verification-results');
-            const btn = document.getElementById('btn-verify');
-            if (!phone) return alert("Ingresa un número.");
-            
-            btn.disabled = true; btn.textContent = "...";
-            results.classList.remove('hidden');
-            results.innerHTML = `<div class="flex justify-center"><div class="loader-dark"></div></div>`;
+        // ────────────────────────────────────────────────
+        // CONFIGURACIÓN GENERAL / CARRITO
+        // ────────────────────────────────────────────────
+        const licDetails = {
+            bronce: { n: 'BRONCE', m: 350, u: 18.99, p: true },
+            plata:  { n: 'PLATA',  m: 500, u: 26.99, p: true },
+            oro:    { n: 'ORO',    m: 1000, u: 53.99, p: false }
+        };
+
+        let cart = [];
+        let pendingGoldBeat = null;
+        const stemsPriceMXN = 350;
+        const stemsPriceUSD = 18.50;
+        let selectedPaymentMethod = 'transfer';
+
+        let paypalRendered = false;
+
+        function initPayPalButton() {
+            if (paypalRendered) return;
+            if (typeof paypal === 'undefined' || !paypal.Buttons) {
+                setTimeout(initPayPalButton, 500);
+                return;
+            }
 
             try {
-                const { data, error } = await supabaseClient.from('tickets').select(`ticket_number, customers!fk_cliente(full_name)`).eq('whatsapp_number', phone);
-                if (error) throw error;
-                if (!data || data.length === 0) {
-                    results.innerHTML = `<div class="bg-red-50 p-6 rounded-3xl text-center border border-red-100 text-red-800 font-bold">No se encontraron boletos activos.</div>`;
+                paypal.Buttons({
+                    style: { shape: 'rect', color: 'gold', layout: 'vertical', label: 'paypal' },
+                    createOrder: function(data, actions) {
+                        let totalUSD = 0;
+                        cart.forEach(item => totalUSD += item.usd);
+                        if (totalUSD <= 0) {
+                            alert('El carrito está vacío.');
+                            return actions.reject();
+                        }
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: { currency_code: 'USD', value: totalUSD.toFixed(2) },
+                                description: 'Compra en BASE 0 Studio'
+                            }]
+                        });
+                    },
+                    onApprove: function(data, actions) {
+                        return actions.order.capture().then(function(details) {
+                            alert('¡Pago exitoso! Gracias ' + details.payer.name.given_name + ' 🎉');
+                            cart = [];
+                            updateCart();
+                            toggleCart(false);
+                        });
+                    },
+                    onCancel: function() {},
+                    onError: function(err) {
+                        console.error('Error PayPal:', err);
+                        alert('Error al procesar el pago con PayPal. Intenta de nuevo o usa transferencia.');
+                    }
+                }).render('#paypal-button-container').catch(function(err) {
+                    console.warn('Error renderizando PayPal:', err);
+                    renderPayPalFallback();
+                });
+                paypalRendered = true;
+            } catch (err) {
+                console.warn('Error inicializando PayPal:', err);
+                renderPayPalFallback();
+                paypalRendered = true;
+            }
+        }
+
+        function renderPayPalFallback() {
+            const container = document.getElementById('paypal-button-container');
+            container.innerHTML = '<button onclick="simulatePayPal()" style="width: 100%; padding: 15px; background: #ffc439; color: #000; border: none; border-radius: 4px; font-weight: 900; cursor: pointer; text-transform: uppercase;">PayPal (Modo Prueba)</button>';
+        }
+
+        function simulatePayPal() {
+            if (cart.length === 0) {
+                alert('El carrito está vacío.');
+                return;
+            }
+            alert('¡Pago exitoso (Simulado)! Gracias 🎉');
+            cart = [];
+            updateCart();
+            toggleCart(false);
+        }
+
+        function toggleCart(force) {
+            const side = document.getElementById('cart-side');
+            const paypalContainer = document.getElementById('paypal-button-container');
+
+            const shouldBeOpen = force !== false;
+
+            side.classList.toggle('open', shouldBeOpen);
+            paypalContainer.style.display = shouldBeOpen ? 'block' : 'none';
+        }
+
+        function showToastNew(msg) {
+            const root = document.getElementById('toast-root-new');
+            const toast = document.createElement('div');
+            toast.className = 'toast-msg-new';
+            toast.innerHTML = `<span class="material-icons">check_circle</span> ${msg}`;
+            root.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = "toastIn 0.4s reverse forwards";
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                const headerOffset = 90;
+                const elementPosition = el.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+            }
+        }
+
+        function selectPayment(method) {
+            selectedPaymentMethod = method;
+            document.getElementById('opt-transfer').classList.toggle('selected', method === 'transfer');
+            document.getElementById('opt-online').classList.toggle('selected', method === 'online');
+            document.getElementById('bank-box').style.display = method === 'transfer' ? 'block' : 'none';
+        }
+
+        function catalogFilter() {
+            const searchTerm = document.getElementById('catalogSearch')?.value.toLowerCase() || '';
+            const subFilter = document.getElementById('catalogSub')?.value.toLowerCase() || '';
+            document.querySelectorAll('.folder-main').forEach(folder => {
+                let visible = false;
+                folder.querySelectorAll('.sub-folder').forEach(sub => {
+                    let subVisible = false;
+                    sub.querySelectorAll('.beat-card-new').forEach(card => {
+                        const title = card.querySelector('.beat-title-new')?.textContent.toLowerCase() || '';
+                        const show = (!subFilter || sub.querySelector('.sub-header')?.textContent.toLowerCase().includes(subFilter)) &&
+                                     (!searchTerm || title.includes(searchTerm));
+                        card.style.display = show ? 'block' : 'none';
+                        if (show) subVisible = true;
+                    });
+                    sub.style.display = subVisible ? 'block' : 'none';
+                    if (subVisible) visible = true;
+                });
+                folder.style.display = visible ? 'block' : 'none';
+            });
+        }
+
+        function initSubgenreSelect() {
+            const select = document.getElementById('catalogSub');
+            if (!select) return;
+            select.innerHTML = '<option value="">Todos los subgéneros</option>';
+            const subs = new Set();
+            database.forEach(f => f.subs?.forEach(s => subs.add(s.name)));
+            [...subs].sort().forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.textContent = name.toUpperCase();
+                select.appendChild(opt);
+            });
+        }
+
+        function render() {
+            const root = document.getElementById('catalog-root');
+            if (!root) return;
+            
+            if (database.length === 0) {
+                root.innerHTML = '<p style="text-align:center; padding: 40px; color: #888;">El catálogo está vacío actualmente.</p>';
+                return;
+            }
+
+            root.innerHTML = '';
+            database.forEach((folder, i) => {
+                let html = `<div class="folder-main" id="f-${i}">
+                    <div class="folder-header" onclick="this.parentElement.classList.toggle('active')">
+                        <span><i class="material-icons" style="vertical-align:middle">folder</i> ${folder.name}</span>
+                        <i class="material-icons">add</i>
+                    </div><div class="folder-content">`;
+
+                if (folder.subs?.length) {
+                    folder.subs.forEach((sub, si) => {
+                        html += `<div class="sub-folder" id="s-${i}-${si}">
+                            <div class="sub-header" onclick="this.parentElement.classList.toggle('active')">
+                                <i class="material-icons">folder_open</i> ${sub.name}
+                            </div>
+                            <div class="sub-content">
+                                <div class="carousel-wrapper">
+                                    <button class="scroll-btn left" onclick="scrollCarousel(this, -1)"><i class="material-icons">chevron_left</i></button>
+                                    <div class="beats-catalog-grid" onscroll="hideGlobalHint()">${renderBeats(sub.beats)}</div>
+                                    <button class="scroll-btn right" onclick="scrollCarousel(this, 1)"><i class="material-icons">chevron_right</i></button>
+                                </div>
+                            </div></div>`;
+                    });
                 } else {
-                    const name = data[0].customers?.full_name || 'Cliente';
-                    let html = `<div class="bg-white border-2 border-green-100 rounded-[2rem] p-6 shadow-xl"><h3 class="text-2xl font-bebas text-green-900">${name}</h3><p class="text-[10px] text-gray-400 mb-6 uppercase font-bold tracking-widest">${phone}</p><div class="grid grid-cols-4 gap-2">`;
-                    data.forEach(t => html += `<div class="bg-gray-50 p-3 rounded-2xl text-center font-bebas text-xl text-green-600 border border-gray-100">${t.ticket_number}</div>`);
-                    results.innerHTML = html + `</div></div>`;
+                    html += `<div class="carousel-wrapper">
+                                <button class="scroll-btn left" onclick="scrollCarousel(this, -1)"><i class="material-icons">chevron_left</i></button>
+                                <div class="beats-catalog-grid" onscroll="hideGlobalHint()">${renderBeats(folder.beats || [])}</div>
+                                <button class="scroll-btn right" onclick="scrollCarousel(this, 1)"><i class="material-icons">chevron_right</i></button>
+                            </div>`;
                 }
-            } catch (err) { results.innerHTML = `<div class="text-red-500 text-center">Error de conexión.</div>`; }
-            finally { btn.disabled = false; btn.textContent = "🔍 Consultar"; }
+                html += `</div></div>`;
+                root.innerHTML += html;
+            });
+            setTimeout(updateAllPrices, 100);
         }
 
-        function initCountdown() {
-            const target = new Date(); target.setDate(target.getDate() + 15); 
-            setInterval(() => {
-                const diff = target - new Date();
-                if (diff <= 0) return;
-                document.getElementById('cd-days').textContent = String(Math.floor(diff/86400000)).padStart(2,'0');
-                document.getElementById('cd-hours').textContent = String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
-                document.getElementById('cd-minutes').textContent = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
-            }, 1000);
+        function renderBeats(beats) {
+            if (!beats?.length) return '<p style="padding:10px; font-size:10px; color:#333; text-align:center;">PRÓXIMAMENTE...</p>';
+            return beats.map(b => `
+                <div class="beat-card-new">
+                    <div class="vinyl-hero-new" onclick="play('${b.title.replace(/'/g,"\\'")}', '${btoa(b.drive)}', this)"></div>
+                    <div class="beat-title-new">${b.title}</div>
+                    <div class="lic-btn-stack-new">
+                        <button class="lic-btn-new" onclick="addBeat('${b.title.replace(/'/g,"\\'")}', 'bronce')">BRONCE <span></span></button>
+                        <button class="lic-btn-new" onclick="addBeat('${b.title.replace(/'/g,"\\'")}', 'plata')">PLATA <span></span></button>
+                        <button class="lic-btn-new" onclick="addBeat('${b.title.replace(/'/g,"\\'")}', 'oro')">ORO <span></span></button>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        initializeGrid(); loadSoldTickets(); initCountdown();
+        function scrollCarousel(btn, direction) {
+            const wrapper = btn.closest('.carousel-wrapper');
+            const grid = wrapper.querySelector('.beats-catalog-grid');
+            const scrollAmount = window.innerWidth * 0.75; 
+            grid.scrollBy({ left: scrollAmount * direction, behavior: 'smooth' });
+            if (direction === 1) btn.style.animation = 'none';
+            hideGlobalHint();
+        }
+
+        function hideGlobalHint() {
+            const hint = document.getElementById('swipe-hint-text');
+            if (hint && hint.style.opacity !== '0') {
+                hint.style.opacity = '0';
+                setTimeout(() => { if(hint) hint.style.display = 'none'; }, 500);
+            }
+        }
+
+        function play(title, encodedDriveId, el) {
+            if (!encodedDriveId?.trim()) return;
+            const driveId = atob(encodedDriveId);
+            if (el.classList.contains('playing')) return stopBeat();
+            document.querySelectorAll('.vinyl-hero-new').forEach(v => v.classList.remove('playing'));
+            el.classList.add('playing');
+            document.getElementById('p-title').textContent = title;
+            document.getElementById('player-frame-container').innerHTML = `
+                <iframe src="https://drive.google.com/file/d/${driveId}/preview" allow="autoplay" sandbox="allow-scripts allow-same-origin" style="width:100%;height:100%;border:none;"></iframe>`;
+            document.getElementById('m-player').style.display = 'flex';
+        }
+
+        function stopBeat() {
+            document.getElementById('player-frame-container').innerHTML = '';
+            document.getElementById('m-player').style.display = 'none';
+            document.querySelectorAll('.vinyl-hero-new').forEach(v => v.classList.remove('playing'));
+        }
+
+        function confirmStems(wantStems) {
+            if (!pendingGoldBeat) return;
+            
+            if (pendingGoldBeat.isCustom) {
+                // Es un Beat a la medida
+                cart.push({ title: pendingGoldBeat.title, lic: 'SERVICIO PRO', price: pendingGoldBeat.mxn, usd: pendingGoldBeat.usd, promo: false });
+                if (wantStems) {
+                    cart.push({ title: `${pendingGoldBeat.title} – Stems`, lic: 'STEMS (opcional)', price: stemsPriceMXN, usd: stemsPriceUSD, promo: false });
+                    showToastNew(`✅ ${pendingGoldBeat.title} + Stems añadidos`);
+                } else {
+                    showToastNew(`✅ ${pendingGoldBeat.title} añadido`);
+                }
+            } else {
+                // Es un Beat Oro del catálogo
+                const { title } = pendingGoldBeat;
+                const l = licDetails.oro;
+                cart.push({ title, lic: l.n, price: l.m, usd: l.u, promo: l.p });
+                if (wantStems) {
+                    cart.push({ title: `${title} – Stems`, lic: 'STEMS (opcional)', price: stemsPriceMXN, usd: stemsPriceUSD, promo: false });
+                    showToastNew(`✅ ${title} (ORO) + Stems añadidos`);
+                } else {
+                    showToastNew(`✅ ${title} (ORO) añadido`);
+                }
+            }
+            
+            updateCart();
+            hideStemsModal();
+        }
+
+        function addBeat(title, key) {
+            if (key === 'oro') {
+                pendingGoldBeat = { title: title, isCustom: false };
+                document.getElementById('stems-modal').classList.add('show');
+                document.body.style.overflow = 'hidden';
+                return;
+            }
+            const l = licDetails[key];
+            cart.push({ title, lic: l.n, price: l.m, usd: l.u, promo: l.p });
+            updateCart();
+            showToastNew(`✅ ${title} (${l.n}) añadido`);
+        }
+
+        function addCustomBeatModal(title, mxn, usd) {
+            pendingGoldBeat = { title: title, mxn: mxn, usd: usd, isCustom: true };
+            document.getElementById('stems-modal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function addService(name, mxn, usd) {
+            cart.push({ title: name, lic: 'SERVICIO PRO', price: mxn, usd, promo: false });
+            updateCart();
+            showToastNew(`✅ ${name} añadido al pedido`);
+        }
+
+        function updateCart() {
+            const countEl = document.getElementById('cart-count');
+            const badgeEl = document.getElementById('cart-badge-new');
+            const list = document.getElementById('cart-items-list');
+            const totalEl = document.getElementById('cart-total');
+            const promoEl = document.getElementById('promo-msg');
+
+            countEl.textContent = `${cart.length} ITEMS`;
+            badgeEl.textContent = cart.length;
+            badgeEl.style.display = cart.length > 0 ? 'flex' : 'none';
+
+            list.innerHTML = '';
+            let totalMXN = 0, totalUSD = 0;
+
+            cart.forEach((item, i) => {
+                totalMXN += item.price;
+                totalUSD += item.usd;
+                const div = document.createElement('div');
+                div.style.cssText = 'display:flex; justify-content:space-between; align-items:center; margin:10px 0; padding:12px; background:#111; border-radius:6px; border:1px solid #222;';
+                div.innerHTML = `
+                    <div>
+                        <strong style="font-size:0.9rem;">${item.title}</strong><br>
+                        <small style="color:var(--gold);">${item.lic} - $${item.usd.toFixed(2)} USD</small>
+                    </div>
+                    <i class="material-icons" style="cursor:pointer; color:#ff4444;" onclick="removeFromCart(${i})">delete_outline</i>
+                `;
+                list.appendChild(div);
+            });
+
+            totalEl.textContent = `$${totalUSD.toFixed(2)} USD / $${totalMXN} MXN`;
+
+            const promoActive = cart.length >= 3 && cart.filter(i => i.promo).length >= 3;
+            promoEl.style.display = promoActive ? 'block' : 'none';
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function hideStemsModal() {
+            document.getElementById('stems-modal').classList.remove('show');
+            document.body.style.overflow = '';
+            pendingGoldBeat = null;
+        }
+
+        function checkoutWA() {
+            if (!cart.length) return alert("Tu carrito está vacío.");
+
+            let totalMXN = 0, totalUSD = 0, items = [];
+            const promoActive = cart.length >= 3 && cart.filter(i => i.promo).length >= 3;
+
+            cart.forEach(item => {
+                totalMXN += item.price;
+                totalUSD += item.usd;
+                items.push(`• ${item.title} (${item.lic}) → $${item.usd.toFixed(2)} USD`);
+            });
+
+            const payment = selectedPaymentMethod === 'transfer' ? 'TRANSFERENCIA / DEPÓSITO (BBVA)' : 'TARJETA / PAYPAL';
+            const bankInfo = selectedPaymentMethod === 'transfer' ? `
+💳 DATOS BBVA:
+Titular: BASE CERO ESTUDIO
+Tarjeta: 4152 3145 5220 8277
+Concepto: Base 0 Studio BBVA
+
+⚠️ COMPARTIRÉ EL COMPROBANTE POR AQUÍ UNA VEZ LISTO.` : `\n⚠️ SOLICITO ENLACE DE PAGO EN LÍNEA.`;
+
+            const msg = `¡Hola! Quiero finalizar este pedido desde BASE 0 Studio:\n\n${items.join('\n')}\n\n${promoActive ? '🔥 OFERTA 3X1 ACTIVADA (Bronce/Plata)\n' : ''}TOTAL: $${totalUSD.toFixed(2)} USD / $${totalMXN} MXN\n\nMÉTODO DE PAGO: ${payment}${bankInfo}`;
+
+            window.open(`https://wa.me/524775874578?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function toggleMobileNav(show) {
+            document.getElementById('mobile-nav').classList.toggle('open', show);
+        }
+
+        function createParticles() {
+            const canvas = document.getElementById('bg-particles');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 1;
+                    this.speedX = Math.random() * 0.5 - 0.25;
+                    this.speedY = Math.random() * 0.5 - 0.25;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                }
+                draw() {
+                    ctx.fillStyle = 'rgba(255,215,0,0.6)';
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            function init() {
+                particles = [];
+                for (let i = 0; i < 80; i++) particles.push(new Particle());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => { p.update(); p.draw(); });
+                requestAnimationFrame(animate);
+            }
+
+            window.addEventListener('resize', resize);
+            resize();
+            init();
+            animate();
+        }
+
+        // ────────────────────────────────────────────────
+        // INICIALIZACIÓN Y DETECCIÓN DE ADMIN
+        // ────────────────────────────────────────────────
+        window.addEventListener('load', () => {
+            
+            // Reemplazamos render() con la carga desde Supabase
+            fetchCatalogFromSupabase(); 
+
+            createParticles();
+            selectPayment('transfer');
+
+            document.getElementById('stems-yes')?.addEventListener('click', () => confirmStems(true));
+            document.getElementById('stems-no')?.addEventListener('click', () => confirmStems(false));
+
+            // Moneda guardada
+            const saved = localStorage.getItem('preferredCurrency');
+            if (saved && ['USD','MXN'].includes(saved)) {
+                currentCurrency = saved;
+                document.querySelector(`.currency-selector button[data-currency="${saved}"]`)?.classList.add('active');
+            }
+
+            // Render PayPal UNA SOLA VEZ
+            initPayPalButton();
+
+            // -------------------------------------------------------------
+            // ⭐ DETECCIÓN INTELIGENTE DE ADMIN LOGUEADO
+            // -------------------------------------------------------------
+            supabaseClient.auth.getSession().then(({ data: { session } }) => {
+                if (session) {
+                    // Si el usuario ya está logueado en su panel en este navegador,
+                    // resaltamos el botón para que sepa que tiene acceso.
+                    const adminLink = document.getElementById('admin-link');
+                    if(adminLink) {
+                        adminLink.style.color = '#ffd700';
+                        adminLink.style.fontWeight = 'bold';
+                        adminLink.innerHTML = '⚙️ PANEL DE CONTROL (SESIÓN ACTIVA)';
+                    }
+                }
+            });
+        });
     </script>
+
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AbNRj3n1KSvQO1iTC0FINBshC5qe297frqOUFbEdkoH-OVe-uqSsNurWKjEkltQEH3iVBSP9K_pxw-9i&currency=USD&components=buttons"></script>
+
 </body>
 </html>
