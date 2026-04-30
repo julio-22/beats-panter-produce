@@ -3,370 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BASE 0 Studio - Admin Panel</title>
-    
-    <!-- Supabase & Tailwind -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>Panel de Control — TRÉBOL 777</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
-    <style>
-        body { background-color: #0a0a0a; color: #fff; font-family: 'Inter', sans-serif; }
-        .gold-border { border-color: #ffd700; }
-        .gold-text { color: #ffd700; }
-        .gold-bg { background-color: #ffd700; color: #000; }
-        .gold-bg:hover { background-color: #e6c200; }
-        .gold-bg:disabled { background-color: #806c00; color: #ccc; cursor: not-allowed; }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body class="min-h-screen">
+<body class="bg-gray-100 p-6 min-h-screen flex flex-col items-center font-sans">
 
-    <!-- PANTALLA DE LOGIN -->
-    <div id="login-screen" class="flex items-center justify-center min-h-screen bg-black">
-        <div class="bg-gray-900 p-8 rounded-lg border border-gray-800 shadow-2xl w-full max-w-md">
-            <h2 class="text-3xl font-black mb-6 text-center gold-text tracking-widest">BASE 0 ADMIN</h2>
-            <form id="login-form" onsubmit="handleLogin(event)">
-                <div class="mb-4">
-                    <label class="block text-sm font-bold mb-2 text-gray-400">Correo Electrónico</label>
-                    <input type="email" id="email" required class="w-full p-3 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
-                </div>
-                <div class="mb-6">
-                    <label class="block text-sm font-bold mb-2 text-gray-400">Contraseña</label>
-                    <input type="password" id="password" required class="w-full p-3 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
-                </div>
-                <button type="submit" id="submit-btn" class="w-full font-bold py-3 px-4 rounded gold-bg transition duration-200 text-black">
-                    INGRESAR AL PANEL
-                </button>
-                <p id="login-error" class="text-red-500 text-sm mt-4 hidden text-center bg-red-900 bg-opacity-20 p-2 rounded border border-red-800"></p>
-            </form>
-            
-            <!-- Enlace a la tienda principal -->
-            <div class="mt-6 text-center">
-                <a href="index.html" class="text-gray-500 hover:text-white text-xs underline transition">Volver a la tienda pública</a>
+    <!-- FORMULARIO DE LOGIN -->
+    <div id="login-form" class="w-full max-w-md mx-auto bg-white p-8 rounded-xl shadow-lg mt-20">
+        <h2 class="text-3xl font-bold mb-6 text-center text-gray-800 tracking-tighter">🍀 Trébol Admin</h2>
+        <div class="mb-4">
+            <label class="block text-gray-600 text-xs font-bold uppercase mb-1">Correo Electrónico</label>
+            <input type="email" id="email" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-blue-500 outline-none transition-all" value="panter.akamc@gmail.com">
+        </div>
+        <div class="mb-6">
+            <label class="block text-gray-600 text-xs font-bold uppercase mb-1">Contraseña</label>
+            <input type="password" id="password" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-blue-500 outline-none transition-all">
+        </div>
+        <button onclick="login()" class="w-full bg-[#1e3a8a] hover:bg-blue-900 text-white py-3 rounded-lg font-bold text-lg transition-all shadow-lg">Iniciar Sesión</button>
+        <p id="login-error" class="text-red-500 text-center mt-4 text-sm hidden font-medium"></p>
+    </div>
+
+    <!-- PANEL DE ADMINISTRACIÓN -->
+    <div id="admin-panel" class="hidden w-full max-w-6xl mx-auto mt-10">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 gap-4">
+            <div>
+                <h1 class="text-3xl font-black text-gray-800 tracking-tight">📊 Gestión de Ventas</h1>
+                <p class="text-sm text-gray-400" id="admin-status">Conectado al servidor</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <button onclick="loadData()" class="bg-gray-50 hover:bg-gray-100 text-gray-600 px-4 py-2.5 rounded-xl transition-all border border-gray-200 font-bold text-sm">🔄 Refrescar</button>
+                <button onclick="openModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl shadow-lg shadow-blue-200 transition-all font-bold text-sm">➕ Registrar Compra</button>
+                <button onclick="logout()" class="bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2.5 rounded-xl transition-all font-bold text-sm">Salir</button>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-gray-50 text-gray-400">
+                        <tr>
+                            <th class="p-4 font-bold uppercase text-[10px] tracking-widest">Cliente</th>
+                            <th class="p-4 font-bold uppercase text-[10px] tracking-widest">WhatsApp</th>
+                            <th class="p-4 font-bold uppercase text-[10px] tracking-widest text-blue-600">Boletos</th>
+                            <th class="p-4 font-bold uppercase text-[10px] tracking-widest">Estado</th>
+                            <th class="p-4 font-bold uppercase text-[10px] tracking-widest text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data-table" class="divide-y divide-gray-100"></tbody>
+                </table>
             </div>
         </div>
     </div>
 
-    <!-- PANTALLA DEL DASHBOARD -->
-    <div id="dashboard-screen" class="hidden">
-        
-        <!-- Header -->
-        <header class="bg-black border-b border-gray-800 p-4 flex justify-between items-center sticky top-0 z-50">
-            <h1 class="text-2xl font-black gold-text tracking-widest">BASE 0 STUDIO <span class="text-xs text-gray-500 font-normal">ADMIN</span></h1>
-            <div class="flex items-center gap-4">
-                <a href="index.html" class="text-gray-400 hover:text-white text-sm font-bold underline mr-4 hidden md:block transition">Ir a la tienda</a>
-                <span id="user-email" class="text-sm text-gray-400 hidden md:block"></span>
-                <button onclick="handleLogout()" class="bg-red-600 hover:bg-red-700 text-white text-sm font-bold py-2 px-4 rounded transition">
-                    CERRAR SESIÓN
-                </button>
+    <!-- MODAL DE FORMULARIO -->
+    <div id="crud-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden transform transition-all border border-white/20">
+            <div class="bg-gray-900 text-white p-6 flex justify-between items-center">
+                <h3 id="modal-title" class="text-xl font-black tracking-tight">Registro de Venta</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white text-3xl font-light">&times;</button>
             </div>
-        </header>
-
-        <!-- Main Content -->
-        <main class="p-4 md:p-8 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
-            
-            <!-- Columna Izquierda: Formularios -->
-            <div class="space-y-8 lg:col-span-1">
-                
-                <!-- Agregar Nuevo Beat -->
-                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg">
-                    <h3 class="text-lg font-black mb-4 flex items-center gap-2"><span class="material-icons gold-text">library_music</span> SUBIR NUEVO BEAT</h3>
-                    <form id="add-beat-form" onsubmit="addBeat(event)">
-                        <div class="mb-4">
-                            <label class="block text-xs font-bold mb-1 text-gray-400">Género (Categoría)</label>
-                            <select id="select-category" onchange="updateSubcategoriesSelect()" required class="w-full p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
-                                <option value="">Selecciona un género...</option>
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-xs font-bold mb-1 text-gray-400">Subgénero</label>
-                            <select id="select-subcategory" required disabled class="w-full p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400 disabled:opacity-50">
-                                <option value="">Primero selecciona un género...</option>
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-xs font-bold mb-1 text-gray-400">Título del Beat</label>
-                            <input type="text" id="beat-title" required placeholder="Ej: Sombras Nocturnas" class="w-full p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
-                        </div>
-                        <div class="mb-6">
-                            <label class="block text-xs font-bold mb-1 text-gray-400">ID de Google Drive</label>
-                            <input type="text" id="beat-drive" required placeholder="1lVcE4vc8dwNAZ..." class="w-full p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
-                            <p class="text-[10px] text-gray-500 mt-1">Asegúrate de que el enlace en Drive sea público.</p>
-                        </div>
-                        <button type="submit" class="w-full font-bold py-2 px-4 rounded gold-bg transition duration-200 text-black">
-                            GUARDAR BEAT
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Agregar Género / Subgénero -->
-                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg">
-                    <h3 class="text-lg font-black mb-4 flex items-center gap-2"><span class="material-icons gold-text">folder</span> ESTRUCTURA</h3>
-                    
-                    <!-- Form Categoría -->
-                    <form onsubmit="addCategory(event)" class="mb-6 pb-6 border-b border-gray-800">
-                        <label class="block text-xs font-bold mb-1 text-gray-400">Crear Nuevo Género</label>
-                        <div class="flex gap-2">
-                            <input type="text" id="new-cat-name" required placeholder="Ej: Reggaeton" class="flex-1 p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
-                            <button type="submit" class="font-bold py-2 px-4 rounded bg-gray-800 hover:bg-gray-700 transition text-white">+</button>
-                        </div>
-                    </form>
-
-                    <!-- Form Subcategoría -->
-                    <form onsubmit="addSubcategory(event)">
-                        <label class="block text-xs font-bold mb-1 text-gray-400">Crear Nuevo Subgénero</label>
-                        <select id="parent-cat-select" required class="w-full p-2 mb-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
-                            <option value="">¿A qué género pertenece?</option>
+            <div class="p-8">
+                <form id="record-form" onsubmit="event.preventDefault(); saveRecord();">
+                    <div class="mb-5">
+                        <label class="block text-gray-500 text-[10px] font-bold uppercase mb-2">Nombre Completo</label>
+                        <input type="text" id="form-name" class="w-full p-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:border-blue-500 focus:bg-white outline-none transition-all font-bold text-gray-700" placeholder="Juan Pérez" required>
+                    </div>
+                    <div class="mb-5">
+                        <label class="block text-gray-500 text-[10px] font-bold uppercase mb-2">WhatsApp (Ej: +524771234567)</label>
+                        <input type="text" id="form-phone" class="w-full p-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:border-blue-500 focus:bg-white outline-none transition-all font-mono" placeholder="+52..." required>
+                    </div>
+                    <div class="mb-5">
+                        <label class="block text-blue-500 text-[10px] font-bold uppercase mb-2">Boletos (Separados por coma)</label>
+                        <input type="text" id="form-tickets" class="w-full p-4 bg-blue-50 border-2 border-blue-100 rounded-2xl focus:border-blue-500 focus:bg-white outline-none transition-all font-black text-blue-700 placeholder:text-blue-300" placeholder="001, 123, 399" required>
+                    </div>
+                    <div class="mb-8">
+                        <label class="block text-gray-500 text-[10px] font-bold uppercase mb-2">Estado del Pago</label>
+                        <select id="form-status" class="w-full p-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:border-blue-500 focus:bg-white outline-none transition-all font-bold">
+                            <option value="pending">🟡 Pendiente</option>
+                            <option value="paid">🟢 Pagado</option>
+                            <option value="cancelled">🔴 Cancelado</option>
                         </select>
-                        <div class="flex gap-2">
-                            <input type="text" id="new-sub-name" required placeholder="Ej: Perreo Old School" class="flex-1 p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
-                            <button type="submit" class="font-bold py-2 px-4 rounded bg-gray-800 hover:bg-gray-700 transition text-white">+</button>
-                        </div>
-                    </form>
-                </div>
-
+                    </div>
+                    <div class="flex gap-3">
+                        <button type="button" onclick="closeModal()" class="flex-1 px-6 py-4 text-gray-400 bg-gray-100 rounded-2xl font-bold hover:bg-gray-200 transition-all uppercase text-xs tracking-widest">Cancelar</button>
+                        <button type="submit" id="btn-save" class="flex-[2] px-8 py-4 bg-blue-600 text-white rounded-2xl font-black shadow-xl shadow-blue-200 hover:bg-blue-700 transition-all uppercase text-xs tracking-widest">Guardar Datos</button>
+                    </div>
+                </form>
             </div>
-
-            <!-- Columna Derecha: Lista de Beats -->
-            <div class="lg:col-span-2">
-                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg min-h-[600px]">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-black flex items-center gap-2"><span class="material-icons gold-text">view_list</span> CATÁLOGO DE BEATS</h3>
-                        <span id="total-beats" class="bg-gray-800 text-xs font-bold px-3 py-1 rounded-full text-white">0 Beats</span>
-                    </div>
-
-                    <!-- Buscador de Beats -->
-                    <div class="mb-6 relative">
-                        <i class="material-icons absolute left-3 top-2.5 text-gray-500">search</i>
-                        <input type="text" id="search-beat" onkeyup="filterBeats()" placeholder="Buscar beat por nombre..." class="w-full py-2 pl-10 pr-4 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
-                    </div>
-                    
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm text-white">
-                            <thead class="bg-black text-gray-400">
-                                <tr>
-                                    <th class="p-3 rounded-tl-lg">Título</th>
-                                    <th class="p-3">Género > Subgénero</th>
-                                    <th class="p-3 text-right rounded-tr-lg">Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody id="beats-table-body" class="divide-y divide-gray-800">
-                                <tr><td colspan="3" class="p-4 text-center text-gray-500">Cargando base de datos...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-        </main>
+        </div>
     </div>
 
     <script>
-        // --- CONFIGURACIÓN DE SUPABASE ---
-        const SUPABASE_URL = 'https://bltlprtphzejinwqdwdo.supabase.co'; 
-        const SUPABASE_ANON_KEY = 'sb_publishable_h-6mJS9NZhgPZtY2HwMLmA_rxWThIqu';
-        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabaseUrl = 'https://auqxarsyigimlcejixld.supabase.co';
+        const supabaseKey = 'sb_publishable_5LaGv8jrhP5lA2AngpAp7w_YZFX0aQB'; 
+        const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-        // --- ESTADO GLOBAL ---
-        let categories = [];
-        let subcategories = [];
-        let beats = [];
-
-        // --- SISTEMA DE AUTENTICACIÓN ---
-        supabaseClient.auth.onAuthStateChange((event, session) => {
-            if (session) {
-                document.getElementById('login-screen').classList.add('hidden');
-                document.getElementById('dashboard-screen').classList.remove('hidden');
-                document.getElementById('user-email').textContent = session.user.email;
-                loadDatabase();
-            } else {
-                document.getElementById('dashboard-screen').classList.add('hidden');
-                document.getElementById('login-screen').classList.remove('hidden');
-            }
-        });
-
-        async function handleLogin(e) {
-            e.preventDefault();
+        async function login() {
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
-            const errorEl = document.getElementById('login-error');
-            const submitBtn = document.getElementById('submit-btn');
-            
-            // Estado de carga
-            submitBtn.textContent = 'CARGANDO...';
-            submitBtn.disabled = true;
-            errorEl.classList.add('hidden');
-            
             try {
-                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-                
+                const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
                 if (error) {
-                    console.error("Error de Supabase:", error);
-                    // Traducir mensajes comunes para ti
-                    if (error.message.includes("Invalid login")) {
-                        errorEl.textContent = "Error: Correo o contraseña incorrectos.";
-                    } else if (error.message.includes("Email not confirmed")) {
-                        errorEl.textContent = "Error: Debes confirmar el correo o desactivar 'Confirm email' en Supabase.";
-                    } else {
-                        errorEl.textContent = "Error: " + error.message;
-                    }
-                    errorEl.classList.remove('hidden');
-                } else {
-                    console.log("Sesión iniciada correctamente.");
-                }
-            } catch (err) {
-                console.error("Error inesperado:", err);
-                errorEl.textContent = "Error de conexión. Intenta de nuevo.";
-                errorEl.classList.remove('hidden');
-            } finally {
-                // Restaurar botón
-                submitBtn.textContent = 'INGRESAR AL PANEL';
-                submitBtn.disabled = false;
+                    document.getElementById('login-error').textContent = error.message;
+                    document.getElementById('login-error').classList.remove('hidden');
+                } else { checkUser(); }
+            } catch (err) { alert("Sin conexión a Supabase"); }
+        }
+
+        async function checkUser() {
+            const { data: { user } } = await _supabase.auth.getUser();
+            if (user) {
+                document.getElementById('login-form').classList.add('hidden');
+                document.getElementById('admin-panel').classList.remove('hidden');
+                document.getElementById('admin-status').textContent = `Admin: ${user.email}`;
+                loadData();
             }
         }
 
-        async function handleLogout() {
-            await supabaseClient.auth.signOut();
-        }
+        async function logout() { await _supabase.auth.signOut(); location.reload(); }
 
-        // --- GESTIÓN DE BASE DE DATOS (CRUD) ---
-        
-        async function loadDatabase() {
-            // Cargar categorías
-            const { data: cats } = await supabaseClient.from('categories').select('*').order('name');
-            categories = cats || [];
+        let currentCustomers = [];
 
-            // Cargar subcategorías
-            const { data: subs } = await supabaseClient.from('subcategories').select('*').order('name');
-            subcategories = subs || [];
+        async function loadData() {
+            const tbody = document.getElementById('data-table');
+            tbody.innerHTML = '<tr><td colspan="5" class="p-16 text-center text-gray-300 font-bold italic animate-pulse">Cargando datos...</td></tr>';
 
-            // Cargar Beats (con referencias cruzadas para saber el género)
-            const { data: bts } = await supabaseClient.from('beats')
-                .select(`
-                    id, title, drive_id, created_at,
-                    subcategories ( id, name, category_id, categories (name) )
-                `)
-                .order('created_at', { ascending: false });
-            beats = bts || [];
+            // Usamos la relación fk_cliente que definimos en el SQL
+            const { data, error } = await _supabase
+                .from('customers')
+                .select(`full_name, whatsapp_number, payment_status, tickets!fk_cliente(ticket_number)`);
 
-            updateUI();
-        }
-
-        function updateUI() {
-            // Actualizar selects de categorías
-            const catSelects = [document.getElementById('select-category'), document.getElementById('parent-cat-select')];
-            let catOptions = '<option value="">Selecciona un género...</option>';
-            categories.forEach(c => catOptions += `<option value="${c.id}">${c.name.toUpperCase()}</option>`);
-            catSelects.forEach(select => select.innerHTML = catOptions);
-
-            // Mostrar todos los beats inicialmente usando la función de filtro
-            filterBeats();
-        }
-
-        // --- SISTEMA DE BÚSQUEDA Y RENDERIZADO DE TABLA ---
-
-        function filterBeats() {
-            const searchInput = document.getElementById('search-beat');
-            const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
-            const tbody = document.getElementById('beats-table-body');
-            
-            // Filtrar beats por nombre
-            const filteredBeats = beats.filter(b => b.title.toLowerCase().includes(searchTerm));
-            
-            document.getElementById('total-beats').textContent = `${filteredBeats.length} Beats`;
-            
-            if (filteredBeats.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-gray-500">No se encontraron beats.</td></tr>';
+            if (error) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-10 text-center text-red-500 font-bold text-sm">Error: ${error.message}</td></tr>`;
                 return;
             }
 
-            // Renderizar la tabla con los beats filtrados
-            tbody.innerHTML = filteredBeats.map(b => {
-                const subName = b.subcategories?.name || 'Sin Subgénero';
-                const catName = b.subcategories?.categories?.name || 'Desconocido';
-                
+            currentCustomers = data || [];
+            if (currentCustomers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="p-16 text-center text-gray-400 font-medium">No hay registros.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = currentCustomers.map(c => {
+                const ticketsList = c.tickets && Array.isArray(c.tickets) && c.tickets.length > 0 
+                    ? c.tickets.map(t => t.ticket_number).sort().join(', ') 
+                    : '<span class="text-red-300 font-normal italic">Ninguno</span>';
+
                 return `
-                    <tr class="hover:bg-gray-800 transition">
-                        <td class="p-3 font-bold">${b.title}</td>
-                        <td class="p-3 text-xs text-gray-400">${catName.toUpperCase()} > ${subName}</td>
-                        <td class="p-3 text-right">
-                            <button onclick="deleteBeat('${b.id}', '${b.title.replace(/'/g,"\\'")}')" class="text-red-500 hover:text-red-400 p-2" title="Eliminar beat">
-                                <span class="material-icons text-sm">delete</span>
-                            </button>
-                        </td>
-                    </tr>
-                `;
+                <tr class="hover:bg-blue-50/50 transition-all">
+                    <td class="p-5 font-black text-gray-800">${c.full_name}</td>
+                    <td class="p-5 text-gray-400 font-mono text-xs">${c.whatsapp_number}</td>
+                    <td class="p-5 text-blue-600 font-black tracking-tighter text-lg">${ticketsList}</td>
+                    <td class="p-5">
+                        <span class="px-3 py-1.5 rounded-xl text-[10px] font-black uppercase ${
+                            c.payment_status === 'paid' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+                        }">${c.payment_status}</span>
+                    </td>
+                    <td class="p-5 text-center">
+                        <div class="flex justify-center gap-2">
+                            <button onclick="openModal(true, '${c.whatsapp_number}')" class="p-2 hover:bg-white rounded-lg transition-all shadow-sm border border-transparent hover:border-gray-100">✏️</button>
+                            <button onclick="deleteRecord('${c.whatsapp_number}')" class="p-2 hover:bg-red-50 rounded-lg transition-all text-red-300 hover:text-red-500">🗑️</button>
+                        </div>
+                    </td>
+                </tr>`;
             }).join('');
         }
 
-        function updateSubcategoriesSelect() {
-            const catId = document.getElementById('select-category').value;
-            const subSelect = document.getElementById('select-subcategory');
-            
-            const filteredSubs = subcategories.filter(s => s.category_id === catId);
-            
-            subSelect.innerHTML = '<option value="">Selecciona un subgénero...</option>' + 
-                filteredSubs.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
-            
-            subSelect.disabled = filteredSubs.length === 0;
-        }
-
-        // --- ACCIONES (AGREGAR / BORRAR) ---
-
-        async function addBeat(e) {
-            e.preventDefault();
-            const subcategory_id = document.getElementById('select-subcategory').value;
-            const title = document.getElementById('beat-title').value;
-            const drive_id = document.getElementById('beat-drive').value;
-
-            if (!subcategory_id) return alert("Debes seleccionar un subgénero. Si no existe, créalo a la izquierda.");
-
-            const { error } = await supabaseClient.from('beats').insert([{ subcategory_id, title, drive_id }]);
-            
-            if (error) alert("Error al subir: " + error.message);
-            else {
-                document.getElementById('add-beat-form').reset();
-                document.getElementById('select-subcategory').disabled = true;
-                loadDatabase();
-                alert("¡Beat subido a la base de datos con éxito!");
+        function openModal(edit = false, phone = '') {
+            document.getElementById('crud-modal').classList.remove('hidden');
+            if (edit) {
+                document.getElementById('modal-title').textContent = "✏️ Editar Registro";
+                const c = currentCustomers.find(i => i.whatsapp_number === phone);
+                document.getElementById('form-name').value = c.full_name;
+                document.getElementById('form-phone').value = c.whatsapp_number;
+                document.getElementById('form-phone').readOnly = true;
+                document.getElementById('form-status').value = c.payment_status;
+                const ticketNumbers = c.tickets && Array.isArray(c.tickets) ? c.tickets.map(t => t.ticket_number).join(', ') : '';
+                document.getElementById('form-tickets').value = ticketNumbers;
+            } else {
+                document.getElementById('modal-title').textContent = "➕ Nuevo Registro";
+                document.getElementById('record-form').reset();
+                document.getElementById('form-phone').readOnly = false;
+                document.getElementById('form-status').value = 'pending';
             }
         }
 
-        async function deleteBeat(id, title) {
-            if (!confirm(`¿Estás seguro de que deseas ELIMINAR permanentemente el beat "${title}"?`)) return;
+        function closeModal() { document.getElementById('crud-modal').classList.add('hidden'); }
 
-            const { error } = await supabaseClient.from('beats').delete().eq('id', id);
-            
-            if (error) alert("Error al eliminar: " + error.message);
-            else loadDatabase();
-        }
+        async function saveRecord() {
+            const btn = document.getElementById('btn-save');
+            btn.disabled = true;
+            btn.textContent = "GUARDANDO...";
 
-        async function addCategory(e) {
-            e.preventDefault();
-            const name = document.getElementById('new-cat-name').value.toLowerCase();
-            const { error } = await supabaseClient.from('categories').insert([{ name }]);
+            const name = document.getElementById('form-name').value.trim();
+            const phone = document.getElementById('form-phone').value.trim();
+            const status = document.getElementById('form-status').value;
+            const ticketsInput = document.getElementById('form-tickets').value;
             
-            if (error) alert("Error: " + error.message);
-            else {
-                document.getElementById('new-cat-name').value = '';
-                loadDatabase();
+            const ticketsArr = ticketsInput.split(',')
+                .map(t => t.trim())
+                .filter(t => t.length > 0)
+                .map(t => t.padStart(3, '0')); 
+
+            try {
+                // 1. Manejo manual de cliente (Verificar y luego Insert/Update)
+                const { data: existing } = await _supabase.from('customers').select('whatsapp_number').eq('whatsapp_number', phone).single();
+
+                if (existing) {
+                    await _supabase.from('customers').update({ full_name: name, payment_status: status }).eq('whatsapp_number', phone);
+                } else {
+                    await _supabase.from('customers').insert({ full_name: name, whatsapp_number: phone, payment_status: status });
+                }
+
+                // 2. Limpiar boletos previos
+                await _supabase.from('tickets').delete().eq('whatsapp_number', phone);
+
+                // 3. Insertar nuevos boletos
+                if (ticketsArr.length > 0) {
+                    const toInsert = ticketsArr.map(num => ({
+                        ticket_number: num, 
+                        whatsapp_number: phone, 
+                        ticket_status: 'active'
+                    }));
+                    const { error: tErr } = await _supabase.from('tickets').insert(toInsert);
+                    if (tErr) throw tErr;
+                }
+
+                closeModal();
+                loadData();
+            } catch (err) { 
+                alert("⚠️ Error al guardar: " + err.message); 
+            } finally { 
+                btn.disabled = false; 
+                btn.textContent = "Guardar Datos"; 
             }
         }
 
-        async function addSubcategory(e) {
-            e.preventDefault();
-            const category_id = document.getElementById('parent-cat-select').value;
-            const name = document.getElementById('new-sub-name').value.toLowerCase();
-            
-            const { error } = await supabaseClient.from('subcategories').insert([{ category_id, name }]);
-            
-            if (error) alert("Error: " + error.message);
-            else {
-                document.getElementById('new-sub-name').value = '';
-                loadDatabase();
-            }
+        async function deleteRecord(phone) {
+            if (!confirm(`¿Eliminar registro?`)) return;
+            try {
+                await _supabase.from('tickets').delete().eq('whatsapp_number', phone);
+                await _supabase.from('customers').delete().eq('whatsapp_number', phone);
+                loadData();
+            } catch (err) { alert("Error al eliminar"); }
         }
 
+        checkUser();
     </script>
 </body>
 </html>
