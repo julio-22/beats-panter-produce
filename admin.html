@@ -27,15 +27,13 @@
             <form id="login-form" onsubmit="handleLogin(event)">
                 <div class="mb-4">
                     <label class="block text-sm font-bold mb-2 text-gray-400">Correo Electrónico</label>
-                    <!-- CORREO AÑADIDO POR DEFECTO AQUÍ -->
                     <input type="email" id="email" required class="w-full p-3 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400" value="akapanter@gmail.com">
                 </div>
                 <div class="mb-6">
                     <label class="block text-sm font-bold mb-2 text-gray-400">Contraseña</label>
-                    <!-- CONTRASEÑA AÑADIDA POR DEFECTO AQUÍ -->
                     <input type="password" id="password" required class="w-full p-3 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400" value="123456">
                 </div>
-                <button type="submit" class="w-full font-bold py-3 px-4 rounded gold-bg transition duration-200 text-black">
+                <button type="submit" id="login-btn" class="w-full font-bold py-3 px-4 rounded gold-bg transition duration-200 text-black">
                     INGRESAR AL PANEL
                 </button>
                 <p id="login-error" class="text-red-500 text-sm mt-4 hidden text-center"></p>
@@ -185,15 +183,32 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const errorEl = document.getElementById('login-error');
+            const btn = document.getElementById('login-btn');
             
-            const { error } = await supabase.auth.signInWithPassword({ email, password });
-            
-            if (error) {
-                // Ahora mostrará el error EXACTO que devuelve Supabase
-                errorEl.textContent = "Error: " + error.message;
-                errorEl.classList.remove('hidden');
-            } else {
-                errorEl.classList.add('hidden');
+            // Efecto visual de carga
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'CARGANDO...';
+            btn.disabled = true;
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
+
+            try {
+                const { error } = await supabase.auth.signInWithPassword({ email, password });
+                
+                if (error) {
+                    errorEl.textContent = "Error: " + error.message;
+                    errorEl.classList.remove('hidden');
+                    // Alerta emergente en caso de que no se vea el texto rojo
+                    alert("⚠️ NO SE PUDO INICIAR SESIÓN:\n" + error.message + "\n\nSolución: Ve a Supabase, revisa si la contraseña es correcta o si apagaste 'Confirm email' en la configuración de Authentication.");
+                } else {
+                    errorEl.classList.add('hidden');
+                }
+            } catch (err) {
+                alert("Error de conexión con Supabase: " + err.message);
+            } finally {
+                // Restaurar el botón
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
             }
         }
 
