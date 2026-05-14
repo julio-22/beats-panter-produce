@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BASE 0 Studio - Admin Panel</title>
     
-    <!-- Supabase & Tailwind -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -16,16 +15,10 @@
         .gold-text { color: #ffd700; }
         .gold-bg { background-color: #ffd700; color: #000; }
         .gold-bg:hover { background-color: #e6c200; }
-        /* Scrollbar styling for tables */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #111; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #555; }
     </style>
 </head>
 <body class="min-h-screen">
 
-    <!-- PANTALLA DE LOGIN -->
     <div id="login-screen" class="flex items-center justify-center min-h-screen bg-black">
         <div class="bg-gray-900 p-8 rounded-lg border border-gray-800 shadow-2xl w-full max-w-md">
             <h2 class="text-3xl font-black mb-6 text-center gold-text tracking-widest">BASE 0 ADMIN</h2>
@@ -50,7 +43,6 @@
         </div>
     </div>
 
-    <!-- PANTALLA DEL DASHBOARD -->
     <div id="dashboard-screen" class="hidden">
         
         <!-- Header -->
@@ -65,13 +57,11 @@
             </div>
         </header>
 
-        <!-- Main Content -->
         <main class="p-4 md:p-8 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            <!-- Columna Izquierda: Formularios -->
+            <!-- COLUMNA IZQUIERDA: FORMULARIOS -->
             <div class="space-y-8 lg:col-span-1">
                 
-                <!-- Agregar Nuevo Beat -->
                 <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg">
                     <h3 class="text-lg font-black mb-4 flex items-center gap-2"><span class="material-icons gold-text">library_music</span> SUBIR NUEVO BEAT</h3>
                     <form id="add-beat-form" onsubmit="addBeat(event)">
@@ -102,7 +92,6 @@
                     </form>
                 </div>
 
-                <!-- Agregar Género / Subgénero -->
                 <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg">
                     <h3 class="text-lg font-black mb-4 flex items-center gap-2"><span class="material-icons gold-text">folder</span> ESTRUCTURA</h3>
                     
@@ -126,23 +115,22 @@
                     </form>
                 </div>
 
-                <!-- Agregar Testimonio -->
                 <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg">
                     <h3 class="text-lg font-black mb-4 flex items-center gap-2"><span class="material-icons gold-text">star</span> SUBIR TESTIMONIO</h3>
                     <form id="add-testimonial-form" onsubmit="addTestimonial(event)">
                         <div class="mb-4">
-                            <label class="block text-xs font-bold mb-1 text-gray-400">Nombre del Artista</label>
+                            <label class="block text-xs font-bold mb-1 text-gray-400">Nombre del Artista / Cliente</label>
                             <input type="text" id="test-artist" required placeholder="Ej: Eladio Carrión" class="w-full p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
                         </div>
                         <div class="mb-4">
-                            <label class="block text-xs font-bold mb-1 text-gray-400">Link de la Imagen</label>
-                            <input type="url" id="test-image" required placeholder="https://ejemplo.com/foto.jpg" class="w-full p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
+                            <label class="block text-xs font-bold mb-1 text-gray-400">URL de la Imagen (Link)</label>
+                            <input type="url" id="test-image" required placeholder="https://..." class="w-full p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
                         </div>
                         <div class="mb-6">
-                            <label class="block text-xs font-bold mb-1 text-gray-400">Link de YouTube</label>
-                            <input type="url" id="test-youtube" required placeholder="https://youtube.com/watch?v=..." class="w-full p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
+                            <label class="block text-xs font-bold mb-1 text-gray-400">URL de YouTube (Video)</label>
+                            <input type="url" id="test-youtube" required placeholder="https://youtube.com/..." class="w-full p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
                         </div>
-                        <button type="submit" class="w-full font-bold py-2 px-4 rounded gold-bg transition duration-200 text-black">
+                        <button type="submit" class="w-full font-bold py-2 px-4 rounded bg-green-600 hover:bg-green-500 transition duration-200 text-white">
                             GUARDAR TESTIMONIO
                         </button>
                     </form>
@@ -150,7 +138,6 @@
 
             </div>
 
-            <!-- Columna Derecha: Tablas de Datos -->
             <div class="lg:col-span-2 space-y-8">
                 
                 <!-- Tabla de Beats -->
@@ -160,9 +147,9 @@
                         <span id="total-beats" class="bg-gray-800 text-xs font-bold px-3 py-1 rounded-full text-white">0 Beats</span>
                     </div>
                     
-                    <div class="overflow-x-auto max-h-[400px] overflow-y-auto">
-                        <table class="w-full text-left text-sm text-white relative">
-                            <thead class="bg-black text-gray-400 sticky top-0 shadow z-10">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-white">
+                            <thead class="bg-black text-gray-400">
                                 <tr>
                                     <th class="p-3 rounded-tl-lg">Título</th>
                                     <th class="p-3">Género > Subgénero</th>
@@ -176,36 +163,36 @@
                     </div>
                 </div>
 
-                <!-- Tabla de Testimonios -->
                 <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-black flex items-center gap-2"><span class="material-icons gold-text">reviews</span> LISTA DE TESTIMONIOS</h3>
+                        <h3 class="text-lg font-black flex items-center gap-2"><span class="material-icons gold-text">forum</span> LISTA DE TESTIMONIOS</h3>
                         <span id="total-testimonials" class="bg-gray-800 text-xs font-bold px-3 py-1 rounded-full text-white">0 Testimonios</span>
                     </div>
                     
-                    <div class="overflow-x-auto max-h-[400px] overflow-y-auto">
-                        <table class="w-full text-left text-sm text-white relative">
-                            <thead class="bg-black text-gray-400 sticky top-0 shadow z-10">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-white">
+                            <thead class="bg-black text-gray-400">
                                 <tr>
                                     <th class="p-3 rounded-tl-lg">Artista</th>
-                                    <th class="p-3">Video (YouTube)</th>
+                                    <th class="p-3">Imagen</th>
+                                    <th class="p-3 text-center">Video</th>
                                     <th class="p-3 text-right rounded-tr-lg">Acción</th>
                                 </tr>
                             </thead>
                             <tbody id="testimonials-table-body" class="divide-y divide-gray-800">
-                                <tr><td colspan="3" class="p-4 text-center text-gray-500">Cargando base de datos...</td></tr>
+                                <tr><td colspan="4" class="p-4 text-center text-gray-500">Cargando testimonios...</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
             </div>
-
         </main>
     </div>
 
     <script>
         // --- CONFIGURACIÓN DE SUPABASE ---
+        // ⚠️ REEMPLAZA ESTO CON LOS DATOS DEL PROYECTO DONDE ESTÁN TUS TABLAS
         const SUPABASE_URL = 'https://bltlprtphzejinwqdwdo.supabase.co'; 
         const SUPABASE_ANON_KEY = 'sb_publishable_h-6mJS9NZhgPZtY2HwMLmA_rxWThIqu';
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -243,15 +230,15 @@
 
             try {
                 const { error } = await _supabase.auth.signInWithPassword({ email, password });
-                
                 if (error) {
                     errorEl.textContent = "Error: " + error.message;
                     errorEl.classList.remove('hidden');
+                    alert("⚠️ NO SE PUDO INICIAR SESIÓN:\n" + error.message);
                 } else {
                     errorEl.classList.add('hidden');
                 }
             } catch (err) {
-                alert("Error de conexión: " + err.message);
+                alert("Error de conexión con Supabase: " + err.message);
             } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
@@ -263,60 +250,58 @@
             await _supabase.auth.signOut();
         }
 
-        // --- GESTIÓN DE BASE DE DATOS (CRUD) ---
-        
         async function loadDatabase() {
-            // CARGA DE BEATS, CATEGORÍAS Y SUBCATEGORÍAS (Try/Catch separado por si faltan tablas)
+            // BLOQUE 1: Cargar Estructura y Beats (Protegido por si las tablas no existen)
             try {
                 const { data: cats, error: errCats } = await _supabase.from('categories').select('*').order('name');
-                if(!errCats) categories = cats || [];
+                if (!errCats) categories = cats || [];
 
                 const { data: subs, error: errSubs } = await _supabase.from('subcategories').select('*').order('name');
-                if(!errSubs) subcategories = subs || [];
+                if (!errSubs) subcategories = subs || [];
 
                 const { data: bts, error: errBts } = await _supabase.from('beats')
                     .select(`id, title, drive_id, created_at, subcategories ( id, name, category_id, categories (name) )`)
                     .order('created_at', { ascending: false });
-                if(!errBts) beats = bts || [];
-            } catch(e) {
-                console.warn("Aviso: No se pudieron cargar datos de Beats/Categorías. ¿Las tablas existen?", e);
+                if (!errBts) beats = bts || [];
+            } catch (err) {
+                console.warn("Aviso: No se encontraron tablas de Beats/Categorías.", err);
             }
 
-            // CARGA DE TESTIMONIOS (Try/Catch separado)
+            // BLOQUE 2: Cargar Testimonios (Protegido y separado del resto)
             try {
                 const { data: tests, error: errTests } = await _supabase.from('testimonials').select('*').order('created_at', { ascending: false });
-                if(errTests) throw errTests;
-                testimonials = tests || [];
-            } catch(e) {
-                console.warn("Aviso: No se pudieron cargar testimonios.", e);
+                if (!errTests) testimonials = tests || [];
+                else console.error("Error al cargar testimonios:", errTests);
+            } catch (err) {
+                console.warn("Aviso: No se encontró la tabla testimonials.", err);
             }
 
             updateUI();
         }
 
         function updateUI() {
-            // 1. Actualizar selects de categorías
+            // 1. Actualizar Selects de categorías
             const catSelects = [document.getElementById('select-category'), document.getElementById('parent-cat-select')];
             let catOptions = '<option value="">Selecciona un género...</option>';
             categories.forEach(c => catOptions += `<option value="${c.id}">${c.name.toUpperCase()}</option>`);
             catSelects.forEach(select => select.innerHTML = catOptions);
 
-            // 2. Actualizar tabla de beats
+            // 2. Actualizar Tabla de Beats
             const tbodyBeats = document.getElementById('beats-table-body');
             document.getElementById('total-beats').textContent = `${beats.length} Beats`;
             
             if (beats.length === 0) {
-                tbodyBeats.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-gray-500">No hay beats en el catálogo.</td></tr>';
+                tbodyBeats.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-gray-500">No hay beats disponibles.</td></tr>';
             } else {
                 tbodyBeats.innerHTML = beats.map(b => {
                     const subName = b.subcategories?.name || 'Sin Subgénero';
                     const catName = b.subcategories?.categories?.name || 'Desconocido';
                     return `
-                        <tr class="hover:bg-gray-800 transition border-b border-gray-800/50">
+                        <tr class="hover:bg-gray-800 transition">
                             <td class="p-3 font-bold">${b.title}</td>
                             <td class="p-3 text-xs text-gray-400">${catName.toUpperCase()} > ${subName}</td>
                             <td class="p-3 text-right">
-                                <button onclick="deleteBeat('${b.id}', '${b.title.replace(/'/g,"\\'")}')" class="text-red-500 hover:text-red-400 p-2 transition">
+                                <button onclick="deleteBeat('${b.id}', '${b.title.replace(/'/g,"\\'")}')" class="text-red-500 hover:text-red-400 p-2">
                                     <span class="material-icons text-sm">delete</span>
                                 </button>
                             </td>
@@ -325,26 +310,24 @@
                 }).join('');
             }
 
-            // 3. Actualizar tabla de testimonios
+            // 3. Actualizar Tabla de Testimonios
             const tbodyTests = document.getElementById('testimonials-table-body');
             document.getElementById('total-testimonials').textContent = `${testimonials.length} Testimonios`;
-
+            
             if (testimonials.length === 0) {
-                tbodyTests.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-gray-500">No hay testimonios registrados.</td></tr>';
+                tbodyTests.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-gray-500">No hay testimonios guardados.</td></tr>';
             } else {
                 tbodyTests.innerHTML = testimonials.map(t => `
-                    <tr class="hover:bg-gray-800 transition border-b border-gray-800/50">
-                        <td class="p-3 flex items-center gap-3">
-                            <img src="${t.image_url}" alt="${t.artist_name}" onerror="this.src='https://placehold.co/100x100/222/ffd700?text=IMG'" class="w-10 h-10 rounded-full object-cover border border-gray-700">
-                            <span class="font-bold">${t.artist_name}</span>
-                        </td>
+                    <tr class="hover:bg-gray-800 transition">
+                        <td class="p-3 font-bold text-yellow-400">${t.artist_name}</td>
                         <td class="p-3">
-                            <a href="${t.youtube_url}" target="_blank" class="text-xs bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded inline-flex items-center gap-1 transition">
-                                <span class="material-icons text-[14px]">play_arrow</span> Ver
-                            </a>
+                            <img src="${t.image_url}" alt="${t.artist_name}" class="h-10 w-10 rounded-full object-cover border border-gray-700" onerror="this.src='https://placehold.co/100x100/333/FFF?text=IMG'">
+                        </td>
+                        <td class="p-3 text-center">
+                            <a href="${t.youtube_url}" target="_blank" class="text-blue-400 hover:underline text-xs">Ver Video</a>
                         </td>
                         <td class="p-3 text-right">
-                            <button onclick="deleteTestimonial('${t.id}', '${t.artist_name.replace(/'/g,"\\'")}')" class="text-red-500 hover:text-red-400 p-2 transition">
+                            <button onclick="deleteTestimonial('${t.id}', '${t.artist_name.replace(/'/g,"\\'")}')" class="text-red-500 hover:text-red-400 p-2">
                                 <span class="material-icons text-sm">delete</span>
                             </button>
                         </td>
@@ -356,16 +339,13 @@
         function updateSubcategoriesSelect() {
             const catId = document.getElementById('select-category').value;
             const subSelect = document.getElementById('select-subcategory');
-            
             const filteredSubs = subcategories.filter(s => s.category_id === catId);
             
             subSelect.innerHTML = '<option value="">Selecciona un subgénero...</option>' + 
                 filteredSubs.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
-            
             subSelect.disabled = filteredSubs.length === 0;
         }
 
-        // --- ACCIONES BEATS ---
         async function addBeat(e) {
             e.preventDefault();
             const subcategory_id = document.getElementById('select-subcategory').value;
@@ -390,16 +370,12 @@
             else loadDatabase();
         }
 
-        // --- ACCIONES CATEGORÍAS ---
         async function addCategory(e) {
             e.preventDefault();
             const name = document.getElementById('new-cat-name').value.toLowerCase();
             const { error } = await _supabase.from('categories').insert([{ name }]);
             if (error) alert("Error: " + error.message);
-            else {
-                document.getElementById('new-cat-name').value = '';
-                loadDatabase();
-            }
+            else { document.getElementById('new-cat-name').value = ''; loadDatabase(); }
         }
 
         async function addSubcategory(e) {
@@ -408,40 +384,33 @@
             const name = document.getElementById('new-sub-name').value.toLowerCase();
             const { error } = await _supabase.from('subcategories').insert([{ category_id, name }]);
             if (error) alert("Error: " + error.message);
-            else {
-                document.getElementById('new-sub-name').value = '';
-                loadDatabase();
-            }
+            else { document.getElementById('new-sub-name').value = ''; loadDatabase(); }
         }
 
-        // --- ACCIONES TESTIMONIOS ---
         async function addTestimonial(e) {
             e.preventDefault();
             const artist_name = document.getElementById('test-artist').value;
             const image_url = document.getElementById('test-image').value;
             const youtube_url = document.getElementById('test-youtube').value;
 
-            try {
-                const { error } = await _supabase.from('testimonials').insert([{ artist_name, image_url, youtube_url }]);
-                if (error) throw error;
-                
+            const { error } = await _supabase.from('testimonials').insert([{ artist_name, image_url, youtube_url }]);
+            
+            if (error) {
+                alert("Error al guardar testimonio: " + error.message);
+                console.error(error);
+            } else {
                 document.getElementById('add-testimonial-form').reset();
                 loadDatabase();
-                alert("¡Testimonio agregado con éxito!");
-            } catch (err) {
-                alert("Error al guardar testimonio: " + err.message);
+                alert("Testimonio guardado exitosamente");
             }
         }
 
         async function deleteTestimonial(id, artist_name) {
-            if (!confirm(`¿Estás seguro de que deseas ELIMINAR el testimonio de "${artist_name}"?`)) return;
-            try {
-                const { error } = await _supabase.from('testimonials').delete().eq('id', id);
-                if (error) throw error;
-                loadDatabase();
-            } catch (err) {
-                alert("Error al eliminar testimonio: " + err.message);
-            }
+            if (!confirm(`¿Estás seguro de eliminar el testimonio de "${artist_name}"?`)) return;
+
+            const { error } = await _supabase.from('testimonials').delete().eq('id', id);
+            if (error) alert("Error al eliminar testimonio: " + error.message);
+            else loadDatabase();
         }
 
     </script>
