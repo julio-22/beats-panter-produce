@@ -124,19 +124,43 @@
                     </form>
                 </div>
 
+                <!-- Agregar Testimonio (NUEVA SECCIÓN) -->
+                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg">
+                    <h3 class="text-lg font-black mb-4 flex items-center gap-2"><span class="material-icons gold-text">star</span> SUBIR TESTIMONIO</h3>
+                    <form id="add-testimonial-form" onsubmit="addTestimonial(event)">
+                        <div class="mb-4">
+                            <label class="block text-xs font-bold mb-1 text-gray-400">Nombre del Artista</label>
+                            <input type="text" id="test-artist" required placeholder="Ej: Eladio Carrión" class="w-full p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-xs font-bold mb-1 text-gray-400">Link de la Imagen</label>
+                            <input type="url" id="test-image" required placeholder="https://ejemplo.com/foto.jpg" class="w-full p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-xs font-bold mb-1 text-gray-400">Link de YouTube</label>
+                            <input type="url" id="test-youtube" required placeholder="https://youtube.com/watch?v=..." class="w-full p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
+                        </div>
+                        <button type="submit" class="w-full font-bold py-2 px-4 rounded gold-bg transition duration-200 text-black">
+                            GUARDAR TESTIMONIO
+                        </button>
+                    </form>
+                </div>
+
             </div>
 
-            <!-- Columna Derecha: Lista de Beats -->
-            <div class="lg:col-span-2">
-                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg min-h-[600px]">
+            <!-- Columna Derecha: Listas (Beats y Testimonios) -->
+            <div class="lg:col-span-2 space-y-8">
+                
+                <!-- Lista de Beats -->
+                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg h-auto">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-lg font-black flex items-center gap-2"><span class="material-icons gold-text">view_list</span> CATÁLOGO DE BEATS</h3>
                         <span id="total-beats" class="bg-gray-800 text-xs font-bold px-3 py-1 rounded-full text-white">0 Beats</span>
                     </div>
                     
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm text-white">
-                            <thead class="bg-black text-gray-400">
+                    <div class="overflow-x-auto max-h-[500px] overflow-y-auto">
+                        <table class="w-full text-left text-sm text-white relative">
+                            <thead class="bg-black text-gray-400 sticky top-0 shadow">
                                 <tr>
                                     <th class="p-3 rounded-tl-lg">Título</th>
                                     <th class="p-3">Género > Subgénero</th>
@@ -149,6 +173,30 @@
                         </table>
                     </div>
                 </div>
+
+                <!-- Lista de Testimonios (NUEVA SECCIÓN) -->
+                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg h-auto">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-black flex items-center gap-2"><span class="material-icons gold-text">reviews</span> LISTA DE TESTIMONIOS</h3>
+                        <span id="total-testimonials" class="bg-gray-800 text-xs font-bold px-3 py-1 rounded-full text-white">0 Testimonios</span>
+                    </div>
+                    
+                    <div class="overflow-x-auto max-h-[400px] overflow-y-auto">
+                        <table class="w-full text-left text-sm text-white relative">
+                            <thead class="bg-black text-gray-400 sticky top-0 shadow">
+                                <tr>
+                                    <th class="p-3 rounded-tl-lg">Artista</th>
+                                    <th class="p-3">Video</th>
+                                    <th class="p-3 text-right rounded-tr-lg">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="testimonials-table-body" class="divide-y divide-gray-800">
+                                <tr><td colspan="3" class="p-4 text-center text-gray-500">Cargando base de datos...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
 
         </main>
@@ -164,6 +212,7 @@
         let categories = [];
         let subcategories = [];
         let beats = [];
+        let testimonials = []; // Nuevo array para testimonios
 
         // --- SISTEMA DE AUTENTICACIÓN ---
         _supabase.auth.onAuthStateChange((event, session) => {
@@ -197,8 +246,8 @@
                 if (error) {
                     errorEl.textContent = "Error: " + error.message;
                     errorEl.classList.remove('hidden');
-                    // Alerta emergente en caso de que no se vea el texto rojo
-                    alert("⚠️ NO SE PUDO INICIAR SESIÓN:\n" + error.message + "\n\nSolución: Ve a Supabase, revisa si la contraseña es correcta o si apagaste 'Confirm email' en la configuración de Authentication.");
+                    // Mostrar popup custom (usamos un alert por simplicidad como solicitaste originalmente, pero puedes cambiarlo)
+                    alert("⚠️ NO SE PUDO INICIAR SESIÓN:\n" + error.message + "\n\nSolución: Ve a Supabase, revisa si la contraseña es correcta.");
                 } else {
                     errorEl.classList.add('hidden');
                 }
@@ -227,7 +276,7 @@
             const { data: subs } = await _supabase.from('subcategories').select('*').order('name');
             subcategories = subs || [];
 
-            // Cargar Beats (con referencias cruzadas para saber el género)
+            // Cargar Beats
             const { data: bts } = await _supabase.from('beats')
                 .select(`
                     id, title, drive_id, created_at,
@@ -236,41 +285,71 @@
                 .order('created_at', { ascending: false });
             beats = bts || [];
 
+            // Cargar Testimonios
+            const { data: tests } = await _supabase.from('testimonials').select('*').order('created_at', { ascending: false });
+            testimonials = tests || [];
+
             updateUI();
         }
 
         function updateUI() {
-            // Actualizar selects de categorías
+            // 1. Actualizar selects de categorías
             const catSelects = [document.getElementById('select-category'), document.getElementById('parent-cat-select')];
             let catOptions = '<option value="">Selecciona un género...</option>';
             categories.forEach(c => catOptions += `<option value="${c.id}">${c.name.toUpperCase()}</option>`);
             catSelects.forEach(select => select.innerHTML = catOptions);
 
-            // Actualizar tabla de beats
-            const tbody = document.getElementById('beats-table-body');
+            // 2. Actualizar tabla de beats
+            const tbodyBeats = document.getElementById('beats-table-body');
             document.getElementById('total-beats').textContent = `${beats.length} Beats`;
             
             if (beats.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-gray-500">No hay beats en el catálogo.</td></tr>';
-                return;
+                tbodyBeats.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-gray-500">No hay beats en el catálogo.</td></tr>';
+            } else {
+                tbodyBeats.innerHTML = beats.map(b => {
+                    const subName = b.subcategories?.name || 'Sin Subgénero';
+                    const catName = b.subcategories?.categories?.name || 'Desconocido';
+                    
+                    return `
+                        <tr class="hover:bg-gray-800 transition">
+                            <td class="p-3 font-bold">${b.title}</td>
+                            <td class="p-3 text-xs text-gray-400">${catName.toUpperCase()} > ${subName}</td>
+                            <td class="p-3 text-right">
+                                <button onclick="deleteBeat('${b.id}', '${b.title.replace(/'/g,"\\'")}')" class="text-red-500 hover:text-red-400 p-2">
+                                    <span class="material-icons text-sm">delete</span>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
             }
 
-            tbody.innerHTML = beats.map(b => {
-                const subName = b.subcategories?.name || 'Sin Subgénero';
-                const catName = b.subcategories?.categories?.name || 'Desconocido';
-                
-                return `
+            // 3. Actualizar tabla de testimonios
+            const tbodyTestimonials = document.getElementById('testimonials-table-body');
+            document.getElementById('total-testimonials').textContent = `${testimonials.length} Testimonios`;
+
+            if (testimonials.length === 0) {
+                tbodyTestimonials.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-gray-500">No hay testimonios.</td></tr>';
+            } else {
+                tbodyTestimonials.innerHTML = testimonials.map(t => `
                     <tr class="hover:bg-gray-800 transition">
-                        <td class="p-3 font-bold">${b.title}</td>
-                        <td class="p-3 text-xs text-gray-400">${catName.toUpperCase()} > ${subName}</td>
+                        <td class="p-3 flex items-center gap-3">
+                            <img src="${t.image_url}" alt="${t.artist_name}" onerror="this.src='https://placehold.co/100x100/222/ffd700?text=IMG'" class="w-10 h-10 rounded-full object-cover border border-gray-700">
+                            <span class="font-bold">${t.artist_name}</span>
+                        </td>
+                        <td class="p-3">
+                            <a href="${t.youtube_url}" target="_blank" class="text-xs bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded inline-flex items-center gap-1 transition">
+                                <span class="material-icons text-[14px]">play_arrow</span> Ver
+                            </a>
+                        </td>
                         <td class="p-3 text-right">
-                            <button onclick="deleteBeat('${b.id}', '${b.title.replace(/'/g,"\\'")}')" class="text-red-500 hover:text-red-400 p-2">
+                            <button onclick="deleteTestimonial('${t.id}', '${t.artist_name.replace(/'/g,"\\'")}')" class="text-red-500 hover:text-red-400 p-2">
                                 <span class="material-icons text-sm">delete</span>
                             </button>
                         </td>
                     </tr>
-                `;
-            }).join('');
+                `).join('');
+            }
         }
 
         function updateSubcategoriesSelect() {
@@ -285,7 +364,7 @@
             subSelect.disabled = filteredSubs.length === 0;
         }
 
-        // --- ACCIONES (AGREGAR / BORRAR) ---
+        // --- ACCIONES (AGREGAR / BORRAR BEATS, CATS) ---
 
         async function addBeat(e) {
             e.preventDefault();
@@ -339,6 +418,33 @@
                 document.getElementById('new-sub-name').value = '';
                 loadDatabase();
             }
+        }
+
+        // --- ACCIONES (AGREGAR / BORRAR TESTIMONIOS) ---
+
+        async function addTestimonial(e) {
+            e.preventDefault();
+            const artist_name = document.getElementById('test-artist').value;
+            const image_url = document.getElementById('test-image').value;
+            const youtube_url = document.getElementById('test-youtube').value;
+
+            const { error } = await _supabase.from('testimonials').insert([{ artist_name, image_url, youtube_url }]);
+            
+            if (error) alert("Error al guardar testimonio: " + error.message);
+            else {
+                document.getElementById('add-testimonial-form').reset();
+                loadDatabase();
+                alert("¡Testimonio agregado con éxito!");
+            }
+        }
+
+        async function deleteTestimonial(id, artist_name) {
+            if (!confirm(`¿Estás seguro de que deseas ELIMINAR el testimonio de "${artist_name}"?`)) return;
+
+            const { error } = await _supabase.from('testimonials').delete().eq('id', id);
+            
+            if (error) alert("Error al eliminar: " + error.message);
+            else loadDatabase();
         }
 
     </script>
