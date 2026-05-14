@@ -16,6 +16,11 @@
         .gold-text { color: #ffd700; }
         .gold-bg { background-color: #ffd700; color: #000; }
         .gold-bg:hover { background-color: #e6c200; }
+        /* Scrollbar styling for tables */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #111; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
     </style>
 </head>
 <body class="min-h-screen">
@@ -39,7 +44,6 @@
                 <p id="login-error" class="text-red-500 text-sm mt-4 hidden text-center"></p>
             </form>
             
-            <!-- Enlace a la tienda principal -->
             <div class="mt-6 text-center">
                 <a href="index.html" class="text-gray-500 hover:text-white text-xs underline transition">Volver a la tienda pública</a>
             </div>
@@ -102,7 +106,6 @@
                 <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg">
                     <h3 class="text-lg font-black mb-4 flex items-center gap-2"><span class="material-icons gold-text">folder</span> ESTRUCTURA</h3>
                     
-                    <!-- Form Categoría -->
                     <form onsubmit="addCategory(event)" class="mb-6 pb-6 border-b border-gray-800">
                         <label class="block text-xs font-bold mb-1 text-gray-400">Crear Nuevo Género</label>
                         <div class="flex gap-2">
@@ -111,7 +114,6 @@
                         </div>
                     </form>
 
-                    <!-- Form Subcategoría -->
                     <form onsubmit="addSubcategory(event)">
                         <label class="block text-xs font-bold mb-1 text-gray-400">Crear Nuevo Subgénero</label>
                         <select id="parent-cat-select" required class="w-full p-2 mb-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
@@ -124,7 +126,7 @@
                     </form>
                 </div>
 
-                <!-- Agregar Testimonio (NUEVA SECCIÓN) -->
+                <!-- Agregar Testimonio -->
                 <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg">
                     <h3 class="text-lg font-black mb-4 flex items-center gap-2"><span class="material-icons gold-text">star</span> SUBIR TESTIMONIO</h3>
                     <form id="add-testimonial-form" onsubmit="addTestimonial(event)">
@@ -148,19 +150,19 @@
 
             </div>
 
-            <!-- Columna Derecha: Listas (Beats y Testimonios) -->
+            <!-- Columna Derecha: Tablas de Datos -->
             <div class="lg:col-span-2 space-y-8">
                 
-                <!-- Lista de Beats -->
-                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg h-auto">
+                <!-- Tabla de Beats -->
+                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-lg font-black flex items-center gap-2"><span class="material-icons gold-text">view_list</span> CATÁLOGO DE BEATS</h3>
                         <span id="total-beats" class="bg-gray-800 text-xs font-bold px-3 py-1 rounded-full text-white">0 Beats</span>
                     </div>
                     
-                    <div class="overflow-x-auto max-h-[500px] overflow-y-auto">
+                    <div class="overflow-x-auto max-h-[400px] overflow-y-auto">
                         <table class="w-full text-left text-sm text-white relative">
-                            <thead class="bg-black text-gray-400 sticky top-0 shadow">
+                            <thead class="bg-black text-gray-400 sticky top-0 shadow z-10">
                                 <tr>
                                     <th class="p-3 rounded-tl-lg">Título</th>
                                     <th class="p-3">Género > Subgénero</th>
@@ -174,8 +176,8 @@
                     </div>
                 </div>
 
-                <!-- Lista de Testimonios (NUEVA SECCIÓN) -->
-                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg h-auto">
+                <!-- Tabla de Testimonios -->
+                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-lg font-black flex items-center gap-2"><span class="material-icons gold-text">reviews</span> LISTA DE TESTIMONIOS</h3>
                         <span id="total-testimonials" class="bg-gray-800 text-xs font-bold px-3 py-1 rounded-full text-white">0 Testimonios</span>
@@ -183,10 +185,10 @@
                     
                     <div class="overflow-x-auto max-h-[400px] overflow-y-auto">
                         <table class="w-full text-left text-sm text-white relative">
-                            <thead class="bg-black text-gray-400 sticky top-0 shadow">
+                            <thead class="bg-black text-gray-400 sticky top-0 shadow z-10">
                                 <tr>
                                     <th class="p-3 rounded-tl-lg">Artista</th>
-                                    <th class="p-3">Video</th>
+                                    <th class="p-3">Video (YouTube)</th>
                                     <th class="p-3 text-right rounded-tr-lg">Acción</th>
                                 </tr>
                             </thead>
@@ -212,7 +214,7 @@
         let categories = [];
         let subcategories = [];
         let beats = [];
-        let testimonials = []; // Nuevo array para testimonios
+        let testimonials = [];
 
         // --- SISTEMA DE AUTENTICACIÓN ---
         _supabase.auth.onAuthStateChange((event, session) => {
@@ -234,7 +236,6 @@
             const errorEl = document.getElementById('login-error');
             const btn = document.getElementById('login-btn');
             
-            // Efecto visual de carga
             const originalText = btn.innerHTML;
             btn.innerHTML = 'CARGANDO...';
             btn.disabled = true;
@@ -246,15 +247,12 @@
                 if (error) {
                     errorEl.textContent = "Error: " + error.message;
                     errorEl.classList.remove('hidden');
-                    // Mostrar popup custom (usamos un alert por simplicidad como solicitaste originalmente, pero puedes cambiarlo)
-                    alert("⚠️ NO SE PUDO INICIAR SESIÓN:\n" + error.message + "\n\nSolución: Ve a Supabase, revisa si la contraseña es correcta.");
                 } else {
                     errorEl.classList.add('hidden');
                 }
             } catch (err) {
-                alert("Error de conexión con Supabase: " + err.message);
+                alert("Error de conexión: " + err.message);
             } finally {
-                // Restaurar el botón
                 btn.innerHTML = originalText;
                 btn.disabled = false;
                 btn.classList.remove('opacity-50', 'cursor-not-allowed');
@@ -268,26 +266,30 @@
         // --- GESTIÓN DE BASE DE DATOS (CRUD) ---
         
         async function loadDatabase() {
-            // Cargar categorías
-            const { data: cats } = await _supabase.from('categories').select('*').order('name');
-            categories = cats || [];
+            // CARGA DE BEATS, CATEGORÍAS Y SUBCATEGORÍAS (Try/Catch separado por si faltan tablas)
+            try {
+                const { data: cats, error: errCats } = await _supabase.from('categories').select('*').order('name');
+                if(!errCats) categories = cats || [];
 
-            // Cargar subcategorías
-            const { data: subs } = await _supabase.from('subcategories').select('*').order('name');
-            subcategories = subs || [];
+                const { data: subs, error: errSubs } = await _supabase.from('subcategories').select('*').order('name');
+                if(!errSubs) subcategories = subs || [];
 
-            // Cargar Beats
-            const { data: bts } = await _supabase.from('beats')
-                .select(`
-                    id, title, drive_id, created_at,
-                    subcategories ( id, name, category_id, categories (name) )
-                `)
-                .order('created_at', { ascending: false });
-            beats = bts || [];
+                const { data: bts, error: errBts } = await _supabase.from('beats')
+                    .select(`id, title, drive_id, created_at, subcategories ( id, name, category_id, categories (name) )`)
+                    .order('created_at', { ascending: false });
+                if(!errBts) beats = bts || [];
+            } catch(e) {
+                console.warn("Aviso: No se pudieron cargar datos de Beats/Categorías. ¿Las tablas existen?", e);
+            }
 
-            // Cargar Testimonios
-            const { data: tests } = await _supabase.from('testimonials').select('*').order('created_at', { ascending: false });
-            testimonials = tests || [];
+            // CARGA DE TESTIMONIOS (Try/Catch separado)
+            try {
+                const { data: tests, error: errTests } = await _supabase.from('testimonials').select('*').order('created_at', { ascending: false });
+                if(errTests) throw errTests;
+                testimonials = tests || [];
+            } catch(e) {
+                console.warn("Aviso: No se pudieron cargar testimonios.", e);
+            }
 
             updateUI();
         }
@@ -309,13 +311,12 @@
                 tbodyBeats.innerHTML = beats.map(b => {
                     const subName = b.subcategories?.name || 'Sin Subgénero';
                     const catName = b.subcategories?.categories?.name || 'Desconocido';
-                    
                     return `
-                        <tr class="hover:bg-gray-800 transition">
+                        <tr class="hover:bg-gray-800 transition border-b border-gray-800/50">
                             <td class="p-3 font-bold">${b.title}</td>
                             <td class="p-3 text-xs text-gray-400">${catName.toUpperCase()} > ${subName}</td>
                             <td class="p-3 text-right">
-                                <button onclick="deleteBeat('${b.id}', '${b.title.replace(/'/g,"\\'")}')" class="text-red-500 hover:text-red-400 p-2">
+                                <button onclick="deleteBeat('${b.id}', '${b.title.replace(/'/g,"\\'")}')" class="text-red-500 hover:text-red-400 p-2 transition">
                                     <span class="material-icons text-sm">delete</span>
                                 </button>
                             </td>
@@ -325,14 +326,14 @@
             }
 
             // 3. Actualizar tabla de testimonios
-            const tbodyTestimonials = document.getElementById('testimonials-table-body');
+            const tbodyTests = document.getElementById('testimonials-table-body');
             document.getElementById('total-testimonials').textContent = `${testimonials.length} Testimonios`;
 
             if (testimonials.length === 0) {
-                tbodyTestimonials.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-gray-500">No hay testimonios.</td></tr>';
+                tbodyTests.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-gray-500">No hay testimonios registrados.</td></tr>';
             } else {
-                tbodyTestimonials.innerHTML = testimonials.map(t => `
-                    <tr class="hover:bg-gray-800 transition">
+                tbodyTests.innerHTML = testimonials.map(t => `
+                    <tr class="hover:bg-gray-800 transition border-b border-gray-800/50">
                         <td class="p-3 flex items-center gap-3">
                             <img src="${t.image_url}" alt="${t.artist_name}" onerror="this.src='https://placehold.co/100x100/222/ffd700?text=IMG'" class="w-10 h-10 rounded-full object-cover border border-gray-700">
                             <span class="font-bold">${t.artist_name}</span>
@@ -343,7 +344,7 @@
                             </a>
                         </td>
                         <td class="p-3 text-right">
-                            <button onclick="deleteTestimonial('${t.id}', '${t.artist_name.replace(/'/g,"\\'")}')" class="text-red-500 hover:text-red-400 p-2">
+                            <button onclick="deleteTestimonial('${t.id}', '${t.artist_name.replace(/'/g,"\\'")}')" class="text-red-500 hover:text-red-400 p-2 transition">
                                 <span class="material-icons text-sm">delete</span>
                             </button>
                         </td>
@@ -364,41 +365,36 @@
             subSelect.disabled = filteredSubs.length === 0;
         }
 
-        // --- ACCIONES (AGREGAR / BORRAR BEATS, CATS) ---
-
+        // --- ACCIONES BEATS ---
         async function addBeat(e) {
             e.preventDefault();
             const subcategory_id = document.getElementById('select-subcategory').value;
             const title = document.getElementById('beat-title').value;
             const drive_id = document.getElementById('beat-drive').value;
 
-            if (!subcategory_id) return alert("Debes seleccionar un subgénero. Si no existe, créalo a la izquierda.");
+            if (!subcategory_id) return alert("Debes seleccionar un subgénero.");
 
             const { error } = await _supabase.from('beats').insert([{ subcategory_id, title, drive_id }]);
-            
-            if (error) alert("Error al subir: " + error.message);
+            if (error) alert("Error al subir beat: " + error.message);
             else {
                 document.getElementById('add-beat-form').reset();
                 document.getElementById('select-subcategory').disabled = true;
                 loadDatabase();
-                alert("¡Beat subido a la base de datos con éxito!");
             }
         }
 
         async function deleteBeat(id, title) {
-            if (!confirm(`¿Estás seguro de que deseas ELIMINAR permanentemente el beat "${title}"?`)) return;
-
+            if (!confirm(`¿Estás seguro de que deseas ELIMINAR el beat "${title}"?`)) return;
             const { error } = await _supabase.from('beats').delete().eq('id', id);
-            
-            if (error) alert("Error al eliminar: " + error.message);
+            if (error) alert("Error al eliminar beat: " + error.message);
             else loadDatabase();
         }
 
+        // --- ACCIONES CATEGORÍAS ---
         async function addCategory(e) {
             e.preventDefault();
             const name = document.getElementById('new-cat-name').value.toLowerCase();
             const { error } = await _supabase.from('categories').insert([{ name }]);
-            
             if (error) alert("Error: " + error.message);
             else {
                 document.getElementById('new-cat-name').value = '';
@@ -410,9 +406,7 @@
             e.preventDefault();
             const category_id = document.getElementById('parent-cat-select').value;
             const name = document.getElementById('new-sub-name').value.toLowerCase();
-            
             const { error } = await _supabase.from('subcategories').insert([{ category_id, name }]);
-            
             if (error) alert("Error: " + error.message);
             else {
                 document.getElementById('new-sub-name').value = '';
@@ -420,31 +414,34 @@
             }
         }
 
-        // --- ACCIONES (AGREGAR / BORRAR TESTIMONIOS) ---
-
+        // --- ACCIONES TESTIMONIOS ---
         async function addTestimonial(e) {
             e.preventDefault();
             const artist_name = document.getElementById('test-artist').value;
             const image_url = document.getElementById('test-image').value;
             const youtube_url = document.getElementById('test-youtube').value;
 
-            const { error } = await _supabase.from('testimonials').insert([{ artist_name, image_url, youtube_url }]);
-            
-            if (error) alert("Error al guardar testimonio: " + error.message);
-            else {
+            try {
+                const { error } = await _supabase.from('testimonials').insert([{ artist_name, image_url, youtube_url }]);
+                if (error) throw error;
+                
                 document.getElementById('add-testimonial-form').reset();
                 loadDatabase();
                 alert("¡Testimonio agregado con éxito!");
+            } catch (err) {
+                alert("Error al guardar testimonio: " + err.message);
             }
         }
 
         async function deleteTestimonial(id, artist_name) {
             if (!confirm(`¿Estás seguro de que deseas ELIMINAR el testimonio de "${artist_name}"?`)) return;
-
-            const { error } = await _supabase.from('testimonials').delete().eq('id', id);
-            
-            if (error) alert("Error al eliminar: " + error.message);
-            else loadDatabase();
+            try {
+                const { error } = await _supabase.from('testimonials').delete().eq('id', id);
+                if (error) throw error;
+                loadDatabase();
+            } catch (err) {
+                alert("Error al eliminar testimonio: " + err.message);
+            }
         }
 
     </script>
