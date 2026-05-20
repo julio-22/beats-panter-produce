@@ -192,9 +192,8 @@
 
     <script>
         // --- CONFIGURACIÓN DE SUPABASE ---
-        // ⚠️ REEMPLAZA ESTO CON LOS DATOS DEL PROYECTO DONDE ESTÁN TUS TABLAS
         const SUPABASE_URL = 'https://bltlprtphzejinwqdwdo.supabase.co'; 
-        const SUPABASE_ANON_KEY = 'sb_publishable_h-6mJS9NZhgPZtY2HwMLmA_rxWThIqu';
+        const SUPABASE_ANON_KEY = 'sb_publishable_h-6mJS9NZhgPZtY2HwMLmA_rxWThIqu'; 
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // --- ESTADO GLOBAL ---
@@ -286,14 +285,26 @@
             categories.forEach(c => catOptions += `<option value="${c.id}">${c.name.toUpperCase()}</option>`);
             catSelects.forEach(select => select.innerHTML = catOptions);
 
-            // 2. Actualizar Tabla de Beats
+            // 2. Renderizar Beats (llama a la función con el filtro vacío por defecto)
+            renderBeats();
+
+            // 3. Renderizar Testimonios
+            renderTestimonials();
+        }
+
+        // Función específica para filtrar y mostrar beats
+        function renderBeats(filterText = '') {
             const tbodyBeats = document.getElementById('beats-table-body');
-            document.getElementById('total-beats').textContent = `${beats.length} Beats`;
             
-            if (beats.length === 0) {
-                tbodyBeats.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-gray-500">No hay beats disponibles.</td></tr>';
+            // Filtrar los beats si hay texto en el buscador
+            const filteredBeats = beats.filter(b => b.title.toLowerCase().includes(filterText.toLowerCase()));
+            
+            document.getElementById('total-beats').textContent = `${filteredBeats.length} Beats`;
+            
+            if (filteredBeats.length === 0) {
+                tbodyBeats.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-gray-500">No se encontraron beats con ese nombre.</td></tr>';
             } else {
-                tbodyBeats.innerHTML = beats.map(b => {
+                tbodyBeats.innerHTML = filteredBeats.map(b => {
                     const subName = b.subcategories?.name || 'Sin Subgénero';
                     const catName = b.subcategories?.categories?.name || 'Desconocido';
                     return `
@@ -309,8 +320,16 @@
                     `;
                 }).join('');
             }
+        }
 
-            // 3. Actualizar Tabla de Testimonios
+        // Función que se activa al escribir en el buscador
+        function filterBeats() {
+            const text = document.getElementById('search-beat-input').value;
+            renderBeats(text);
+        }
+
+        // Función separada para los testimonios
+        function renderTestimonials() {
             const tbodyTests = document.getElementById('testimonials-table-body');
             document.getElementById('total-testimonials').textContent = `${testimonials.length} Testimonios`;
             
