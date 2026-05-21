@@ -16,6 +16,10 @@
         .gold-text { color: #ffd700; }
         .gold-bg { background-color: #ffd700; color: #000; }
         .gold-bg:hover { background-color: #e6c200; }
+        
+        /* Animación para el modal */
+        .modal-enter { animation: fadeIn 0.2s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body class="min-h-screen">
@@ -27,7 +31,7 @@
             <form id="login-form" onsubmit="handleLogin(event)">
                 <div class="mb-4">
                     <label class="block text-sm font-bold mb-2 text-gray-400">Correo Electrónico</label>
-                    <input type="email" id="email" required class="w-full p-3 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400" value="vrasblessing@gmail.com">
+                    <input type="email" id="email" required class="w-full p-3 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400" value="panter.akamc@gmail.com">
                 </div>
                 <div class="mb-6">
                     <label class="block text-sm font-bold mb-2 text-gray-400">Contraseña</label>
@@ -46,10 +50,10 @@
     </div>
 
     <!-- PANTALLA DEL DASHBOARD -->
-    <div id="dashboard-screen" class="hidden">
+    <div id="dashboard-screen" class="hidden relative">
         
         <!-- Header -->
-        <header class="bg-black border-b border-gray-800 p-4 flex justify-between items-center sticky top-0 z-50">
+        <header class="bg-black border-b border-gray-800 p-4 flex justify-between items-center sticky top-0 z-40">
             <h1 class="text-2xl font-black gold-text tracking-widest">BASE 0 STUDIO <span class="text-xs text-gray-500 font-normal">ADMIN</span></h1>
             <div class="flex items-center gap-4">
                 <a href="index.html" class="text-gray-400 hover:text-white text-sm font-bold underline mr-4 hidden md:block transition">Ir a la tienda</a>
@@ -86,10 +90,14 @@
                             <label class="block text-xs font-bold mb-1 text-gray-400">Título del Beat</label>
                             <input type="text" id="beat-title" required placeholder="Ej: Sombras Nocturnas" class="w-full p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
                         </div>
+                        <div class="mb-4">
+                            <label class="block text-xs font-bold mb-1 text-gray-400">Imagen de Portada (Link Drive o Directo)</label>
+                            <input type="url" id="beat-cover" placeholder="https://drive.google.com/file/d/..." class="w-full p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
+                            <p class="text-[10px] text-gray-500 mt-1">Si usas Drive, el enlace debe ser público. Extraeremos la imagen automáticamente.</p>
+                        </div>
                         <div class="mb-6">
-                            <label class="block text-xs font-bold mb-1 text-gray-400">ID de Google Drive</label>
+                            <label class="block text-xs font-bold mb-1 text-gray-400">ID de Audio en Google Drive</label>
                             <input type="text" id="beat-drive" required placeholder="1lVcE4vc8dwNAZ..." class="w-full p-2 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
-                            <p class="text-[10px] text-gray-500 mt-1">Asegúrate de que el enlace en Drive sea público.</p>
                         </div>
                         <button type="submit" class="w-full font-bold py-2 px-4 rounded gold-bg transition duration-200 text-black">
                             GUARDAR BEAT
@@ -158,23 +166,24 @@
                     <!-- BUSCADOR MEJORADO -->
                     <div class="mb-4 relative">
                         <span class="material-icons absolute left-3 top-3.5 text-yellow-500 font-bold">search</span>
-                        <input type="text" id="search-beat-input" oninput="filterBeats()" placeholder="Escribe el nombre del beat para encontrarlo y borrarlo..." class="w-full pl-10 pr-10 p-3 bg-black border-2 border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400 transition shadow-inner">
+                        <input type="text" id="search-beat-input" oninput="filterBeats()" placeholder="Busca un beat para editarlo o borrarlo..." class="w-full pl-10 pr-10 p-3 bg-black border-2 border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400 transition shadow-inner">
                         <button onclick="document.getElementById('search-beat-input').value=''; filterBeats();" class="absolute right-3 top-3.5 text-gray-500 hover:text-red-500 transition" title="Limpiar búsqueda">
                             <span class="material-icons text-xl">close</span>
                         </button>
                     </div>
 
-                    <div class="overflow-x-auto max-h-[400px] overflow-y-auto">
-                        <table class="w-full text-left text-sm text-white">
-                            <thead class="bg-black text-gray-400 sticky top-0">
+                    <div class="overflow-x-auto max-h-[600px] overflow-y-auto">
+                        <table class="w-full text-left text-sm text-white relative">
+                            <thead class="bg-black text-gray-400 sticky top-0 z-10 shadow-md">
                                 <tr>
-                                    <th class="p-3 rounded-tl-lg">Título</th>
-                                    <th class="p-3">Género > Subgénero</th>
-                                    <th class="p-3 text-right rounded-tr-lg">Acción</th>
+                                    <th class="p-3 rounded-tl-lg w-16">Portada</th>
+                                    <th class="p-3">Título</th>
+                                    <th class="p-3">Categoría</th>
+                                    <th class="p-3 text-right rounded-tr-lg">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody id="beats-table-body" class="divide-y divide-gray-800">
-                                <tr><td colspan="3" class="p-4 text-center text-gray-500">Cargando base de datos...</td></tr>
+                                <tr><td colspan="4" class="p-4 text-center text-gray-500">Cargando base de datos...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -205,8 +214,55 @@
                 </div>
 
             </div>
-
         </main>
+    </div>
+
+    <!-- MODAL DE EDICIÓN DE BEATS -->
+    <div id="edit-beat-modal" class="hidden fixed inset-0 bg-black/90 flex justify-center items-center z-50 p-4 backdrop-blur-sm">
+        <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-2xl w-full max-w-lg modal-enter">
+            <div class="flex justify-between items-center p-5 border-b border-gray-800 bg-black rounded-t-lg">
+                <h3 class="text-xl font-black gold-text flex items-center gap-2"><span class="material-icons">edit</span> EDITAR BEAT</h3>
+                <button onclick="closeEditModal()" class="text-gray-400 hover:text-white transition">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            <form id="edit-beat-form" onsubmit="saveBeatEdit(event)" class="p-5">
+                <div class="mb-4">
+                    <label class="block text-xs font-bold mb-1 text-gray-400">Género (Categoría)</label>
+                    <select id="edit-select-category" onchange="updateEditSubcategoriesSelect()" required class="w-full p-2.5 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-bold mb-1 text-gray-400">Subgénero</label>
+                    <select id="edit-select-subcategory" required class="w-full p-2.5 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-bold mb-1 text-gray-400">Título del Beat</label>
+                    <input type="text" id="edit-beat-title" required class="w-full p-2.5 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-bold mb-1 text-gray-400">Imagen de Portada (Link Drive o Directo)</label>
+                    <input type="url" id="edit-beat-cover" class="w-full p-2.5 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
+                    <div id="edit-cover-preview-container" class="mt-2 hidden">
+                        <p class="text-[10px] text-gray-500 mb-1">Vista previa actual:</p>
+                        <img id="edit-cover-preview" src="" class="h-16 w-16 object-cover rounded border border-gray-700">
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-xs font-bold mb-1 text-gray-400">ID de Audio (Drive)</label>
+                    <input type="text" id="edit-beat-drive" required class="w-full p-2.5 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-yellow-400">
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeEditModal()" class="flex-1 font-bold py-3 px-4 rounded bg-gray-800 hover:bg-gray-700 transition duration-200 text-white">
+                        CANCELAR
+                    </button>
+                    <button type="submit" class="flex-1 font-bold py-3 px-4 rounded gold-bg transition duration-200 text-black">
+                        GUARDAR CAMBIOS
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script>
@@ -220,6 +276,19 @@
         let subcategories = [];
         let beats = [];
         let testimonials = [];
+        let currentEditBeatId = null;
+
+        // --- FUNCIONES HELPER GLOBALES ---
+        // Convierte links de vista de Drive en links de imagen directa para la etiqueta <img>
+        const getDirectImageUrl = (url) => {
+            if (!url) return '';
+            const driveRegex = /drive\.google\.com\/(?:file\/d\/|open\?id=)([a-zA-Z0-9_-]+)/;
+            const match = url.match(driveRegex);
+            if (match && match[1]) {
+                return `https://lh3.googleusercontent.com/d/${match[1]}`;
+            }
+            return url;
+        };
 
         // --- SISTEMA DE AUTENTICACIÓN ---
         _supabase.auth.onAuthStateChange((event, session) => {
@@ -271,7 +340,6 @@
 
         // --- GESTIÓN DE BASE DE DATOS ---
         async function loadDatabase() {
-            // 1. Cargar Beats y Categorías (Ignora si falla por falta de tablas)
             try {
                 const { data: cats } = await _supabase.from('categories').select('*').order('name');
                 if (cats) categories = cats;
@@ -279,13 +347,13 @@
                 const { data: subs } = await _supabase.from('subcategories').select('*').order('name');
                 if (subs) subcategories = subs;
 
+                // Modificado: Incluye 'cover_url' y 'subcategory_id' nativo.
                 const { data: bts } = await _supabase.from('beats')
-                    .select(`id, title, drive_id, created_at, subcategories ( id, name, category_id, categories (name) )`)
+                    .select(`id, title, drive_id, cover_url, subcategory_id, created_at, subcategories ( id, name, category_id, categories (name) )`)
                     .order('created_at', { ascending: false });
                 if (bts) beats = bts;
-            } catch (e) { console.log("Nota: Las tablas de Beats aún no existen o están vacías."); }
+            } catch (e) { console.log("Nota: Las tablas de Beats aún no existen o faltan columnas (como cover_url)."); }
 
-            // 2. Cargar Testimonios
             try {
                 const { data: tests } = await _supabase.from('testimonials').select('*').order('created_at', { ascending: false });
                 if (tests) testimonials = tests;
@@ -295,11 +363,15 @@
         }
 
         function updateUI() {
-            // Categorías
-            const catSelects = [document.getElementById('select-category'), document.getElementById('parent-cat-select')];
+            const catSelects = [
+                document.getElementById('select-category'), 
+                document.getElementById('parent-cat-select'),
+                document.getElementById('edit-select-category')
+            ];
+            
             let catOptions = '<option value="">Selecciona un género...</option>';
             categories.forEach(c => catOptions += `<option value="${c.id}">${c.name.toUpperCase()}</option>`);
-            catSelects.forEach(select => select.innerHTML = catOptions);
+            catSelects.forEach(select => { if(select) select.innerHTML = catOptions; });
 
             renderBeats(document.getElementById('search-beat-input')?.value || '');
             renderTestimonials();
@@ -308,32 +380,39 @@
         // --- RENDERIZADO Y BÚSQUEDA ---
         function renderBeats(filterText = '') {
             const tbodyBeats = document.getElementById('beats-table-body');
-            
-            // Búsqueda inteligente: divide el texto por espacios para encontrar coincidencias parciales
             const searchTerms = filterText.toLowerCase().trim().split(' ');
             
             const filteredBeats = beats.filter(b => {
                 const titleLower = b.title.toLowerCase();
-                // Retorna true solo si todos los fragmentos escritos están en el título
                 return searchTerms.every(term => titleLower.includes(term));
             });
             
             document.getElementById('total-beats').textContent = `${filteredBeats.length} Beats`;
             
             if (filteredBeats.length === 0) {
-                tbodyBeats.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-gray-500">No se encontraron beats con ese nombre.</td></tr>';
+                tbodyBeats.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-gray-500">No se encontraron beats.</td></tr>';
             } else {
                 tbodyBeats.innerHTML = filteredBeats.map(b => {
                     const subName = b.subcategories?.name || 'Sin Subgénero';
                     const catName = b.subcategories?.categories?.name || 'Desconocido';
+                    const coverImg = b.cover_url ? getDirectImageUrl(b.cover_url) : 'https://placehold.co/100x100/1a1a1a/FFF?text=N/A';
+
                     return `
-                        <tr class="hover:bg-gray-800 transition border-b border-gray-800">
+                        <tr class="hover:bg-gray-800 transition border-b border-gray-800 group">
+                            <td class="p-3">
+                                <img src="${coverImg}" alt="Portada" class="h-12 w-12 rounded object-cover border border-gray-700 shadow-sm" onerror="this.src='https://placehold.co/100x100/1a1a1a/FFF?text=ERR'">
+                            </td>
                             <td class="p-3 font-bold text-yellow-100">${b.title}</td>
-                            <td class="p-3 text-xs text-gray-400">${catName.toUpperCase()} > ${subName}</td>
-                            <td class="p-3 text-right">
-                                <button onclick="deleteBeat('${b.id}', '${b.title.replace(/'/g,"\\'")}')" class="bg-red-600 hover:bg-red-500 text-white rounded p-1 px-3 flex items-center gap-1 ml-auto transition" title="Borrar Beat">
-                                    <span class="material-icons text-sm">delete</span> <span class="text-xs font-bold">BORRAR</span>
-                                </button>
+                            <td class="p-3 text-xs text-gray-400">${catName.toUpperCase()}<br><span class="text-gray-500">${subName}</span></td>
+                            <td class="p-3">
+                                <div class="flex justify-end gap-2 opacity-100 lg:opacity-50 group-hover:opacity-100 transition-opacity">
+                                    <button onclick="openEditModal('${b.id}')" class="bg-blue-600 hover:bg-blue-500 text-white rounded p-1.5 px-3 flex items-center gap-1 transition shadow" title="Editar Beat">
+                                        <span class="material-icons text-[16px]">edit</span> <span class="text-xs font-bold hidden sm:block">EDITAR</span>
+                                    </button>
+                                    <button onclick="deleteBeat('${b.id}', '${b.title.replace(/'/g,"\\'")}')" class="bg-red-600 hover:bg-red-500 text-white rounded p-1.5 px-3 flex items-center gap-1 transition shadow" title="Borrar Beat">
+                                        <span class="material-icons text-[16px]">delete</span>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     `;
@@ -353,18 +432,6 @@
             if (testimonials.length === 0) {
                 tbodyTests.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-gray-500">No hay testimonios guardados.</td></tr>';
             } else {
-                
-                // Función interna para convertir links de Drive
-                const getDirectImageUrl = (url) => {
-                    if (!url) return '';
-                    const driveRegex = /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/;
-                    const match = url.match(driveRegex);
-                    if (match && match[1]) {
-                        return `https://lh3.googleusercontent.com/d/${match[1]}`;
-                    }
-                    return url;
-                };
-
                 tbodyTests.innerHTML = testimonials.map(t => `
                     <tr class="hover:bg-gray-800 transition border-b border-gray-800">
                         <td class="p-3 font-bold text-blue-400">${t.artist_name}</td>
@@ -384,9 +451,20 @@
             }
         }
 
+        // --- MANEJO DE SELECTS (CREAR Y EDITAR) ---
         function updateSubcategoriesSelect() {
             const catId = document.getElementById('select-category').value;
             const subSelect = document.getElementById('select-subcategory');
+            const filteredSubs = subcategories.filter(s => s.category_id === catId);
+            
+            subSelect.innerHTML = '<option value="">Selecciona un subgénero...</option>' + 
+                filteredSubs.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+            subSelect.disabled = filteredSubs.length === 0;
+        }
+
+        function updateEditSubcategoriesSelect() {
+            const catId = document.getElementById('edit-select-category').value;
+            const subSelect = document.getElementById('edit-select-subcategory');
             const filteredSubs = subcategories.filter(s => s.category_id === catId);
             
             subSelect.innerHTML = '<option value="">Selecciona un subgénero...</option>' + 
@@ -400,26 +478,105 @@
             const subcategory_id = document.getElementById('select-subcategory').value;
             const title = document.getElementById('beat-title').value;
             const drive_id = document.getElementById('beat-drive').value;
+            
+            // Extraer y formatear la URL de la portada
+            const raw_cover_url = document.getElementById('beat-cover').value;
+            const cover_url = getDirectImageUrl(raw_cover_url);
 
             if (!subcategory_id) return alert("Selecciona un subgénero.");
 
-            const { error } = await _supabase.from('beats').insert([{ subcategory_id, title, drive_id }]);
-            if (error) alert("Error: " + error.message);
-            else {
+            // Se incluye el nuevo campo 'cover_url'
+            const { error } = await _supabase.from('beats').insert([{ subcategory_id, title, drive_id, cover_url }]);
+            
+            if (error) {
+                alert("Error: " + error.message);
+                console.error(error);
+            } else {
                 document.getElementById('add-beat-form').reset();
                 document.getElementById('select-subcategory').disabled = true;
                 loadDatabase();
-                alert("Beat guardado!");
+                alert("¡Beat guardado exitosamente!");
             }
         }
 
         async function deleteBeat(id, title) {
-            if (!confirm(`¿ELIMINAR beat "${title}"?`)) return;
+            if (!confirm(`¿Estás seguro de ELIMINAR el beat "${title}" permanentemente?`)) return;
             const { error } = await _supabase.from('beats').delete().eq('id', id);
             if (error) alert("Error: " + error.message);
             else loadDatabase();
         }
 
+        // --- MODAL DE EDICIÓN DE BEATS ---
+        function openEditModal(beatId) {
+            const beat = beats.find(b => b.id === beatId);
+            if (!beat) return;
+            
+            currentEditBeatId = beatId;
+
+            // Llenar campos de texto
+            document.getElementById('edit-beat-title').value = beat.title;
+            document.getElementById('edit-beat-drive').value = beat.drive_id;
+            document.getElementById('edit-beat-cover').value = beat.cover_url || '';
+
+            // Mostrar vista previa si hay portada
+            const previewContainer = document.getElementById('edit-cover-preview-container');
+            if(beat.cover_url) {
+                document.getElementById('edit-cover-preview').src = getDirectImageUrl(beat.cover_url);
+                previewContainer.classList.remove('hidden');
+            } else {
+                previewContainer.classList.add('hidden');
+            }
+
+            // Configurar selects dependientes
+            const catId = beat.subcategories?.category_id;
+            if(catId) {
+                document.getElementById('edit-select-category').value = catId;
+                updateEditSubcategoriesSelect(); // Poblar subgéneros
+                // Seleccionar el subgénero actual
+                document.getElementById('edit-select-subcategory').value = beat.subcategory_id;
+            }
+
+            // Mostrar modal
+            document.getElementById('edit-beat-modal').classList.remove('hidden');
+        }
+
+        function closeEditModal() {
+            document.getElementById('edit-beat-modal').classList.add('hidden');
+            document.getElementById('edit-beat-form').reset();
+            currentEditBeatId = null;
+        }
+
+        async function saveBeatEdit(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('edit-beat-title').value;
+            const drive_id = document.getElementById('edit-beat-drive').value;
+            const subcategory_id = document.getElementById('edit-select-subcategory').value;
+            
+            // Transformar la URL si es de Drive para guardarla lista
+            const raw_cover = document.getElementById('edit-beat-cover').value;
+            const cover_url = getDirectImageUrl(raw_cover);
+
+            if (!subcategory_id) return alert("Por favor selecciona un subgénero válido.");
+
+            const { error } = await _supabase.from('beats').update({
+                title: title,
+                drive_id: drive_id,
+                subcategory_id: subcategory_id,
+                cover_url: cover_url
+            }).eq('id', currentEditBeatId);
+
+            if (error) {
+                alert("Error al actualizar: " + error.message);
+                console.error(error);
+            } else {
+                closeEditModal();
+                loadDatabase();
+            }
+        }
+
+
+        // --- CRUD DE CATEGORÍAS ---
         async function addCategory(e) {
             e.preventDefault();
             const name = document.getElementById('new-cat-name').value.toLowerCase();
@@ -437,7 +594,7 @@
             else { document.getElementById('new-sub-name').value = ''; loadDatabase(); }
         }
 
-        // --- ACCIONES CRUD TESTIMONIOS ---
+        // --- CRUD TESTIMONIOS ---
         async function addTestimonial(e) {
             e.preventDefault();
             const artist_name = document.getElementById('test-artist').value;
