@@ -243,6 +243,7 @@
             transition: all 0.3s ease;
             height: 100%;
             box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            align-items: center; /* Centrar elementos internos */
         }
 
         .beat-card-new:hover {
@@ -263,21 +264,115 @@
             cursor: pointer;
             position: relative;
             flex-shrink: 0;
+            transition: all 0.3s ease;
         }
 
-        .vinyl-hero-new::after {
+        /* --- NUEVO: ESTILOS PARA BEATS CON PORTADA (MAS GRANDES Y PROFESIONALES) --- */
+        .vinyl-hero-new.has-cover {
+            width: 140px !important;  /* Aumentado de tamaño */
+            height: 140px !important; /* Aumentado de tamaño */
+            border-radius: 12px;
+            background-color: #111;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background-size: cover;
+            background-position: center;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden; /* Mantiene la sombra y overlay dentro de la imagen */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+        }
+        
+        .vinyl-hero-new.has-cover::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 1;
+        }
+
+        .beat-card-new:hover .vinyl-hero-new.has-cover::before {
+            opacity: 1;
+        }
+
+        /* Reset estricto para evitar textos gigantes en vez de íconos */
+        .vinyl-hero-new.has-cover::after {
+            content: 'play_circle';
+            font-family: 'Material Icons' !important;
+            font-weight: normal;
+            font-style: normal;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+            font-size: 4rem;
+            color: var(--neon-gold);
+            opacity: 0;
+            transition: var(--transition);
+            transform: scale(0.8);
+            text-shadow: 0 4px 15px rgba(0,0,0,0.9);
+            z-index: 2;
+            position: absolute;
+        }
+
+        .beat-card-new:hover .vinyl-hero-new.has-cover::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Animación visual notoria durante la reproducción */
+        .vinyl-hero-new.has-cover.playing {
+            border-color: var(--neon-gold);
+            animation: pulseCoverPlay 1.2s infinite alternate ease-in-out;
+            z-index: 5;
+        }
+
+        .vinyl-hero-new.has-cover.playing::before {
+            opacity: 1;
+            background: rgba(0,0,0,0.65);
+        }
+
+        .vinyl-hero-new.has-cover.playing::after {
+            content: 'pause_circle';
+            opacity: 1;
+            transform: scale(1.15);
+            color: #fff;
+            text-shadow: 0 0 25px rgba(255, 215, 0, 1);
+        }
+
+        @keyframes pulseCoverPlay {
+            0% { 
+                box-shadow: 0 0 15px rgba(255, 215, 0, 0.3), inset 0 0 10px rgba(255,215,0,0.1); 
+                transform: scale(1.02); 
+            }
+            100% { 
+                box-shadow: 0 0 45px rgba(255, 215, 0, 0.8), inset 0 0 20px rgba(255,215,0,0.4); 
+                transform: scale(1.08); 
+            }
+        }
+
+        /* --- ORIGINAL: PARA BEATS SIN PORTADA --- */
+        .vinyl-hero-new:not(.has-cover)::after {
             content: 'play_arrow';
             font-family: 'Material Icons';
             color: var(--neon-gold);
             font-size: 2.8rem;
             text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
         }
-
-        .vinyl-hero-new.playing {
+        .vinyl-hero-new:not(.has-cover).playing {
             animation: rotateVinyl 2.4s linear infinite;
         }
+        .vinyl-hero-new:not(.has-cover).playing::after { content: 'pause'; }
 
-        .vinyl-hero-new.playing::after { content: 'pause'; }
         @keyframes rotateVinyl { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         .beat-title-new {
@@ -294,6 +389,7 @@
             line-height: 1.2;
             text-transform: uppercase;
             letter-spacing: 1.2px;
+            width: 100%;
         }
 
         .lic-btn-stack-new {
@@ -301,6 +397,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 8px;
             margin-top: auto;
+            width: 100%;
         }
 
         .lic-btn-new:nth-child(3) {
@@ -426,6 +523,10 @@
                 height: 100px !important;
                 margin: 0 auto 15px auto !important;
             }
+            .vinyl-hero-new.has-cover {
+                width: 120px !important; /* Adaptado para móviles conservando tamaño extra */
+                height: 120px !important;
+            }
             .vinyl-hero-new::after { font-size: 2.5rem; }
 
             .beat-title-new {
@@ -480,6 +581,8 @@
             border-radius: 4px;
             display: flex; align-items: center; justify-content: center;
             border: 1px solid var(--gold);
+            background-size: cover;
+            background-position: center;
         }
         .player-controls-right {
             display: flex;
@@ -761,7 +864,7 @@
             position: relative;
         }
         .admin-link-secret {
-            color: #1a1a1a; /* Casi invisible */
+            color: #1a1a1a;
             text-decoration: none;
             font-size: 0.65rem;
             margin-top: 15px;
@@ -1189,7 +1292,7 @@
     <div class="master-player" id="m-player">
         <div class="player-top-row">
             <div class="player-meta">
-                <div class="mini-art">💽</div>
+                <div class="mini-art" id="player-mini-art">💽</div>
                 <div>
                     <b id="p-title" style="text-transform:uppercase; display:block;">Selecciona un beat</b>
                     <small style="color:#aaa">BASE 0 Studio Preview</small>
@@ -1272,19 +1375,28 @@
         const SUPABASE_URL = 'https://bltlprtphzejinwqdwdo.supabase.co'; 
         const SUPABASE_ANON_KEY = 'sb_publishable_h-6mJS9NZhgPZtY2HwMLmA_rxWThIqu';
         
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // MODIFICADO: Añadidos headers para evitar el caché de las consultas y ver cambios de inmediato
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            global: {
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache'
+                }
+            }
+        });
 
         let database = [];
 
         async function fetchCatalogFromSupabase() {
             try {
+                // MODIFICADO: Añadido cover_url a la consulta
                 const { data, error } = await supabaseClient
                     .from('categories')
                     .select(`
                         name,
                         subs:subcategories (
                             name,
-                            beats:beats (title, drive_id)
+                            beats:beats (title, drive_id, cover_url)
                         )
                     `);
 
@@ -1297,7 +1409,8 @@
                             name: sub.name,
                             beats: sub.beats.map(beat => ({
                                 title: beat.title,
-                                drive: beat.drive_id 
+                                drive: beat.drive_id,
+                                cover: beat.cover_url || null // Extraer de la DB
                             }))
                         }))
                     }));
@@ -1316,7 +1429,6 @@
             }
         }
 
-        // NUEVA FUNCIÓN PARA EXTRAER TESTIMONIOS DE SUPABASE (SIN BORRAR LOS ORIGINALES)
         async function fetchTestimonialsFromSupabase() {
             const container = document.getElementById('testimonials-grid');
             
@@ -1328,7 +1440,6 @@
 
                 if (error) throw error;
 
-                // Si no hay testimonios en la BD, simplemente terminamos y se quedan los 6 originales
                 if (!tests || tests.length === 0) return;
 
                 const getDirectImageUrl = (url) => {
@@ -1341,8 +1452,6 @@
                     return url;
                 };
 
-                // Generar HTML para los nuevos y agregarles el párrafo ("<p>") predeterminado
-                // para que mantengan la misma altura visual que los 6 originales.
                 const dbTestsHtml = tests.map(t => `
                     <div class="test-card">
                         <img src="${getDirectImageUrl(t.image_url)}" class="test-img" alt="${t.artist_name}" onerror="this.src='https://placehold.co/400x300/333/FFF?text=IMG'">
@@ -1354,7 +1463,6 @@
                     </div>
                 `).join('');
 
-                // Inyectamos los nuevos al PRINCIPIO del contenedor, dejando los 6 viejos intactos al final.
                 container.insertAdjacentHTML('afterbegin', dbTestsHtml);
 
             } catch (err) {
@@ -1633,11 +1741,19 @@
             setTimeout(updateAllPrices, 100);
         }
 
+        // MODIFICADO: Adaptado para incluir y aplicar la portada (cover_url) de forma segura
         function renderBeats(beats) {
             if (!beats?.length) return '<p style="padding:10px; font-size:10px; color:#333; text-align:center;">PRÓXIMAMENTE...</p>';
-            return beats.map(b => `
+            
+            return beats.map(b => {
+                // Escapamos la URL para evitar que caracteres especiales rompan el atributo CSS
+                const safeCover = b.cover ? b.cover.replace(/'/g, "%27").replace(/"/g, "%22") : '';
+                const coverStyle = safeCover ? `background-image: url('${safeCover}');` : '';
+                const coverClass = safeCover ? 'has-cover' : '';
+                
+                return `
                 <div class="beat-card-new">
-                    <div class="vinyl-hero-new" onclick="play('${b.title.replace(/'/g,"\\'")}', '${btoa(b.drive)}', this)"></div>
+                    <div class="vinyl-hero-new ${coverClass}" style="${coverStyle}" onclick="play('${b.title.replace(/'/g,"\\'")}', '${btoa(b.drive)}', this, '${safeCover}')"></div>
                     <div class="beat-title-new">${b.title}</div>
                     <div class="lic-btn-stack-new">
                         <button class="lic-btn-new" onclick="addBeat('${b.title.replace(/'/g,"\\'")}', 'bronce')">BRONCE <span></span></button>
@@ -1645,7 +1761,8 @@
                         <button class="lic-btn-new" onclick="addBeat('${b.title.replace(/'/g,"\\'")}', 'oro')">ORO <span></span></button>
                     </div>
                 </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         function scrollCarousel(btn, direction) {
@@ -1665,13 +1782,26 @@
             }
         }
 
-        function play(title, encodedDriveId, el) {
+        // MODIFICADO: Actualiza el mini-reproductor si el beat tiene portada
+        function play(title, encodedDriveId, el, coverUrl = '') {
             if (!encodedDriveId?.trim()) return;
             const driveId = atob(encodedDriveId);
+            
             if (el.classList.contains('playing')) return stopBeat();
+            
             document.querySelectorAll('.vinyl-hero-new').forEach(v => v.classList.remove('playing'));
             el.classList.add('playing');
+            
             document.getElementById('p-title').textContent = title;
+            const miniArt = document.getElementById('player-mini-art');
+            if (coverUrl) {
+                miniArt.style.backgroundImage = `url('${coverUrl}')`;
+                miniArt.innerHTML = '';
+            } else {
+                miniArt.style.backgroundImage = 'none';
+                miniArt.innerHTML = '💽';
+            }
+
             document.getElementById('player-frame-container').innerHTML = `
                 <iframe src="https://drive.google.com/file/d/${driveId}/preview" allow="autoplay" sandbox="allow-scripts allow-same-origin" style="width:100%;height:100%;border:none;"></iframe>`;
             document.getElementById('m-player').style.display = 'flex';
@@ -1687,7 +1817,6 @@
             if (!pendingGoldBeat) return;
             
             if (pendingGoldBeat.isCustom) {
-                // Es un Beat a la medida
                 cart.push({ title: pendingGoldBeat.title, lic: 'SERVICIO PRO', price: pendingGoldBeat.mxn, usd: pendingGoldBeat.usd, promo: false });
                 if (wantStems) {
                     cart.push({ title: `${pendingGoldBeat.title} – Stems`, lic: 'STEMS (opcional)', price: stemsPriceMXN, usd: stemsPriceUSD, promo: false });
@@ -1696,7 +1825,6 @@
                     showToastNew(`✅ ${pendingGoldBeat.title} añadido`);
                 }
             } else {
-                // Es un Beat Oro del catálogo
                 const { title } = pendingGoldBeat;
                 const l = licDetails.oro;
                 cart.push({ title, lic: l.n, price: l.m, usd: l.u, promo: l.p });
@@ -1867,9 +1995,8 @@ Concepto: Base 0 Studio BBVA
         // ────────────────────────────────────────────────
         window.addEventListener('load', () => {
             
-            // Reemplazamos render() con la carga desde Supabase
             fetchCatalogFromSupabase(); 
-            fetchTestimonialsFromSupabase(); // ← LLAMADA PARA EXTRAER TESTIMONIOS AUTOMÁTICAMENTE
+            fetchTestimonialsFromSupabase();
 
             createParticles();
             selectPayment('transfer');
@@ -1877,23 +2004,16 @@ Concepto: Base 0 Studio BBVA
             document.getElementById('stems-yes')?.addEventListener('click', () => confirmStems(true));
             document.getElementById('stems-no')?.addEventListener('click', () => confirmStems(false));
 
-            // Moneda guardada
             const saved = localStorage.getItem('preferredCurrency');
             if (saved && ['USD','MXN'].includes(saved)) {
                 currentCurrency = saved;
                 document.querySelector(`.currency-selector button[data-currency="${saved}"]`)?.classList.add('active');
             }
 
-            // Render PayPal UNA SOLA VEZ
             initPayPalButton();
 
-            // -------------------------------------------------------------
-            // ⭐ DETECCIÓN INTELIGENTE DE ADMIN LOGUEADO
-            // -------------------------------------------------------------
             supabaseClient.auth.getSession().then(({ data: { session } }) => {
                 if (session) {
-                    // Si el usuario ya está logueado en su panel en este navegador,
-                    // resaltamos el botón para que sepa que tiene acceso.
                     const adminLink = document.getElementById('admin-link');
                     if(adminLink) {
                         adminLink.style.color = '#ffd700';
