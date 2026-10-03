@@ -30,7 +30,7 @@
         html { scroll-behavior: smooth; }
         body {
             background: linear-gradient(rgba(0,0,0,0.18), rgba(0,0,0,0.65)),
-                        url('Portada%20base%200%20studio.jpg');
+                        url("./Portada base 0 studio.jpg");
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -1160,12 +1160,12 @@
         <div class="licenses-grid">
             <div class="license-card">
                 <div class="license-title">BRONCE</div>
-                <div class="license-price" id="price-bronce">$18.99 <small>USD</small><br><small>≈ $365 MXN</small></div>
+                <div class="license-price" id="price-bronce">$20.78 <small>USD</small><br><small>≈ $399 MXN</small></div>
                 <ul class="license-features">
                     <li>MP3 + WAV de Alta Calidad</li>
                     <li>Hasta 100,000 Streams</li>
                     <li>Hasta 5,000 Copias (Ventas)</li>
-                    <li class="excluded">Radio / TV (No permitido)</li>
+                    <li>Spotify y plataformas digitales</li>
                     <li class="excluded">Sin Stems (Pistas separadas)</li>
                     <li class="excluded">Licencia No Exclusiva</li>
                 </ul>
@@ -1176,12 +1176,12 @@
 
             <div class="license-card popular">
                 <div class="license-title">PLATA</div>
-                <div class="license-price" id="price-plata">$26.99 <small>USD</small><br><small>≈ $518 MXN</small></div>
+                <div class="license-price" id="price-plata">$31.20 <small>USD</small><br><small>≈ $599 MXN</small></div>
                 <ul class="license-features">
                     <li>MP3 + WAV de Alta Calidad</li>
                     <li><b>Streams Ilimitados</b></li>
                     <li><b>Copias (Ventas) Ilimitadas</b></li>
-                    <li>Radio / TV (Permitido)</li>
+                    <li>Spotify y plataformas digitales</li>
                     <li class="excluded">Sin Stems (Pistas separadas)</li>
                     <li class="excluded">Licencia No Exclusiva</li>
                 </ul>
@@ -1192,12 +1192,12 @@
 
             <div class="license-card">
                 <div class="license-title">ORO</div>
-                <div class="license-price" id="price-oro">$53.99 <small>USD</small><br><small>≈ $1,037 MXN</small></div>
+                <div class="license-price" id="price-oro">$67.66 <small>USD</small><br><small>≈ $1,299 MXN</small></div>
                 <ul class="license-features">
                     <li>MP3 + WAV de Alta Calidad</li>
                     <li><b>Streams Ilimitados</b></li>
                     <li><b>Copias (Ventas) Ilimitadas</b></li>
-                    <li>Radio / TV (Permitido)</li>
+                    <li>Spotify y plataformas digitales</li>
                     <li><b>Stems Completos</b> (Pistas separadas)</li>
                     <li><b>Uso Exclusivo</b> (Se retira de la tienda)</li>
                 </ul>
@@ -1481,9 +1481,9 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
         let currentCurrency = localStorage.getItem('preferredCurrency') || 'USD';
 
         const licensePrices = {
-            bronce: { usd: 18.99, mxn: 365 },
-            plata:  { usd: 26.99, mxn: 518 },
-            oro:    { usd: 53.99, mxn: 1037 }
+            bronce: { usd: 20.78, mxn: 399 },
+            plata:  { usd: 31.20, mxn: 599 },
+            oro:    { usd: 67.66, mxn: 1299 }
         };
 
         function formatPrice(value, currency) {
@@ -1548,9 +1548,9 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
         // CONFIGURACIÓN GENERAL / CARRITO
         // ────────────────────────────────────────────────
         const licDetails = {
-            bronce: { n: 'BRONCE', m: 350, u: 18.99, p: true },
-            plata:  { n: 'PLATA',  m: 500, u: 26.99, p: true },
-            oro:    { n: 'ORO',    m: 1000, u: 53.99, p: false }
+            bronce: { n: 'BRONCE', m: 399, u: 20.78, p: true },
+            plata:  { n: 'PLATA',  m: 599, u: 31.20, p: true },
+            oro:    { n: 'ORO',    m: 1299, u: 67.66, p: false }
         };
 
         let cart = [];
