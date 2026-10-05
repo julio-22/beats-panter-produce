@@ -29,10 +29,12 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
         html { scroll-behavior: smooth; }
         body {
+            /* CAMBIO: Ruta relativa codificada (espacios y tildes) y adición de background-repeat */
             background: linear-gradient(rgba(0,0,0,0.18), rgba(0,0,0,0.65)),
-                        url('https://raw.githubusercontent.com/julio-22/Beats-Panter-produce/main/Portada%20base%200%20studio.jpg');
+                        url('Estudio%20BASE%200_%20Ne%C3%B3n%20y%20Ritmo.png');
             background-size: cover;
             background-position: center;
+            background-repeat: no-repeat;
             background-attachment: fixed;
             color: var(--text-main);
             line-height: 1.6;
@@ -1109,9 +1111,9 @@
                 <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&q=80&w=800" alt="Diseño de portadas" class="service-img">
                 <div class="service-content">
                     <div class="service-title">DISEÑO DE PORTADAS Y LOGOTIPOS</div>
-                    <div class="service-price">$36.41 <small>USD</small><small>≈ $699 MXN</small></div>
+                    <div class="service-price">$35.99 <small>USD</small><small>≈ $665 MXN</small></div>
                     <p class="service-desc">Diseño profesional y exclusivo personalizado para la identidad de tu marca artística.</p>
-                    <button class="lic-btn-new" style="width: 100%; min-height: 50px !important; margin-top: auto;" onclick="addService('DISEÑO PORTADA/LOGO', 699, 36.41)">AÑADIR AL PEDIDO</button>
+                    <button class="lic-btn-new" style="width: 100%; min-height: 50px !important; margin-top: auto;" onclick="addService('DISEÑO PORTADA/LOGO', 665, 35.99)">AÑADIR AL PEDIDO</button>
                 </div>
             </div>
             
@@ -1119,9 +1121,9 @@
                 <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&q=80&w=800" alt="Mix y Mastering" class="service-img">
                 <div class="service-content">
                     <div class="service-title">MIX / MASTERING PROFESIONAL</div>
-                    <div class="service-price">$52.03 <small>USD</small><small>≈ $999 MXN</small></div>
+                    <div class="service-price">$53.99 <small>USD</small><small>≈ $1,000 MXN</small></div>
                     <p class="service-desc">Claridad, pegada y volumen competitivo para que tus temas suenen a nivel industria.</p>
-                    <button class="lic-btn-new" style="width: 100%; min-height: 50px !important; margin-top: auto; background: var(--neon-gold); color: #000;" onclick="addService('MIX / MASTERING', 999, 52.03)">AÑADIR AL PEDIDO</button>
+                    <button class="lic-btn-new" style="width: 100%; min-height: 50px !important; margin-top: auto; background: var(--neon-gold); color: #000;" onclick="addService('MIX / MASTERING', 1000, 53.99)">AÑADIR AL PEDIDO</button>
                 </div>
             </div>
             
@@ -1129,9 +1131,9 @@
                 <img src="https://images.unsplash.com/photo-1598653222000-6b7b7a552625?auto=format&fit=crop&q=80&w=800" alt="Beats a medida" class="service-img">
                 <div class="service-content">
                     <div class="service-title">BEATS A MEDIDA (EXCLUSIVO)</div>
-                    <div class="service-price">$67.66 <small>USD</small><small>≈ $1,299 MXN</small></div>
+                    <div class="service-price">$53.99 <small>USD</small><small>≈ $1,000 MXN</small></div>
                     <p class="service-desc">Producciones exclusivas diseñadas desde cero específicamente para tu estilo.<br><br><b style="color:var(--gold); font-size:0.85rem;">Stems (Opcional): +$350 MXN</b></p>
-                    <button class="lic-btn-new" style="width: 100%; min-height: 50px !important; margin-top: auto;" onclick="addCustomBeatModal('BEAT EXCLUSIVO A MEDIDA', 1299, 67.66)">AÑADIR AL PEDIDO</button>
+                    <button class="lic-btn-new" style="width: 100%; min-height: 50px !important; margin-top: auto;" onclick="addCustomBeatModal('BEAT EXCLUSIVO A MEDIDA', 1000, 53.99)">AÑADIR AL PEDIDO</button>
                 </div>
             </div>
         </div>
@@ -1160,12 +1162,12 @@
         <div class="licenses-grid">
             <div class="license-card">
                 <div class="license-title">BRONCE</div>
-                <div class="license-price" id="price-bronce">$20.78 <small>USD</small><br><small>≈ $399 MXN</small></div>
+                <div class="license-price" id="price-bronce">$18.99 <small>USD</small><br><small>≈ $365 MXN</small></div>
                 <ul class="license-features">
                     <li>MP3 + WAV de Alta Calidad</li>
                     <li>Hasta 100,000 Streams</li>
                     <li>Hasta 5,000 Copias (Ventas)</li>
-                    <li>Spotify y plataformas digitales</li>
+                    <li class="excluded">Radio / TV (No permitido)</li>
                     <li class="excluded">Sin Stems (Pistas separadas)</li>
                     <li class="excluded">Licencia No Exclusiva</li>
                 </ul>
@@ -1176,12 +1178,12 @@
 
             <div class="license-card popular">
                 <div class="license-title">PLATA</div>
-                <div class="license-price" id="price-plata">$31.20 <small>USD</small><br><small>≈ $599 MXN</small></div>
+                <div class="license-price" id="price-plata">$26.99 <small>USD</small><br><small>≈ $518 MXN</small></div>
                 <ul class="license-features">
                     <li>MP3 + WAV de Alta Calidad</li>
                     <li><b>Streams Ilimitados</b></li>
                     <li><b>Copias (Ventas) Ilimitadas</b></li>
-                    <li>Spotify y plataformas digitales</li>
+                    <li>Radio / TV (Permitido)</li>
                     <li class="excluded">Sin Stems (Pistas separadas)</li>
                     <li class="excluded">Licencia No Exclusiva</li>
                 </ul>
@@ -1192,12 +1194,12 @@
 
             <div class="license-card">
                 <div class="license-title">ORO</div>
-                <div class="license-price" id="price-oro">$67.66 <small>USD</small><br><small>≈ $1,299 MXN</small></div>
+                <div class="license-price" id="price-oro">$53.99 <small>USD</small><br><small>≈ $1,037 MXN</small></div>
                 <ul class="license-features">
                     <li>MP3 + WAV de Alta Calidad</li>
                     <li><b>Streams Ilimitados</b></li>
                     <li><b>Copias (Ventas) Ilimitadas</b></li>
-                    <li>Spotify y plataformas digitales</li>
+                    <li>Radio / TV (Permitido)</li>
                     <li><b>Stems Completos</b> (Pistas separadas)</li>
                     <li><b>Uso Exclusivo</b> (Se retira de la tienda)</li>
                 </ul>
@@ -1481,9 +1483,9 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
         let currentCurrency = localStorage.getItem('preferredCurrency') || 'USD';
 
         const licensePrices = {
-            bronce: { usd: 20.78, mxn: 399 },
-            plata:  { usd: 31.20, mxn: 599 },
-            oro:    { usd: 67.66, mxn: 1299 }
+            bronce: { usd: 18.99, mxn: 365 },
+            plata:  { usd: 26.99, mxn: 518 },
+            oro:    { usd: 53.99, mxn: 1037 }
         };
 
         function formatPrice(value, currency) {
@@ -1548,9 +1550,9 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
         // CONFIGURACIÓN GENERAL / CARRITO
         // ────────────────────────────────────────────────
         const licDetails = {
-            bronce: { n: 'BRONCE', m: 399, u: 20.78, p: true },
-            plata:  { n: 'PLATA',  m: 599, u: 31.20, p: true },
-            oro:    { n: 'ORO',    m: 1299, u: 67.66, p: false }
+            bronce: { n: 'BRONCE', m: 350, u: 18.99, p: true },
+            plata:  { n: 'PLATA',  m: 500, u: 26.99, p: true },
+            oro:    { n: 'ORO',    m: 1000, u: 53.99, p: false }
         };
 
         let cart = [];
