@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BASE 0 Studio | Beatmaking, Mix & Mastering</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
     <!-- SDK de Supabase -->
@@ -29,7 +29,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
         html { scroll-behavior: smooth; }
         body {
-            /* CAMBIO: Ruta relativa codificada (espacios y tildes) y adición de background-repeat */
+            /* Ruta relativa con codificación de espacios y tilde para funcionar en Github Pages */
             background: linear-gradient(rgba(0,0,0,0.18), rgba(0,0,0,0.65)),
                         url('Estudio%20BASE%200_%20Ne%C3%B3n%20y%20Ritmo.png');
             background-size: cover;
@@ -51,6 +51,7 @@
             opacity: 0.15;
             mix-blend-mode: screen;
         }
+        
         header {
             display: flex;
             justify-content: space-between;
@@ -113,6 +114,7 @@
             transition: width 0.4s;
         }
         .nav-links a:hover::after { width: 100%; }
+        
         .cart-trigger {
             background: linear-gradient(135deg, #fff, #f8f8f8);
             color: #000;
@@ -161,6 +163,7 @@
             letter-spacing: 4.5px;
         }
         @keyframes pulseBanner { 0%,100% { transform: scale(1); } 50% { transform: scale(1.018); } }
+        
         .hero {
             height: 94vh;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -227,7 +230,6 @@
             margin-bottom: 50px;
         }
         
-        /* --- CSS PARA BEATS RESPONSIVE --- */
         .beats-catalog-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -245,7 +247,7 @@
             transition: all 0.3s ease;
             height: 100%;
             box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            align-items: center; /* Centrar elementos internos */
+            align-items: center; 
         }
 
         .beat-card-new:hover {
@@ -269,10 +271,9 @@
             transition: all 0.3s ease;
         }
 
-        /* --- NUEVO: ESTILOS PARA BEATS CON PORTADA (MAS GRANDES Y PROFESIONALES) --- */
         .vinyl-hero-new.has-cover {
-            width: 140px !important;  /* Aumentado de tamaño */
-            height: 140px !important; /* Aumentado de tamaño */
+            width: 140px !important; 
+            height: 140px !important;
             border-radius: 12px;
             background-color: #111;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -280,7 +281,7 @@
             background-position: center;
             border: 2px solid transparent;
             position: relative;
-            overflow: hidden; /* Mantiene la sombra y overlay dentro de la imagen */
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -297,11 +298,8 @@
             z-index: 1;
         }
 
-        .beat-card-new:hover .vinyl-hero-new.has-cover::before {
-            opacity: 1;
-        }
+        .beat-card-new:hover .vinyl-hero-new.has-cover::before { opacity: 1; }
 
-        /* Reset estricto para evitar textos gigantes en vez de íconos */
         .vinyl-hero-new.has-cover::after {
             content: 'play_circle';
             font-family: 'Material Icons' !important;
@@ -331,7 +329,6 @@
             transform: scale(1);
         }
 
-        /* Animación visual notoria durante la reproducción */
         .vinyl-hero-new.has-cover.playing {
             border-color: var(--neon-gold);
             animation: pulseCoverPlay 1.2s infinite alternate ease-in-out;
@@ -352,17 +349,10 @@
         }
 
         @keyframes pulseCoverPlay {
-            0% { 
-                box-shadow: 0 0 15px rgba(255, 215, 0, 0.3), inset 0 0 10px rgba(255,215,0,0.1); 
-                transform: scale(1.02); 
-            }
-            100% { 
-                box-shadow: 0 0 45px rgba(255, 215, 0, 0.8), inset 0 0 20px rgba(255,215,0,0.4); 
-                transform: scale(1.08); 
-            }
+            0% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.3), inset 0 0 10px rgba(255,215,0,0.1); transform: scale(1.02); }
+            100% { box-shadow: 0 0 45px rgba(255, 215, 0, 0.8), inset 0 0 20px rgba(255,215,0,0.4); transform: scale(1.08); }
         }
 
-        /* --- ORIGINAL: PARA BEATS SIN PORTADA --- */
         .vinyl-hero-new:not(.has-cover)::after {
             content: 'play_arrow';
             font-family: 'Material Icons';
@@ -426,27 +416,11 @@
             gap: 4px;
         }
 
-        .lic-btn-new:hover {
-            background: var(--neon-gold);
-            color: #000;
-        }
+        .lic-btn-new:hover { background: var(--neon-gold); color: #000; }
+        .lic-btn-new .price-main { font-size: 1rem; font-weight: 900; }
+        .lic-btn-new .price-equiv { font-size: 0.7rem; opacity: 0.75; }
 
-        .lic-btn-new .price-main {
-            font-size: 1rem;
-            font-weight: 900;
-        }
-
-        .lic-btn-new .price-equiv {
-            font-size: 0.7rem;
-            opacity: 0.75;
-        }
-
-        /* CAROUSEL CON FLECHAS Y SOMBRAS ESTILO SPOTIFY PARA MÓVIL */
-        .carousel-wrapper {
-            position: relative;
-            width: 100%;
-        }
-
+        .carousel-wrapper { position: relative; width: 100%; }
         .scroll-btn {
             display: none;
             position: absolute;
@@ -482,245 +456,96 @@
             .scroll-btn.right { animation: pulseArrow 2s infinite; }
 
             .carousel-wrapper::before {
-                content: '';
-                position: absolute;
-                top: 0; left: 0; bottom: 0;
-                width: 30px;
-                background: linear-gradient(to right, rgba(0,0,0,0.9), transparent);
-                z-index: 10;
-                pointer-events: none;
+                content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 30px;
+                background: linear-gradient(to right, rgba(0,0,0,0.9), transparent); z-index: 10; pointer-events: none;
             }
             .carousel-wrapper::after {
-                content: '';
-                position: absolute;
-                top: 0; right: 0; bottom: 0;
-                width: 60px;
-                background: linear-gradient(to left, rgba(0,0,0,1), transparent);
-                z-index: 10;
-                pointer-events: none;
+                content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 60px;
+                background: linear-gradient(to left, rgba(0,0,0,1), transparent); z-index: 10; pointer-events: none;
             }
 
             .beats-catalog-grid {
-                display: flex;
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                overflow-y: hidden;
-                scroll-snap-type: x mandatory;
-                padding: 10px 45px 25px 35px;
-                gap: 15px;
-                -webkit-overflow-scrolling: touch;
+                display: flex; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden;
+                scroll-snap-type: x mandatory; padding: 10px 45px 25px 35px; gap: 15px; -webkit-overflow-scrolling: touch;
             }
-
             .beats-catalog-grid::-webkit-scrollbar { height: 0px; display: none; }
 
-            .beat-card-new {
-                min-width: 85vw; 
-                max-width: 320px;
-                scroll-snap-align: center;
-                flex-shrink: 0;
-            }
-
-            .vinyl-hero-new {
-                width: 100px !important;
-                height: 100px !important;
-                margin: 0 auto 15px auto !important;
-            }
-            .vinyl-hero-new.has-cover {
-                width: 120px !important; /* Adaptado para móviles conservando tamaño extra */
-                height: 120px !important;
-            }
+            .beat-card-new { min-width: 85vw; max-width: 320px; scroll-snap-align: center; flex-shrink: 0; }
+            .vinyl-hero-new { width: 100px !important; height: 100px !important; margin: 0 auto 15px auto !important; }
+            .vinyl-hero-new.has-cover { width: 120px !important; height: 120px !important; }
             .vinyl-hero-new::after { font-size: 2.5rem; }
+            .beat-title-new { font-size: 1.15rem; min-height: 3.6em; }
 
-            .beat-title-new {
-                font-size: 1.15rem;
-                min-height: 3.6em;
-            }
-
-            .lic-btn-stack-new {
-                width: 100%;
-                grid-template-columns: 1fr 1fr;
-            }
-            .lic-btn-new:nth-child(3) {
-                grid-column: span 2;
-            }
-            
+            .lic-btn-stack-new { width: 100%; grid-template-columns: 1fr 1fr; }
+            .lic-btn-new:nth-child(3) { grid-column: span 2; }
             .lic-btn-new .price-main { font-size: 1rem !important; }
             .lic-btn-new .price-equiv { display: block !important; }
-        }
-
-        @media (max-width: 768px) {
+            
             .hero h1 { font-size: 3.5rem; letter-spacing: -2px; }
             .section-header h2 { font-size: 2.2rem; }
+            .hero { height: 75vh; }
+            .btn-explore { padding: 14px 40px; font-size: 0.9rem; }
+            .cart-side { width: 100%; right: -100%; }
         }
 
         .master-player {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: linear-gradient(to bottom, #111, #000);
-            border-top: 2px solid var(--neon-gold);
-            display: none;
-            flex-direction: column;
-            z-index: 9999;
-            box-shadow: 0 -15px 50px rgba(0,0,0,0.9);
-            padding: 10px 5%;
-            transition: transform 0.3s ease;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(to bottom, #111, #000); border-top: 2px solid var(--neon-gold);
+            display: none; flex-direction: column; z-index: 9999;
+            box-shadow: 0 -15px 50px rgba(0,0,0,0.9); padding: 10px 5%; transition: transform 0.3s ease;
         }
-        .player-top-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            margin-bottom: 8px;
-        }
-        .player-meta {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .player-top-row { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 8px; }
+        .player-meta { display: flex; align-items: center; gap: 12px; }
         .mini-art {
-            width: 45px; height: 45px;
-            background: #222;
-            border-radius: 4px;
-            display: flex; align-items: center; justify-content: center;
-            border: 1px solid var(--gold);
-            background-size: cover;
-            background-position: center;
+            width: 45px; height: 45px; background: #222; border-radius: 4px;
+            display: flex; align-items: center; justify-content: center; border: 1px solid var(--gold);
+            background-size: cover; background-position: center;
         }
-        .player-controls-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .iframe-container {
-            width: 100%;
-            height: 80px;
-            border-radius: 8px;
-            overflow: hidden;
-            background: #000;
-            position: relative;
-        }
-        .iframe-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+        .player-controls-right { display: flex; align-items: center; gap: 15px; }
+        .iframe-container { width: 100%; height: 80px; border-radius: 8px; overflow: hidden; background: #000; position: relative; }
+        .iframe-container iframe { width: 100%; height: 100%; border: none; }
+        
         @media (max-width: 768px) {
-            .master-player {
-                padding: 12px 15px;
-                height: auto;
-            }
-            .iframe-container {
-                height: 120px;
-            }
+            .master-player { padding: 12px 15px; height: auto; }
+            .iframe-container { height: 120px; }
             .player-meta b { font-size: 0.9rem; }
         }
-        .toast-container-new {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
-            pointer-events: none;
-        }
+        
+        .toast-container-new { position: fixed; top: 20px; right: 20px; z-index: 9999; pointer-events: none; }
         .toast-msg-new {
-            background: var(--wa-green);
-            color: #fff;
-            padding: 15px 30px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            font-weight: 900;
-            font-size: 0.85rem;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-            animation: toastIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            background: var(--wa-green); color: #fff; padding: 15px 30px; margin-bottom: 10px; border-radius: 4px;
+            font-weight: 900; font-size: 0.85rem; box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            animation: toastIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; display: flex; align-items: center; gap: 15px;
         }
-        @keyframes toastIn {
-            from { transform: translateX(100%) scale(0.8); opacity: 0; }
-            to { transform: translateX(0) scale(1); opacity: 1; }
-        }
+        @keyframes toastIn { from { transform: translateX(100%) scale(0.8); opacity: 0; } to { transform: translateX(0) scale(1); opacity: 1; } }
+
         .stems-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.88);
-            backdrop-filter: blur(8px);
-            z-index: 10000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.4s ease;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.88); backdrop-filter: blur(8px);
+            z-index: 10000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease;
         }
-        .stems-modal.show {
-            display: flex;
-            opacity: 1;
-        }
+        .stems-modal.show { display: flex; opacity: 1; }
         .stems-modal-content {
-            background: rgba(20,20,20,0.96);
-            border: 1px solid var(--neon-gold);
-            border-radius: 16px;
-            padding: 42px 32px;
-            max-width: 420px;
-            width: 90%;
-            text-align: center;
-            box-shadow: 0 30px 80px rgba(255,215,0,0.25),
-                        inset 0 0 40px rgba(255,215,0,0.08);
-            transform: scale(0.82);
-            opacity: 0;
-            transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: rgba(20,20,20,0.96); border: 1px solid var(--neon-gold); border-radius: 16px;
+            padding: 42px 32px; max-width: 420px; width: 90%; text-align: center;
+            box-shadow: 0 30px 80px rgba(255,215,0,0.25), inset 0 0 40px rgba(255,215,0,0.08);
+            transform: scale(0.82); opacity: 0; transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .stems-modal.show .stems-modal-content {
-            transform: scale(1);
-            opacity: 1;
-        }
+        .stems-modal.show .stems-modal-content { transform: scale(1); opacity: 1; }
+
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
         .service-card {
-            background: rgba(15,15,15,0.88); 
-            border: 1px solid #333;
-            border-radius: 12px;
-            text-align: center; 
-            transition: all 0.4s ease; 
-            backdrop-filter: blur(8px);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
+            background: rgba(15,15,15,0.88); border: 1px solid #333; border-radius: 12px;
+            text-align: center; transition: all 0.4s ease; backdrop-filter: blur(8px);
+            position: relative; overflow: hidden; display: flex; flex-direction: column;
         }
         .service-card:hover { border-color: var(--gold); transform: translateY(-12px); box-shadow: 0 20px 40px rgba(255,215,0,0.15); }
-        .service-img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            border-bottom: 2px solid var(--gold);
-        }
-        .service-content {
-            padding: 30px 25px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-        .service-title {
-            font-size: 1.5rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 10px;
-            line-height: 1.2;
-            color: #fff;
-        }
-        .service-price {
-            font-size: 2.2rem;
-            font-weight: 900;
-            color: var(--gold);
-            margin: 15px 0;
-            line-height: 1.2;
-        }
-        .service-price small {
-            font-size: 0.95rem;
-            opacity: 0.8;
-            display: block;
-        }
+        .service-img { width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--gold); }
+        .service-content { padding: 30px 25px; display: flex; flex-direction: column; flex-grow: 1; }
+        .service-title { font-size: 1.5rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; line-height: 1.2; color: #fff; }
+        .service-price { font-size: 2.2rem; font-weight: 900; color: var(--gold); margin: 15px 0; line-height: 1.2; }
+        .service-price small { font-size: 0.95rem; opacity: 0.8; display: block; }
         .service-desc { color: #ddd; font-size: 0.95rem; margin-bottom: 25px; flex-grow: 1; }
+        
         .folder-main { margin-bottom: 15px; border: 1px solid #151515; background: rgba(10, 10, 10, 0.9); border-radius: 12px; overflow: hidden; transition: 0.25s; }
         .folder-main:hover { border-color: var(--gold); }
         .folder-header {
@@ -728,116 +553,41 @@
             font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #fff;
         }
         .sub-folder { margin: 10px 20px 10px 50px; border: 1px solid var(--grey-mid); background: rgba(0,0,0,0.5); border-radius: 2px; overflow: hidden; }
-        .sub-header {
-            padding: 15px 20px; display: flex; align-items: center; cursor: pointer;
-            font-weight: 700; color: var(--grey-mid); text-transform: uppercase; font-size: 0.8rem;
-        }
+        .sub-header { padding: 15px 20px; display: flex; align-items: center; cursor: pointer; font-weight: 700; color: var(--grey-mid); text-transform: uppercase; font-size: 0.8rem; }
         .sub-header i { margin-right: 10px; }
         .folder-content, .sub-content { display: none; padding: 15px; }
         .active > .folder-content, .active > .sub-content { display: block; }
-        .licenses-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+
+        .licenses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
         .license-card {
-            background: rgba(15,15,15,0.88);
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 40px 25px;
-            text-align: center;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(8px);
+            background: rgba(15,15,15,0.88); border: 1px solid #333; border-radius: 12px;
+            padding: 40px 25px; text-align: center; transition: all 0.4s ease;
+            position: relative; overflow: hidden; backdrop-filter: blur(8px);
         }
-        .license-card:hover {
-            transform: translateY(-12px);
-            border-color: var(--gold);
-            box-shadow: 0 20px 40px rgba(255,215,0,0.15);
-        }
-        .license-card.popular {
-            border-color: var(--gold);
-            transform: scale(1.06);
-            box-shadow: 0 25px 50px rgba(255,215,0,0.25);
-        }
+        .license-card:hover { transform: translateY(-12px); border-color: var(--gold); box-shadow: 0 20px 40px rgba(255,215,0,0.15); }
+        .license-card.popular { border-color: var(--gold); transform: scale(1.06); box-shadow: 0 25px 50px rgba(255,215,0,0.25); }
         .license-card.popular::after {
-            content: "MÁS POPULAR";
-            position: absolute;
-            top: 20px;
-            right: -50px;
-            background: var(--gold);
-            color: #000;
-            font-weight: 900;
-            font-size: 0.8rem;
-            padding: 8px 60px;
-            transform: rotate(45deg);
-            letter-spacing: 1px;
+            content: "MÁS POPULAR"; position: absolute; top: 20px; right: -50px; background: var(--gold);
+            color: #000; font-weight: 900; font-size: 0.8rem; padding: 8px 60px; transform: rotate(45deg); letter-spacing: 1px;
         }
-        .license-title {
-            font-size: 2.4rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-        }
-        .license-price {
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: var(--gold);
-            margin: 20px 0;
-            line-height: 1.2;
-        }
-        .license-price small {
-            font-size: 1.1rem;
-            opacity: 0.8;
-            display: block;
-        }
-        .license-features {
-            list-style: none;
-            text-align: left;
-            margin: 30px 0;
-            padding: 0 10px;
-            font-size: 1rem;
-            color: #ddd;
-        }
-        .license-features li {
-            margin-bottom: 14px;
-            position: relative;
-            padding-left: 30px;
-        }
-        .license-features li::before {
-            content: "✔";
-            position: absolute;
-            left: 0;
-            color: #4caf50;
-            font-size: 1.3rem;
-        }
-        .license-features li.excluded::before {
-            content: "✖";
-            color: #f44336;
-        }
+        .license-title { font-size: 2.4rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; }
+        .license-price { font-size: 3.5rem; font-weight: 900; color: var(--gold); margin: 20px 0; line-height: 1.2; }
+        .license-price small { font-size: 1.1rem; opacity: 0.8; display: block; }
+        .license-features { list-style: none; text-align: left; margin: 30px 0; padding: 0 10px; font-size: 1rem; color: #ddd; }
+        .license-features li { margin-bottom: 14px; position: relative; padding-left: 30px; }
+        .license-features li::before { content: "✔"; position: absolute; left: 0; color: #4caf50; font-size: 1.3rem; }
+        .license-features li.excluded::before { content: "✖"; color: #f44336; }
+        
         .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
         .test-card { background: rgba(10, 10, 10, 0.8); padding: 30px; border: 1px solid #1a1a1a; border-radius: 4px; display: flex; flex-direction: column; align-items: center; }
         .test-card p { font-style: italic; color: #ccc; font-size: 0.9rem; margin-top: 15px; text-align: center; }
         .test-card b { display: block; margin-top: 15px; font-size: 0.8rem; color: #fff; letter-spacing: 1px; }
         .test-img { width: 100%; height: auto; border: 1px solid #333; border-radius: 4px; filter: grayscale(100%); transition: 0.3s; }
         .test-card:hover .test-img { filter: grayscale(0%); border-color: #fff; }
-        .yt-link {
-            margin-top: 10px;
-            font-size: 0.85rem;
-        }
-        .yt-link a {
-            color: var(--neon-gold);
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .yt-link a:hover {
-            color: #ffffff;
-            text-decoration: underline;
-        }
+        .yt-link { margin-top: 10px; font-size: 0.85rem; }
+        .yt-link a { color: var(--neon-gold); text-decoration: none; font-weight: 600; }
+        .yt-link a:hover { color: #ffffff; text-decoration: underline; }
+        
         .contact-section { text-align: center; padding: 100px 5%; background: rgba(0,0,0,0.9); }
         .social-links { display: flex; justify-content: center; gap: 30px; margin-top: 40px; flex-wrap: wrap; }
         .social-btn {
@@ -853,199 +603,66 @@
         .social-btn.wa-btn:hover { transform: scale(1.05); box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5); background: #20ba5a; }
         .social-btn.wa-btn img { height: 30px; width: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
         
-        /* FOOTER MODIFICADO PARA EL ACCESO DE ADMIN */
         footer { 
-            background: var(--bg-black); 
-            padding: 40px 5%; 
-            text-align: center; 
-            border-top: 1px solid var(--grey-dark); 
-            color: var(--text-grey); 
-            font-size: 0.75rem; 
-            text-transform: uppercase; 
-            letter-spacing: 2px; 
-            position: relative;
+            background: var(--bg-black); padding: 40px 5%; text-align: center; border-top: 1px solid var(--grey-dark); 
+            color: var(--text-grey); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; position: relative;
         }
-        .admin-link-secret {
-            color: #1a1a1a;
-            text-decoration: none;
-            font-size: 0.65rem;
-            margin-top: 15px;
-            display: inline-block;
-            transition: color 0.3s;
-        }
-        .admin-link-secret:hover {
-            color: var(--gold);
-        }
+        .admin-link-secret { color: #1a1a1a; text-decoration: none; font-size: 0.65rem; margin-top: 15px; display: inline-block; transition: color 0.3s; }
+        .admin-link-secret:hover { color: var(--gold); }
         
         .cart-side { 
-            position: fixed; 
-            top: 0; 
-            right: -450px; 
-            width: 450px; 
-            height: 100%; 
-            background: #050505; 
-            z-index: 5000; 
-            transition: right 0.5s ease; 
-            padding: 40px; 
-            border-left: 1px solid #1a1a1a; 
-            overflow-y: auto; 
+            position: fixed; top: 0; right: -450px; width: 450px; height: 100%; background: #050505; 
+            z-index: 5000; transition: right 0.5s ease; padding: 40px; border-left: 1px solid #1a1a1a; overflow-y: auto; 
         }
         .cart-side.open { right: 0; }
         .checkout-wa { 
-            width: 100%; 
-            padding: 18px; 
-            background: #fff; 
-            color: #000; 
-            border: none; 
-            font-weight: 900; 
-            cursor: pointer; 
-            margin-top: 20px; 
-            text-transform: uppercase; 
-            transition: 0.3s; 
+            width: 100%; padding: 18px; background: #fff; color: #000; border: none; font-weight: 900; 
+            cursor: pointer; margin-top: 20px; text-transform: uppercase; transition: 0.3s; 
         }
         .checkout-wa:hover { background: var(--wa-green); color: #fff; }
         .payment-selector { margin-top: 20px; border-top: 1px solid #222; padding-top: 20px; }
-        .payment-selector label { 
-            display: block; 
-            font-size: 0.75rem; 
-            font-weight: 800; 
-            color: var(--gold); 
-            margin-bottom: 10px; 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-        }
-        .pay-option {
-            background: #111; 
-            border: 1px solid #333; 
-            padding: 12px; 
-            border-radius: 6px; 
-            margin-bottom: 8px;
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            transition: 0.3s;
-        }
+        .payment-selector label { display: block; font-size: 0.75rem; font-weight: 800; color: var(--gold); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .pay-option { background: #111; border: 1px solid #333; padding: 12px; border-radius: 6px; margin-bottom: 8px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
         .pay-option:hover { border-color: var(--gold); }
         .pay-option.selected { border-color: var(--gold); background: rgba(255,215,0,0.05); }
         .pay-option input { display: none; }
         .pay-option i { font-size: 1.2rem; color: var(--text-grey); }
         .pay-option.selected i { color: var(--gold); }
-        .bank-details-box {
-            background: #0a0a0a; 
-            border: 1px dashed var(--gold); 
-            padding: 15px; 
-            border-radius: 8px; 
-            margin-top: 15px;
-            display: none; 
-            text-align: left;
-        }
+        .bank-details-box { background: #0a0a0a; border: 1px dashed var(--gold); padding: 15px; border-radius: 8px; margin-top: 15px; display: none; text-align: left; }
         .bank-details-box p { font-size: 0.85rem; margin-bottom: 5px; color: #ccc; }
         .bank-details-box b { color: #fff; letter-spacing: 1px; }
-        .bank-card-img {
-            width: 100%;
-            max-width: 280px;
-            border-radius: 8px;
-            margin-top: 15px;
-            border: 1px solid #333;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
+        .bank-card-img { width: 100%; max-width: 280px; border-radius: 8px; margin-top: 15px; border: 1px solid #333; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        
         .hamburger { display: none; background: transparent; border: none; color: #fff; font-size: 2rem; cursor: pointer; }
         .mobile-nav {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: var(--bg-black);
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 35px;
-            z-index: 2000;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-black);
+            flex-direction: column; align-items: center; justify-content: center; gap: 35px; z-index: 2000;
         }
         .mobile-nav.open { display: flex; }
-        .mobile-nav a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 900;
-            font-size: 1.8rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
+        .mobile-nav a { color: #fff; text-decoration: none; font-weight: 900; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 3px; }
         .close-mobile { position: absolute; top: 20px; right: 30px; font-size: 3rem; color: #fff; cursor: pointer; }
+        
         @media (max-width: 992px) {
             .nav-links { display: none; }
             .hamburger { display: block; }
-            .hero h1 { font-size: 4rem; }
-            .hero .studio-hand { font-size: 3.5rem; margin-top: -20px; }
-            section { padding: 80px 5%; }
         }
-        @media (max-width: 768px) {
-            .hero { height: 75vh; }
-            .btn-explore { padding: 14px 40px; font-size: 0.9rem; }
-            .cart-side { width: 100%; right: -100%; }
+        
+        .catalog-toolbar{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin:25px auto; max-width:900px; }
+        .catalog-toolbar input, .catalog-toolbar select{
+            background:#0b0b0b; border:1px solid #222; color:#fff; padding:12px; border-radius:10px; min-width:240px; font-size: 1rem;
         }
-        .catalog-toolbar{
-            display:flex;
-            gap:14px;
-            justify-content:center;
-            flex-wrap:wrap;
-            margin:25px auto;
-            max-width:900px;
-        }
-        .catalog-toolbar input,
-        .catalog-toolbar select{
-            background:#0b0b0b;
-            border:1px solid #222;
-            color:#fff;
-            padding:12px;
-            border-radius:10px;
-            min-width:240px;
-            font-size: 1rem;
-        }
-        @media(max-width:768px){
-            .catalog-toolbar input,
-            .catalog-toolbar select{
-                width:100%;
-            }
-        }
-        #paypal-button-container {
-            margin: 20px 0;
-            padding: 10px;
-            background: #111;
-            border-radius: 8px;
-            border: 1px solid var(--gold);
-            min-height: 50px;
-            display: none;
-        }
+        @media(max-width:768px){ .catalog-toolbar input, .catalog-toolbar select{ width:100%; } }
+        
+        #paypal-button-container { margin: 20px 0; padding: 10px; background: #111; border-radius: 8px; border: 1px solid var(--gold); min-height: 50px; display: none; }
 
-        /* --- ANIMACIÓN HINT SWIPE --- */
         .global-swipe-hint {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--neon-gold);
-            font-size: 0.8rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin: 15px auto 25px auto;
-            background: rgba(255, 215, 0, 0.08);
-            border: 1px dashed var(--gold);
-            padding: 12px 25px;
-            border-radius: 50px;
-            animation: slideHint 2.5s infinite ease-in-out;
-            transition: opacity 0.5s ease;
-            max-width: 90vw;
-            cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center; color: var(--neon-gold); font-size: 0.8rem;
+            font-weight: 900; text-transform: uppercase; letter-spacing: 1.5px; margin: 15px auto 25px auto; background: rgba(255, 215, 0, 0.08);
+            border: 1px dashed var(--gold); padding: 12px 25px; border-radius: 50px; animation: slideHint 2.5s infinite ease-in-out;
+            transition: opacity 0.5s ease; max-width: 90vw; cursor: pointer;
         }
         .global-swipe-hint i { font-size: 1.4rem; margin-right: 10px; }
-        @keyframes slideHint {
-            0%, 100% { transform: translateX(-8px); opacity: 0.8; }
-            50% { transform: translateX(8px); opacity: 1; box-shadow: 0 0 15px rgba(255,215,0,0.3); }
-        }
+        @keyframes slideHint { 0%, 100% { transform: translateX(-8px); opacity: 0.8; } 50% { transform: translateX(8px); opacity: 1; box-shadow: 0 0 15px rgba(255,215,0,0.3); } }
     </style>
 </head>
 <body>
@@ -1057,8 +674,9 @@
         <div class="logo"></div>
 
         <div class="currency-selector">
-            <button data-currency="USD" class="active">USD</button>
-            <button data-currency="MXN">MXN</button>
+            <!-- Cambio de orden: MXN es ahora el primario/default -->
+            <button data-currency="MXN" class="active">MXN</button>
+            <button data-currency="USD">USD</button>
         </div>
 
         <nav class="nav-links">
@@ -1099,7 +717,8 @@
 
     <section id="about">
         <div class="section-header"><h2>ORIGEN</h2></div>
-        <p style="font-size: 1.4rem; color: var(--text-grey); max-width: 850px; font-weight: 300; margin: 0 auto; text-align: center;">
+        <!-- Texto con color blanco y text-shadow aplicado para mejor legibilidad -->
+        <p style="font-size: 1.4rem; color: #ffffff; text-shadow: 0 4px 15px rgba(0,0,0,0.9); max-width: 850px; font-weight: 500; margin: 0 auto; text-align: center;">
             <b>BASE 0</b> es el cimiento rítmico del hip-hop underground. Sonido con textura, grasa y autoridad. Vandalizamos el silencio con producciones de nivel industria inspiradas en los 90s.
         </p>
     </section>
@@ -1111,9 +730,9 @@
                 <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&q=80&w=800" alt="Diseño de portadas" class="service-img">
                 <div class="service-content">
                     <div class="service-title">DISEÑO DE PORTADAS Y LOGOTIPOS</div>
-                    <div class="service-price">$35.99 <small>USD</small><small>≈ $665 MXN</small></div>
+                    <div class="service-price">$699 <small>MXN</small><small>≈ $36.41 USD</small></div>
                     <p class="service-desc">Diseño profesional y exclusivo personalizado para la identidad de tu marca artística.</p>
-                    <button class="lic-btn-new" style="width: 100%; min-height: 50px !important; margin-top: auto;" onclick="addService('DISEÑO PORTADA/LOGO', 665, 35.99)">AÑADIR AL PEDIDO</button>
+                    <button class="lic-btn-new" style="width: 100%; min-height: 50px !important; margin-top: auto;" onclick="addService('DISEÑO PORTADA/LOGO', 699, 36.41)">AÑADIR AL PEDIDO</button>
                 </div>
             </div>
             
@@ -1121,9 +740,9 @@
                 <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&q=80&w=800" alt="Mix y Mastering" class="service-img">
                 <div class="service-content">
                     <div class="service-title">MIX / MASTERING PROFESIONAL</div>
-                    <div class="service-price">$53.99 <small>USD</small><small>≈ $1,000 MXN</small></div>
+                    <div class="service-price">$999 <small>MXN</small><small>≈ $52.03 USD</small></div>
                     <p class="service-desc">Claridad, pegada y volumen competitivo para que tus temas suenen a nivel industria.</p>
-                    <button class="lic-btn-new" style="width: 100%; min-height: 50px !important; margin-top: auto; background: var(--neon-gold); color: #000;" onclick="addService('MIX / MASTERING', 1000, 53.99)">AÑADIR AL PEDIDO</button>
+                    <button class="lic-btn-new" style="width: 100%; min-height: 50px !important; margin-top: auto; background: var(--neon-gold); color: #000;" onclick="addService('MIX / MASTERING', 999, 52.03)">AÑADIR AL PEDIDO</button>
                 </div>
             </div>
             
@@ -1131,9 +750,9 @@
                 <img src="https://images.unsplash.com/photo-1598653222000-6b7b7a552625?auto=format&fit=crop&q=80&w=800" alt="Beats a medida" class="service-img">
                 <div class="service-content">
                     <div class="service-title">BEATS A MEDIDA (EXCLUSIVO)</div>
-                    <div class="service-price">$53.99 <small>USD</small><small>≈ $1,000 MXN</small></div>
+                    <div class="service-price">$1599 <small>MXN</small><small>≈ $83.28 USD</small></div>
                     <p class="service-desc">Producciones exclusivas diseñadas desde cero específicamente para tu estilo.<br><br><b style="color:var(--gold); font-size:0.85rem;">Stems (Opcional): +$350 MXN</b></p>
-                    <button class="lic-btn-new" style="width: 100%; min-height: 50px !important; margin-top: auto;" onclick="addCustomBeatModal('BEAT EXCLUSIVO A MEDIDA', 1000, 53.99)">AÑADIR AL PEDIDO</button>
+                    <button class="lic-btn-new" style="width: 100%; min-height: 50px !important; margin-top: auto;" onclick="addCustomBeatModal('BEAT EXCLUSIVO A MEDIDA', 1599, 83.28)">AÑADIR AL PEDIDO</button>
                 </div>
             </div>
         </div>
@@ -1162,12 +781,12 @@
         <div class="licenses-grid">
             <div class="license-card">
                 <div class="license-title">BRONCE</div>
-                <div class="license-price" id="price-bronce">$18.99 <small>USD</small><br><small>≈ $365 MXN</small></div>
+                <div class="license-price" id="price-bronce">$399 <small>MXN</small><br><small>≈ $20.78 USD</small></div>
                 <ul class="license-features">
                     <li>MP3 + WAV de Alta Calidad</li>
                     <li>Hasta 100,000 Streams</li>
                     <li>Hasta 5,000 Copias (Ventas)</li>
-                    <li class="excluded">Radio / TV (No permitido)</li>
+                    <li class="excluded">Distribución en plataformas digitales como Spotify o Apple Music (No permitido)</li>
                     <li class="excluded">Sin Stems (Pistas separadas)</li>
                     <li class="excluded">Licencia No Exclusiva</li>
                 </ul>
@@ -1178,12 +797,12 @@
 
             <div class="license-card popular">
                 <div class="license-title">PLATA</div>
-                <div class="license-price" id="price-plata">$26.99 <small>USD</small><br><small>≈ $518 MXN</small></div>
+                <div class="license-price" id="price-plata">$599 <small>MXN</small><br><small>≈ $31.20 USD</small></div>
                 <ul class="license-features">
                     <li>MP3 + WAV de Alta Calidad</li>
                     <li><b>Streams Ilimitados</b></li>
                     <li><b>Copias (Ventas) Ilimitadas</b></li>
-                    <li>Radio / TV (Permitido)</li>
+                    <li>Distribución en plataformas digitales como Spotify o Apple Music (Permitido)</li>
                     <li class="excluded">Sin Stems (Pistas separadas)</li>
                     <li class="excluded">Licencia No Exclusiva</li>
                 </ul>
@@ -1194,12 +813,12 @@
 
             <div class="license-card">
                 <div class="license-title">ORO</div>
-                <div class="license-price" id="price-oro">$53.99 <small>USD</small><br><small>≈ $1,037 MXN</small></div>
+                <div class="license-price" id="price-oro">$1350 <small>MXN</small><br><small>≈ $70.31 USD</small></div>
                 <ul class="license-features">
                     <li>MP3 + WAV de Alta Calidad</li>
                     <li><b>Streams Ilimitados</b></li>
                     <li><b>Copias (Ventas) Ilimitadas</b></li>
-                    <li>Radio / TV (Permitido)</li>
+                    <li>Distribución en plataformas digitales como Spotify o Apple Music (Permitido)</li>
                     <li><b>Stems Completos</b> (Pistas separadas)</li>
                     <li><b>Uso Exclusivo</b> (Se retira de la tienda)</li>
                 </ul>
@@ -1210,21 +829,16 @@
         </div>
     </section>
 
-    <!-- SECCIÓN TESTIMONIOS (CONECTADA A SUPABASE + ORIGINALES) -->
     <section id="testimonials">
         <div class="section-header"><h2>TESTIMONIOS</h2></div>
         <div class="testimonial-grid" id="testimonials-grid">
             
-            <!-- TESTIMONIOS ORIGINALES FIJOS -->
             <div class="test-card original-test">
                 <img src="https://lh3.googleusercontent.com/d/1UWVBObff8cJov-I_nVebpCn4u0ZgNg8-" class="test-img" alt="Desorden - asi nomas">
-                <p>"
-pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "ASI NOMAS"</small></p>
+                <p>"pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "ASI NOMAS"</p>
                 <b style="text-align: center; margin-top: 15px;">- KDC KARTEL DE LAS CALLES (Tijuana, MX) &<br>CESAR DE BRONCE (León, GTO)</b>
                 <div class="yt-link">
-                    <div class="yt-link">
                     <a href="https://youtu.be/JBKB8ZwhoI0?si=NI-jqTsh7DEWkf1T" target="_blank">Ver en YouTube →</a>
-                </div>
                 </div>
             </div>
             <div class="test-card original-test">
@@ -1286,14 +900,12 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
         </div>
     </section>
 
-    <!-- FOOTER MODIFICADO -->
     <footer>
         BASE 0 STUDIO - TODOS LOS DERECHOS RESERVADOS © 2026
         <br>
         <a href="admin.html" id="admin-link" class="admin-link-secret">Admin Access</a>
     </footer>
 
-    <!-- Reproductor -->
     <div class="master-player" id="m-player">
         <div class="player-top-row">
             <div class="player-meta">
@@ -1310,7 +922,6 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
         <div class="iframe-container" id="player-frame-container"></div>
     </div>
 
-    <!-- Carrito -->
     <div class="cart-side" id="cart-side">
         <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom:40px;">
             <h2 style="font-weight: 900;">TU PEDIDO</h2>
@@ -1356,14 +967,14 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
         </div>
     </div>
 
-    <!-- Modal Stems -->
+    <!-- Modal Stems (Pricing Actualizado a .99) -->
     <div id="stems-modal" class="stems-modal">
         <div class="stems-modal-content">
             <h3 style="color: var(--neon-gold); margin-bottom: 1.2rem; font-size: 1.4rem;">¿Deseas añadir los stems al pedido?</h3>
             <p style="color: #ccc; margin-bottom: 1.8rem; line-height: 1.5;">Archivos fuente + stems completos (WAV 24-bit / 48kHz)</p>
             <div style="font-size: 2.1rem; font-weight: 900; color: var(--gold); margin: 1.5rem 0;">
                 +$350 MXN
-                <small style="font-size: 1rem; opacity: 0.75; display: block; margin-top: 0.4rem;">≈ $18.50 USD</small>
+                <small style="font-size: 1rem; opacity: 0.75; display: block; margin-top: 0.4rem;">≈ $18.23 USD</small>
             </div>
             <div style="display: flex; gap: 16px; justify-content: center; margin-top: 2rem;">
                 <button id="stems-no" class="lic-btn-new" style="background: #333; border-color: #555; padding: 14px 38px; font-size: 1.05rem;">No</button>
@@ -1373,37 +984,20 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
     </div>
 
     <script>
-        // ────────────────────────────────────────────────
-        // CONFIGURACIÓN SUPABASE (BACKEND)
-        // ────────────────────────────────────────────────
-        
         const SUPABASE_URL = 'https://bltlprtphzejinwqdwdo.supabase.co'; 
         const SUPABASE_ANON_KEY = 'sb_publishable_h-6mJS9NZhgPZtY2HwMLmA_rxWThIqu';
         
-        // MODIFICADO: Añadidos headers para evitar el caché de las consultas y ver cambios de inmediato
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-            global: {
-                headers: {
-                    'Cache-Control': 'no-cache',
-                    'Pragma': 'no-cache'
-                }
-            }
+            global: { headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' } }
         });
 
         let database = [];
 
         async function fetchCatalogFromSupabase() {
             try {
-                // MODIFICADO: Añadido cover_url a la consulta
                 const { data, error } = await supabaseClient
                     .from('categories')
-                    .select(`
-                        name,
-                        subs:subcategories (
-                            name,
-                            beats:beats (title, drive_id, cover_url)
-                        )
-                    `);
+                    .select(`name, subs:subcategories (name, beats:beats (title, drive_id, cover_url))`);
 
                 if (error) throw error;
 
@@ -1415,45 +1009,35 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
                             beats: sub.beats.map(beat => ({
                                 title: beat.title,
                                 drive: beat.drive_id,
-                                cover: beat.cover_url || null // Extraer de la DB
+                                cover: beat.cover_url || null
                             }))
                         }))
                     }));
                 }
-
                 render();
                 initSubgenreSelect();
                 updateAllPrices();
-
             } catch (err) {
-                console.error("Error al cargar el catálogo de Supabase:", err);
+                console.error("Error al cargar el catálogo:", err);
                 const root = document.getElementById('catalog-root');
-                if (root) {
-                    root.innerHTML = '<p style="text-align:center; padding: 40px; color: #ff4444; font-weight: 900;">Error al conectar con la base de datos. Verifica tu conexión a internet o tus claves de Supabase.</p>';
-                }
+                if (root) root.innerHTML = '<p style="text-align:center; padding: 40px; color: #ff4444; font-weight: 900;">Error al conectar con la base de datos.</p>';
             }
         }
 
         async function fetchTestimonialsFromSupabase() {
             const container = document.getElementById('testimonials-grid');
-            
             try {
                 const { data: tests, error } = await supabaseClient
-                    .from('testimonials')
-                    .select('*')
-                    .order('created_at', { ascending: false });
+                    .from('testimonials').select('*').order('created_at', { ascending: false });
 
                 if (error) throw error;
-
                 if (!tests || tests.length === 0) return;
 
                 const getDirectImageUrl = (url) => {
                     if (!url) return '';
                     const driveRegex = /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/;
                     const match = url.match(driveRegex);
-                    if (match && match[1]) {
-                        return `https://lh3.googleusercontent.com/d/${match[1]}`;
-                    }
+                    if (match && match[1]) return `https://lh3.googleusercontent.com/d/${match[1]}`;
                     return url;
                 };
 
@@ -1462,33 +1046,41 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
                         <img src="${getDirectImageUrl(t.image_url)}" class="test-img" alt="${t.artist_name}" onerror="this.src='https://placehold.co/400x300/333/FFF?text=IMG'">
                         <p style="color:#aaa;">"Testimonio oficial verificado - BASE 0 Studio"</p>
                         <b style="text-align: center; margin-top: 15px;">- ${t.artist_name}</b>
-                        <div class="yt-link">
-                            <a href="${t.youtube_url}" target="_blank">Ver en YouTube →</a>
-                        </div>
+                        <div class="yt-link"><a href="${t.youtube_url}" target="_blank">Ver en YouTube →</a></div>
                     </div>
                 `).join('');
 
                 container.insertAdjacentHTML('afterbegin', dbTestsHtml);
-
-            } catch (err) {
-                console.error('Error al cargar testimonios:', err);
-            }
+            } catch (err) { console.error('Error al cargar testimonios:', err); }
         }
 
         // ────────────────────────────────────────────────
-        // CONFIGURACIÓN DE MONEDAS
+        // CONFIGURACIÓN DE MONEDAS (.99 Marketing Fix)
         // ────────────────────────────────────────────────
         const EXCHANGE_RATE = 19.20;
-
-        let currentCurrency = localStorage.getItem('preferredCurrency') || 'USD';
+        let currentCurrency = localStorage.getItem('preferredCurrency') || 'MXN';
 
         const licensePrices = {
-            bronce: { usd: 18.99, mxn: 365 },
-            plata:  { usd: 26.99, mxn: 518 },
-            oro:    { usd: 53.99, mxn: 1037 }
+            bronce: { mxn: 399, usd: 20.78 },
+            plata:  { mxn: 599, usd: 31.20 },
+            oro:    { mxn: 1350, usd: 70.31 }
         };
 
+        const licDetails = {
+            bronce: { n: 'BRONCE', m: 399, u: 20.78, p: true },
+            plata:  { n: 'PLATA',  m: 599, u: 31.20, p: true },
+            oro:    { n: 'ORO',    m: 1350, u: 70.31, p: false }
+        };
+
+        let cart = [];
+        let pendingGoldBeat = null;
+        const stemsPriceMXN = 350;
+        const stemsPriceUSD = 18.23;
+        let selectedPaymentMethod = 'transfer';
+        let paypalRendered = false;
+
         function formatPrice(value, currency) {
+            // Ajustado para quitar los centavos en MXN
             if (currency === 'USD') {
                 return `$${value.toFixed(2)} <small>USD</small><br><small>≈ $${Math.round(value * EXCHANGE_RATE)} MXN</small>`;
             }
@@ -1546,29 +1138,9 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
             });
         });
 
-        // ────────────────────────────────────────────────
-        // CONFIGURACIÓN GENERAL / CARRITO
-        // ────────────────────────────────────────────────
-        const licDetails = {
-            bronce: { n: 'BRONCE', m: 350, u: 18.99, p: true },
-            plata:  { n: 'PLATA',  m: 500, u: 26.99, p: true },
-            oro:    { n: 'ORO',    m: 1000, u: 53.99, p: false }
-        };
-
-        let cart = [];
-        let pendingGoldBeat = null;
-        const stemsPriceMXN = 350;
-        const stemsPriceUSD = 18.50;
-        let selectedPaymentMethod = 'transfer';
-
-        let paypalRendered = false;
-
         function initPayPalButton() {
             if (paypalRendered) return;
-            if (typeof paypal === 'undefined' || !paypal.Buttons) {
-                setTimeout(initPayPalButton, 500);
-                return;
-            }
+            if (typeof paypal === 'undefined' || !paypal.Buttons) { setTimeout(initPayPalButton, 500); return; }
 
             try {
                 paypal.Buttons({
@@ -1576,23 +1148,15 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
                     createOrder: function(data, actions) {
                         let totalUSD = 0;
                         cart.forEach(item => totalUSD += item.usd);
-                        if (totalUSD <= 0) {
-                            alert('El carrito está vacío.');
-                            return actions.reject();
-                        }
+                        if (totalUSD <= 0) { alert('El carrito está vacío.'); return actions.reject(); }
                         return actions.order.create({
-                            purchase_units: [{
-                                amount: { currency_code: 'USD', value: totalUSD.toFixed(2) },
-                                description: 'Compra en BASE 0 Studio'
-                            }]
+                            purchase_units: [{ amount: { currency_code: 'USD', value: totalUSD.toFixed(2) }, description: 'Compra en BASE 0 Studio' }]
                         });
                     },
                     onApprove: function(data, actions) {
                         return actions.order.capture().then(function(details) {
                             alert('¡Pago exitoso! Gracias ' + details.payer.name.given_name + ' 🎉');
-                            cart = [];
-                            updateCart();
-                            toggleCart(false);
+                            cart = []; updateCart(); toggleCart(false);
                         });
                     },
                     onCancel: function() {},
@@ -1601,14 +1165,11 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
                         alert('Error al procesar el pago con PayPal. Intenta de nuevo o usa transferencia.');
                     }
                 }).render('#paypal-button-container').catch(function(err) {
-                    console.warn('Error renderizando PayPal:', err);
-                    renderPayPalFallback();
+                    console.warn('Error renderizando PayPal:', err); renderPayPalFallback();
                 });
                 paypalRendered = true;
             } catch (err) {
-                console.warn('Error inicializando PayPal:', err);
-                renderPayPalFallback();
-                paypalRendered = true;
+                console.warn('Error inicializando PayPal:', err); renderPayPalFallback(); paypalRendered = true;
             }
         }
 
@@ -1618,22 +1179,14 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
         }
 
         function simulatePayPal() {
-            if (cart.length === 0) {
-                alert('El carrito está vacío.');
-                return;
-            }
-            alert('¡Pago exitoso (Simulado)! Gracias 🎉');
-            cart = [];
-            updateCart();
-            toggleCart(false);
+            if (cart.length === 0) { alert('El carrito está vacío.'); return; }
+            alert('¡Pago exitoso (Simulado)! Gracias 🎉'); cart = []; updateCart(); toggleCart(false);
         }
 
         function toggleCart(force) {
             const side = document.getElementById('cart-side');
             const paypalContainer = document.getElementById('paypal-button-container');
-
             const shouldBeOpen = force !== false;
-
             side.classList.toggle('open', shouldBeOpen);
             paypalContainer.style.display = shouldBeOpen ? 'block' : 'none';
         }
@@ -1654,8 +1207,7 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
             const el = document.getElementById(id);
             if (el) {
                 const headerOffset = 90;
-                const elementPosition = el.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                const offsetPosition = el.getBoundingClientRect().top + window.pageYOffset - headerOffset;
                 window.scrollTo({ top: offsetPosition, behavior: "smooth" });
             }
         }
@@ -1695,9 +1247,7 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
             const subs = new Set();
             database.forEach(f => f.subs?.forEach(s => subs.add(s.name)));
             [...subs].sort().forEach(name => {
-                const opt = document.createElement('option');
-                opt.value = name;
-                opt.textContent = name.toUpperCase();
+                const opt = document.createElement('option'); opt.value = name; opt.textContent = name.toUpperCase();
                 select.appendChild(opt);
             });
         }
@@ -1705,12 +1255,10 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
         function render() {
             const root = document.getElementById('catalog-root');
             if (!root) return;
-            
             if (database.length === 0) {
                 root.innerHTML = '<p style="text-align:center; padding: 40px; color: #888;">El catálogo está vacío actualmente.</p>';
                 return;
             }
-
             root.innerHTML = '';
             database.forEach((folder, i) => {
                 let html = `<div class="folder-main" id="f-${i}">
@@ -1746,16 +1294,12 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
             setTimeout(updateAllPrices, 100);
         }
 
-        // MODIFICADO: Adaptado para incluir y aplicar la portada (cover_url) de forma segura
         function renderBeats(beats) {
             if (!beats?.length) return '<p style="padding:10px; font-size:10px; color:#333; text-align:center;">PRÓXIMAMENTE...</p>';
-            
             return beats.map(b => {
-                // Escapamos la URL para evitar que caracteres especiales rompan el atributo CSS
                 const safeCover = b.cover ? b.cover.replace(/'/g, "%27").replace(/"/g, "%22") : '';
                 const coverStyle = safeCover ? `background-image: url('${safeCover}');` : '';
                 const coverClass = safeCover ? 'has-cover' : '';
-                
                 return `
                 <div class="beat-card-new">
                     <div class="vinyl-hero-new ${coverClass}" style="${coverStyle}" onclick="play('${b.title.replace(/'/g,"\\'")}', '${btoa(b.drive)}', this, '${safeCover}')"></div>
@@ -1773,8 +1317,7 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
         function scrollCarousel(btn, direction) {
             const wrapper = btn.closest('.carousel-wrapper');
             const grid = wrapper.querySelector('.beats-catalog-grid');
-            const scrollAmount = window.innerWidth * 0.75; 
-            grid.scrollBy({ left: scrollAmount * direction, behavior: 'smooth' });
+            grid.scrollBy({ left: window.innerWidth * 0.75 * direction, behavior: 'smooth' });
             if (direction === 1) btn.style.animation = 'none';
             hideGlobalHint();
         }
@@ -1787,25 +1330,18 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
             }
         }
 
-        // MODIFICADO: Actualiza el mini-reproductor si el beat tiene portada
         function play(title, encodedDriveId, el, coverUrl = '') {
             if (!encodedDriveId?.trim()) return;
             const driveId = atob(encodedDriveId);
-            
             if (el.classList.contains('playing')) return stopBeat();
             
             document.querySelectorAll('.vinyl-hero-new').forEach(v => v.classList.remove('playing'));
             el.classList.add('playing');
-            
             document.getElementById('p-title').textContent = title;
+            
             const miniArt = document.getElementById('player-mini-art');
-            if (coverUrl) {
-                miniArt.style.backgroundImage = `url('${coverUrl}')`;
-                miniArt.innerHTML = '';
-            } else {
-                miniArt.style.backgroundImage = 'none';
-                miniArt.innerHTML = '💽';
-            }
+            if (coverUrl) { miniArt.style.backgroundImage = `url('${coverUrl}')`; miniArt.innerHTML = ''; }
+            else { miniArt.style.backgroundImage = 'none'; miniArt.innerHTML = '💽'; }
 
             document.getElementById('player-frame-container').innerHTML = `
                 <iframe src="https://drive.google.com/file/d/${driveId}/preview" allow="autoplay" sandbox="allow-scripts allow-same-origin" style="width:100%;height:100%;border:none;"></iframe>`;
@@ -1820,15 +1356,12 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
 
         function confirmStems(wantStems) {
             if (!pendingGoldBeat) return;
-            
             if (pendingGoldBeat.isCustom) {
                 cart.push({ title: pendingGoldBeat.title, lic: 'SERVICIO PRO', price: pendingGoldBeat.mxn, usd: pendingGoldBeat.usd, promo: false });
                 if (wantStems) {
                     cart.push({ title: `${pendingGoldBeat.title} – Stems`, lic: 'STEMS (opcional)', price: stemsPriceMXN, usd: stemsPriceUSD, promo: false });
                     showToastNew(`✅ ${pendingGoldBeat.title} + Stems añadidos`);
-                } else {
-                    showToastNew(`✅ ${pendingGoldBeat.title} añadido`);
-                }
+                } else { showToastNew(`✅ ${pendingGoldBeat.title} añadido`); }
             } else {
                 const { title } = pendingGoldBeat;
                 const l = licDetails.oro;
@@ -1836,13 +1369,9 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
                 if (wantStems) {
                     cart.push({ title: `${title} – Stems`, lic: 'STEMS (opcional)', price: stemsPriceMXN, usd: stemsPriceUSD, promo: false });
                     showToastNew(`✅ ${title} (ORO) + Stems añadidos`);
-                } else {
-                    showToastNew(`✅ ${title} (ORO) añadido`);
-                }
+                } else { showToastNew(`✅ ${title} (ORO) añadido`); }
             }
-            
-            updateCart();
-            hideStemsModal();
+            updateCart(); hideStemsModal();
         }
 
         function addBeat(title, key) {
@@ -1899,16 +1428,14 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
                 list.appendChild(div);
             });
 
-            totalEl.textContent = `$${totalUSD.toFixed(2)} USD / $${totalMXN} MXN`;
+            // Actualizado para quitar decimales al total de MXN
+            totalEl.textContent = `$${totalUSD.toFixed(2)} USD / $${Math.round(totalMXN)} MXN`;
 
             const promoActive = cart.length >= 3 && cart.filter(i => i.promo).length >= 3;
             promoEl.style.display = promoActive ? 'block' : 'none';
         }
 
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCart();
-        }
+        function removeFromCart(index) { cart.splice(index, 1); updateCart(); }
 
         function hideStemsModal() {
             document.getElementById('stems-modal').classList.remove('show');
@@ -1929,90 +1456,63 @@ pelygro kdc / los mexicanos aka "el barrio" / cesar de bronce / video oficial "A
             });
 
             const payment = selectedPaymentMethod === 'transfer' ? 'TRANSFERENCIA / DEPÓSITO (BBVA)' : 'TARJETA / PAYPAL';
-            const bankInfo = selectedPaymentMethod === 'transfer' ? `
-💳 DATOS BBVA:
-Titular: BASE CERO ESTUDIO
-Tarjeta: 4152 3145 5220 8277
-Concepto: Base 0 Studio BBVA
+            const bankInfo = selectedPaymentMethod === 'transfer' ? `\n💳 DATOS BBVA:\nTitular: BASE CERO ESTUDIO\nTarjeta: 4152 3145 5220 8277\nConcepto: Base 0 Studio BBVA\n\n⚠️ COMPARTIRÉ EL COMPROBANTE POR AQUÍ UNA VEZ LISTO.` : `\n⚠️ SOLICITO ENLACE DE PAGO EN LÍNEA.`;
 
-⚠️ COMPARTIRÉ EL COMPROBANTE POR AQUÍ UNA VEZ LISTO.` : `\n⚠️ SOLICITO ENLACE DE PAGO EN LÍNEA.`;
-
-            const msg = `¡Hola! Quiero finalizar este pedido desde BASE 0 Studio:\n\n${items.join('\n')}\n\n${promoActive ? '🔥 OFERTA 3X1 ACTIVADA (Bronce/Plata)\n' : ''}TOTAL: $${totalUSD.toFixed(2)} USD / $${totalMXN} MXN\n\nMÉTODO DE PAGO: ${payment}${bankInfo}`;
+            // Muestra MXN sin decimales
+            const msg = `¡Hola! Quiero finalizar este pedido desde BASE 0 Studio:\n\n${items.join('\n')}\n\n${promoActive ? '🔥 OFERTA 3X1 ACTIVADA (Bronce/Plata)\n' : ''}TOTAL: $${totalUSD.toFixed(2)} USD / $${Math.round(totalMXN)} MXN\n\nMÉTODO DE PAGO: ${payment}${bankInfo}`;
 
             window.open(`https://wa.me/524775874578?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        function toggleMobileNav(show) {
-            document.getElementById('mobile-nav').classList.toggle('open', show);
-        }
+        function toggleMobileNav(show) { document.getElementById('mobile-nav').classList.toggle('open', show); }
 
         function createParticles() {
             const canvas = document.getElementById('bg-particles');
             const ctx = canvas.getContext('2d');
             let particles = [];
 
-            function resize() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
+            function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
 
             class Particle {
                 constructor() {
-                    this.x = Math.random() * canvas.width;
-                    this.y = Math.random() * canvas.height;
+                    this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
                     this.size = Math.random() * 2 + 1;
-                    this.speedX = Math.random() * 0.5 - 0.25;
-                    this.speedY = Math.random() * 0.5 - 0.25;
+                    this.speedX = Math.random() * 0.5 - 0.25; this.speedY = Math.random() * 0.5 - 0.25;
                 }
                 update() {
-                    this.x += this.speedX;
-                    this.y += this.speedY;
+                    this.x += this.speedX; this.y += this.speedY;
                     if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
                     if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
                 }
                 draw() {
                     ctx.fillStyle = 'rgba(255,215,0,0.6)';
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fill();
+                    ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
                 }
             }
 
-            function init() {
-                particles = [];
-                for (let i = 0; i < 80; i++) particles.push(new Particle());
-            }
+            function init() { particles = []; for (let i = 0; i < 80; i++) particles.push(new Particle()); }
+            function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
 
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                particles.forEach(p => { p.update(); p.draw(); });
-                requestAnimationFrame(animate);
-            }
-
-            window.addEventListener('resize', resize);
-            resize();
-            init();
-            animate();
+            window.addEventListener('resize', resize); resize(); init(); animate();
         }
 
-        // ────────────────────────────────────────────────
-        // INICIALIZACIÓN Y DETECCIÓN DE ADMIN
-        // ────────────────────────────────────────────────
         window.addEventListener('load', () => {
-            
             fetchCatalogFromSupabase(); 
             fetchTestimonialsFromSupabase();
-
-            createParticles();
-            selectPayment('transfer');
+            createParticles(); selectPayment('transfer');
 
             document.getElementById('stems-yes')?.addEventListener('click', () => confirmStems(true));
             document.getElementById('stems-no')?.addEventListener('click', () => confirmStems(false));
 
+            // Si no hay preferencia guardada, asume MXN por la lógica de cargar primero en local.
             const saved = localStorage.getItem('preferredCurrency');
             if (saved && ['USD','MXN'].includes(saved)) {
                 currentCurrency = saved;
-                document.querySelector(`.currency-selector button[data-currency="${saved}"]`)?.classList.add('active');
+                document.querySelectorAll('.currency-selector button').forEach(b => {
+                    b.classList.toggle('active', b.dataset.currency === saved);
+                });
+            } else {
+                currentCurrency = 'MXN'; // Default if none is set
             }
 
             initPayPalButton();
@@ -2020,18 +1520,11 @@ Concepto: Base 0 Studio BBVA
             supabaseClient.auth.getSession().then(({ data: { session } }) => {
                 if (session) {
                     const adminLink = document.getElementById('admin-link');
-                    if(adminLink) {
-                        adminLink.style.color = '#ffd700';
-                        adminLink.style.fontWeight = 'bold';
-                        adminLink.innerHTML = '⚙️ PANEL DE CONTROL (SESIÓN ACTIVA)';
-                    }
+                    if(adminLink) { adminLink.style.color = '#ffd700'; adminLink.style.fontWeight = 'bold'; adminLink.innerHTML = '⚙️ PANEL DE CONTROL (SESIÓN ACTIVA)'; }
                 }
             });
         });
     </script>
-
-    <!-- PayPal SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=AbNRj3n1KSvQO1iTC0FINBshC5qe297frqOUFbEdkoH-OVe-uqSsNurWKjEkltQEH3iVBSP9K_pxw-9i&currency=USD&components=buttons"></script>
-
 </body>
 </html>
