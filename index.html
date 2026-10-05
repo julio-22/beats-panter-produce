@@ -674,7 +674,6 @@
         <div class="logo"></div>
 
         <div class="currency-selector">
-            <!-- Cambio de orden: MXN es ahora el primario/default -->
             <button data-currency="MXN" class="active">MXN</button>
             <button data-currency="USD">USD</button>
         </div>
@@ -717,7 +716,6 @@
 
     <section id="about">
         <div class="section-header"><h2>ORIGEN</h2></div>
-        <!-- Texto con color blanco y text-shadow aplicado para mejor legibilidad -->
         <p style="font-size: 1.4rem; color: #ffffff; text-shadow: 0 4px 15px rgba(0,0,0,0.9); max-width: 850px; font-weight: 500; margin: 0 auto; text-align: center;">
             <b>BASE 0</b> es el cimiento rítmico del hip-hop underground. Sonido con textura, grasa y autoridad. Vandalizamos el silencio con producciones de nivel industria inspiradas en los 90s.
         </p>
@@ -813,7 +811,7 @@
 
             <div class="license-card">
                 <div class="license-title">ORO</div>
-                <div class="license-price" id="price-oro">$1350 <small>MXN</small><br><small>≈ $70.31 USD</small></div>
+                <div class="license-price" id="price-oro">$1399 <small>MXN</small><br><small>≈ $72.86 USD</small></div>
                 <ul class="license-features">
                     <li>MP3 + WAV de Alta Calidad</li>
                     <li><b>Streams Ilimitados</b></li>
@@ -888,6 +886,9 @@
     <section id="contact" class="contact-section">
         <div class="section-header"><h2>CONTÁCTANOS</h2></div>
         <div class="social-links">
+            <a href="https://www.youtube.com/@Base_0_aka_panter" target="_blank" class="social-btn">
+                <i class="material-icons">play_circle</i> YOUTUBE
+            </a>
             <a href="https://www.facebook.com/share/15Y91C5Rsh/?mibextid=wwXIfr" target="_blank" class="social-btn">
                 <i class="material-icons">facebook</i> FACEBOOK
             </a>
@@ -967,7 +968,7 @@
         </div>
     </div>
 
-    <!-- Modal Stems (Pricing Actualizado a .99) -->
+    <!-- Modal Stems -->
     <div id="stems-modal" class="stems-modal">
         <div class="stems-modal-content">
             <h3 style="color: var(--neon-gold); margin-bottom: 1.2rem; font-size: 1.4rem;">¿Deseas añadir los stems al pedido?</h3>
@@ -1054,22 +1055,19 @@
             } catch (err) { console.error('Error al cargar testimonios:', err); }
         }
 
-        // ────────────────────────────────────────────────
-        // CONFIGURACIÓN DE MONEDAS (.99 Marketing Fix)
-        // ────────────────────────────────────────────────
         const EXCHANGE_RATE = 19.20;
         let currentCurrency = localStorage.getItem('preferredCurrency') || 'MXN';
 
         const licensePrices = {
             bronce: { mxn: 399, usd: 20.78 },
             plata:  { mxn: 599, usd: 31.20 },
-            oro:    { mxn: 1350, usd: 70.31 }
+            oro:    { mxn: 1399, usd: 72.86 }
         };
 
         const licDetails = {
             bronce: { n: 'BRONCE', m: 399, u: 20.78, p: true },
             plata:  { n: 'PLATA',  m: 599, u: 31.20, p: true },
-            oro:    { n: 'ORO',    m: 1350, u: 70.31, p: false }
+            oro:    { n: 'ORO',    m: 1399, u: 72.86, p: false }
         };
 
         let cart = [];
@@ -1080,7 +1078,6 @@
         let paypalRendered = false;
 
         function formatPrice(value, currency) {
-            // Ajustado para quitar los centavos en MXN
             if (currency === 'USD') {
                 return `$${value.toFixed(2)} <small>USD</small><br><small>≈ $${Math.round(value * EXCHANGE_RATE)} MXN</small>`;
             }
@@ -1428,7 +1425,6 @@
                 list.appendChild(div);
             });
 
-            // Actualizado para quitar decimales al total de MXN
             totalEl.textContent = `$${totalUSD.toFixed(2)} USD / $${Math.round(totalMXN)} MXN`;
 
             const promoActive = cart.length >= 3 && cart.filter(i => i.promo).length >= 3;
@@ -1458,7 +1454,6 @@
             const payment = selectedPaymentMethod === 'transfer' ? 'TRANSFERENCIA / DEPÓSITO (BBVA)' : 'TARJETA / PAYPAL';
             const bankInfo = selectedPaymentMethod === 'transfer' ? `\n💳 DATOS BBVA:\nTitular: BASE CERO ESTUDIO\nTarjeta: 4152 3145 5220 8277\nConcepto: Base 0 Studio BBVA\n\n⚠️ COMPARTIRÉ EL COMPROBANTE POR AQUÍ UNA VEZ LISTO.` : `\n⚠️ SOLICITO ENLACE DE PAGO EN LÍNEA.`;
 
-            // Muestra MXN sin decimales
             const msg = `¡Hola! Quiero finalizar este pedido desde BASE 0 Studio:\n\n${items.join('\n')}\n\n${promoActive ? '🔥 OFERTA 3X1 ACTIVADA (Bronce/Plata)\n' : ''}TOTAL: $${totalUSD.toFixed(2)} USD / $${Math.round(totalMXN)} MXN\n\nMÉTODO DE PAGO: ${payment}${bankInfo}`;
 
             window.open(`https://wa.me/524775874578?text=${encodeURIComponent(msg)}`, '_blank');
@@ -1504,7 +1499,6 @@
             document.getElementById('stems-yes')?.addEventListener('click', () => confirmStems(true));
             document.getElementById('stems-no')?.addEventListener('click', () => confirmStems(false));
 
-            // Si no hay preferencia guardada, asume MXN por la lógica de cargar primero en local.
             const saved = localStorage.getItem('preferredCurrency');
             if (saved && ['USD','MXN'].includes(saved)) {
                 currentCurrency = saved;
@@ -1512,7 +1506,7 @@
                     b.classList.toggle('active', b.dataset.currency === saved);
                 });
             } else {
-                currentCurrency = 'MXN'; // Default if none is set
+                currentCurrency = 'MXN'; 
             }
 
             initPayPalButton();
