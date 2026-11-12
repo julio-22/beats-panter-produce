@@ -532,7 +532,7 @@
         }
         .stems-modal.show .stems-modal-content { transform: scale(1); opacity: 1; }
 
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
         .service-card {
             background: rgba(15,15,15,0.88); border: 1px solid #333; border-radius: 12px;
             text-align: center; transition: all 0.4s ease; backdrop-filter: blur(8px);
@@ -748,9 +748,20 @@
                 <img src="https://images.unsplash.com/photo-1598653222000-6b7b7a552625?auto=format&fit=crop&q=80&w=800" alt="Beats a medida" class="service-img">
                 <div class="service-content">
                     <div class="service-title">BEATS A MEDIDA (EXCLUSIVO)</div>
-                    <div class="service-price">$1599 <small>MXN</small><small>≈ $83.28 USD</small></div>
+                    <div class="service-price">$1500 <small>MXN</small><small>≈ $78.13 USD</small></div>
                     <p class="service-desc">Producciones exclusivas diseñadas desde cero específicamente para tu estilo.<br><br><b style="color:var(--gold); font-size:0.85rem;">Stems (Opcional): +$350 MXN</b></p>
-                    <button class="lic-btn-new" style="width: 100%; min-height: 50px !important; margin-top: auto;" onclick="addCustomBeatModal('BEAT EXCLUSIVO A MEDIDA', 1599, 83.28)">AÑADIR AL PEDIDO</button>
+                    <button class="lic-btn-new" style="width: 100%; min-height: 50px !important; margin-top: auto;" onclick="addCustomBeatModal('BEAT EXCLUSIVO A MEDIDA', 1500, 78.13)">AÑADIR AL PEDIDO</button>
+                </div>
+            </div>
+            
+            <!-- Nuevo Servicio: Página Web de Artista -->
+            <div class="service-card" style="border-color: var(--neon-gold); box-shadow: 0 0 20px rgba(255,215,0,0.05);">
+                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=800" alt="Página Web de Artista" class="service-img">
+                <div class="service-content">
+                    <div class="service-title">PÁGINA WEB DE ARTISTA</div>
+                    <div class="service-price">$4999 <small>MXN</small><small>≈ $260.36 USD</small></div>
+                    <p class="service-desc">Desarrollo y diseño web responsivo. Centraliza tu portafolio, música, redes sociales y contacto en una plataforma oficial e imponente.</p>
+                    <button class="lic-btn-new" style="width: 100%; min-height: 50px !important; margin-top: auto;" onclick="addService('PÁGINA WEB DE ARTISTA', 4999, 260.36)">AÑADIR AL PEDIDO</button>
                 </div>
             </div>
         </div>
@@ -811,7 +822,7 @@
 
             <div class="license-card">
                 <div class="license-title">ORO</div>
-                <div class="license-price" id="price-oro">$1399 <small>MXN</small><br><small>≈ $72.86 USD</small></div>
+                <div class="license-price" id="price-oro">$1299 <small>MXN</small><br><small>≈ $67.66 USD</small></div>
                 <ul class="license-features">
                     <li>MP3 + WAV de Alta Calidad</li>
                     <li><b>Streams Ilimitados</b></li>
@@ -1061,13 +1072,13 @@
         const licensePrices = {
             bronce: { mxn: 399, usd: 20.78 },
             plata:  { mxn: 599, usd: 31.20 },
-            oro:    { mxn: 1399, usd: 72.86 }
+            oro:    { mxn: 1299, usd: 67.66 } // PRECIO ACTUALIZADO
         };
 
         const licDetails = {
             bronce: { n: 'BRONCE', m: 399, u: 20.78, p: true },
             plata:  { n: 'PLATA',  m: 599, u: 31.20, p: true },
-            oro:    { n: 'ORO',    m: 1399, u: 72.86, p: false }
+            oro:    { n: 'ORO',    m: 1299, u: 67.66, p: false } // PRECIO ACTUALIZADO
         };
 
         let cart = [];
